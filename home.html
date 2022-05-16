@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            La Dispensa
+        </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>
+            Dispensa
+        </h1>
+        <h3>
+            Inserisci gli ingredienti
+        </h3>
+        <input type="text", id="ingrediente">
+        <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
+    </body>
+    <script>
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:3000/cercaRicette',
+                data: add_ingredient(),
+                datatype: 'html',
+                success: function (data) {
+                    console.log(data)
+                }
+            });
+        })
+
+        ingredienti = []
+
+        function add_ingredient() {
+            const ingr = document.getElementById('ingrediente').value;
+            ingredienti.push(ingr)
+
+            return ingredienti
+        }
+
+    </script>
+</html>
