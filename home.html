@@ -20,11 +20,9 @@
 
         ingredienti = []
 
-        $(document).ready(function() {
-            function add_ingredient() {
-                const ingr = document.getElementById('ingrediente').value;
-                ingredienti.push(ingr)
-            }
+        function add_ingredient() {
+            const ingr = document.getElementById('ingrediente').value;
+            ingredienti.push(ingr)
 
             $.ajax({
                 type: 'GET',
@@ -35,7 +33,7 @@
                     console.log(data)
                 }
             });
-        })
+        }
 
     </script>
 </html>
