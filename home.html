@@ -15,6 +15,7 @@
         </h3>
         <input type="text", id="ingrediente">
         <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
+        <div id="lista"></div>
     </body>
     <script>
 
@@ -30,20 +31,22 @@
                 data: 'ingredienti=' + JSON.stringify(ingredienti),
                 datatype: 'html',
                 success: function (data) {
-                    var div = document.createElement('div')
+                    console.log(data)
+                    var div = document.getElementById("lista")
+                    div.innerHTML = ""
                     var ul = document.createElement('ul')
-                    
-                    var ricette = JSON.parse(data)
-                    for (var i = 0; i < ricette.length; i++) {
-                        const ricetta = ricette[i]
+
+                    //var dati = JSON.parse(data)
+                    for (var i = 0; i < data.ricette.length; i++) {
+                        const ricetta = data.ricette[i]
 
                         var li = document.createElement('li')
-                        li.value = ricetta
+                        li.innerHTML = ricetta
 
                         ul.appendChild(li)
                     }
-                    
                     div.appendChild(ul)
+
                 }
             });
         }
