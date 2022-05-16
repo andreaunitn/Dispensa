@@ -32,7 +32,20 @@
                 data: 'ingredienti=' + JSON.stringify(ingredienti),
                 datatype: 'html',
                 success: function (data) {
-                    console.log(data)
+                    var div = document.createElement('div')
+                    var ul = document.createElement('ul')
+                    
+                    var ricette = JSON.parse(data)
+                    for (var i = 0; i < ricette.length; i++) {
+                        const ricetta = ricette[i]
+
+                        var li = document.createElement('li')
+                        li.value = ricetta
+
+                        ul.appendChild(li)
+                    }
+                    
+                    div.appendChild(ul)
                 }
             });
         })
