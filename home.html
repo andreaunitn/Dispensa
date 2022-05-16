@@ -18,26 +18,24 @@
     </body>
     <script>
 
+        ingredienti = []
+
         $(document).ready(function() {
+            function add_ingredient() {
+                const ingr = document.getElementById('ingrediente').value;
+                ingredienti.push(ingr)
+            }
+
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost:3000/cercaRicette',
-                data: add_ingredient(),
+                data: 'ingredienti=' + JSON.stringify(ingredienti),
                 datatype: 'html',
                 success: function (data) {
                     console.log(data)
                 }
             });
         })
-
-        ingredienti = []
-
-        function add_ingredient() {
-            const ingr = document.getElementById('ingrediente').value;
-            ingredienti.push(ingr)
-
-            return ingredienti
-        }
 
     </script>
 </html>
