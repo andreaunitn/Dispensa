@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-const Ricetta = new mongoose.Schema({
+const RicettaSchema = new Schema({
   titolo: {
     type: String,
     required: [true, 'Titolo is required']
@@ -21,6 +22,6 @@ const Ricetta = new mongoose.Schema({
     type: int,
     required: [true, 'energia is required']
   }
-})
+});
 
-module.exports = schema
+const RicettaModel = mongoose.model('Ricetta', RicettaSchema);
