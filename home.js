@@ -42,12 +42,21 @@ app.get('/cercaRicette', async function(req, res){
     console.log("mmm.... niente");
   else {
     console.log("RESULTS: " + results);
-    count++
   }
 
-  json_ricette = "{  }"
+  var temp='';
 
-  res.json(ingr);
+  for (var i=0; i<results.length; i++) {
+    temp=temp+'"'+results[i].titolo+'",'
+  }
+
+  temp = temp.replace(/,\s*$/, "");
+
+  json_ricette = '{ "ricette": ['+temp+'], "length": '+results.length+' }'
+
+  console.log(json_ricette)
+
+  res.json(json_ricette);
 });
 
 app.listen(port, function() {

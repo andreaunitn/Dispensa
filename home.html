@@ -5,8 +5,9 @@
             La Dispensa
         </title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
-    <body>
+    <body class="container" style="background-color: #ccffeb">
         <h1>
             Dispensa
         </h1>
@@ -21,7 +22,7 @@
         </h3>
         <h3>
             Ricette consigliate:
-            <div id="lista"></div>
+            <div id="lista_ricette"></div>
         </h3>
     </body>
     <script>
@@ -75,13 +76,15 @@
                 datatype: 'json',
                 success: function (data) {
 
+                  var result=JSON.parse(data)
+
                     //Visualizzo le ricette trovate
                     var div = document.getElementById("lista_ricette")
-                    div.innerHTML = ""
+                    //div.innerHTML = ""
                     var ul = document.createElement('ul')
 
-                    for (var i = 0; i < data.ricette.length; i++) {
-                        const ricetta = data.ricette[i]
+                    for (var i = 0; i < result.length; i++) {
+                        const ricetta = result.ricette[i]
 
                         var li = document.createElement('li')
                         li.innerHTML = ricetta

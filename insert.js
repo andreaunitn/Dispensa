@@ -10,7 +10,7 @@ const IngredienteSchema = new mongoose.Schema({
       required: [true, 'Titolo di ingrediente is required']
     }
   });
-   
+
 const Ingrediente = mongoose.model('Ingrediente', IngredienteSchema);
 */
 
@@ -37,7 +37,7 @@ const RicettaSchema = new mongoose.Schema({
       required: [true, 'energia is required']
     }
   });
-  
+
 const Ricetta = mongoose.model('Ricetta', RicettaSchema);
 
 /*
@@ -52,14 +52,14 @@ const pane = [
 const ingrediente = new Ingrediente({titolo: 'farina'})
 */
 
-const pane = ["farina", "acqua", "lievito", "sale"]
+const pizza = ["farina", "acqua", "lievito", "sale", "pomodoro","mozzarella","calore"]
 
 mongoose.connect('mongodb+srv://admin:admin@db.jlapy.mongodb.net/db')
 
-const r = new Ricetta({ 
-    titolo: 'pane', 
-    descrizione: 'la vera ricetta del pane',
-    ingredienti: pane,
+const r = new Ricetta({
+    titolo: 'pizza',
+    descrizione: 'sarà davvero la ricetta della... pizza ?',
+    ingredienti: pizza,
     numero_persone: 2,
     energia: 300
  });
