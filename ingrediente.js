@@ -7,5 +7,5 @@ const IngredienteSchema = new Schema({
     required: [true, 'Titolo di ingrediente is required']
   }
 });
- 
+
 const IngredienteModel = mongoose.model('Ingrediente', IngredienteSchema);

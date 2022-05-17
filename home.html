@@ -25,13 +25,15 @@
             const ingr = document.getElementById('ingrediente').value;
             ingredienti.push(ingr)
 
+            console.log(JSON.stringify({ 'ingredienti': ingredienti }))
+
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost:3000/cercaRicette',
-                data: 'ingredienti=' + JSON.stringify({ 'ricette': ingredienti }),
+                data: 'ingredienti=' + JSON.stringify({ 'ingredienti': ingredienti }),
                 datatype: 'json',
                 success: function (data) {
-                    
+
                     var div = document.getElementById("lista")
                     div.innerHTML = ""
                     var ul = document.createElement('ul')
