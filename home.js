@@ -16,6 +16,7 @@ const options =
 var port = 3000;
 var app = express();
 const path = require('path')
+var count=0
 
 // Handling GET requests
 app.get('/', function(req, res){
@@ -32,12 +33,22 @@ app.get('/cercaRicette', async function(req, res){
   //insert query here
   //const id_ingredienti = await Ingrediente.findOne({titolo: ingr.ingredienti[0]})
   //console.log(id_ingredienti.titolo)
-  let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti[0]}});
-  console.log("RESULTS: " + results);
+
+  //let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti[0]}});
+  let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti}});
+
+  if (results=='')
+    console.log("mmm.... niente");
+  else {
+    console.log("RESULTS: " + results);
+    count++
+  }
+
+  json_ricette = "{  }"
 
   res.json(ingr);
 });
 
 app.listen(port, function() {
-  console.log('Server running on port ', port);
+  console.log('Server running on port:', port);
 })

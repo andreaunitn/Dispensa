@@ -15,7 +15,14 @@
         </h3>
         <input type="text", id="ingrediente">
         <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
-        <div id="lista"></div>
+        <h3>
+            Ingredienti:
+            <div id="lista-ingredienti"></div>
+        </h3>
+        <h3>
+            Ricette consigliate:
+            <div id="lista"></div>
+        </h3>
     </body>
     <script>
 
@@ -23,6 +30,15 @@
 
         function add_ingredient() {
             const ingr = document.getElementById('ingrediente').value;
+
+            var ul=document.createElement('ul')
+            var li = document.createElement('li')
+            li.innerHTML = ingr
+
+            ul.appendChild(li)
+
+            document.getElementById("lista-ingredienti").appendChild(ul)
+
             ingredienti.push(ingr)
 
             console.log(JSON.stringify({ 'ingredienti': ingredienti }))
