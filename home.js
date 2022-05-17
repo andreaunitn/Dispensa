@@ -2,7 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
 const mongoose = require('mongoose');
-const {Ingrediente, Ricetta} = require('./schemas.js');
+//const {Ingrediente, Ricetta} = require('./schemas.js');
+const {Ricetta} = require('./schemas.js')
 
 
 const options =
@@ -29,12 +30,14 @@ app.get('/cercaRicette', async function(req, res){
   console.log("INGREDIENTS: " + ingr.ingredienti)
 
   //insert query here
-  let result = await Ricetta.find({titolo: 'pane'});
-  console.log("RESULTS: " + result);
+  //const id_ingredienti = await Ingrediente.findOne({titolo: ingr.ingredienti[0]})
+  //console.log(id_ingredienti.titolo)
+  let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti[0]}});
+  console.log("RESULTS: " + results);
 
   res.json(ingr);
 });
 
 app.listen(port, function() {
-  console.log('Server running on port ', 3000);
+  console.log('Server running on port ', port);
 })
