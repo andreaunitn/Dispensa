@@ -15,18 +15,46 @@
         </h3>
         <input type="text", id="ingrediente">
         <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
-        <div id="lista"></div>
+        <br><br>
+        <span id="lista_ingredienti"></span>
+        <div id="lista_ricette"></div>
     </body>
     <script>
 
         ingredienti = []
 
+        //Prendo l'ingrediente inserito, lo aggiungo alla lista e faccio la richiesta ajax
         function add_ingredient() {
-            const ingr = document.getElementById('ingrediente').value;
-            ingredienti.push(ingr)
+            const text_field = document.getElementById('ingrediente')
+            const ingr = text_field.value
+            text_field.value = ""
 
-            console.log(JSON.stringify({ 'ingredienti': ingredienti }))
+            //Se un ingrediente è già presente nella lista non lo aggiungo
+            if(!ingredienti.includes(ingr)) {
+                ingredienti.push(ingr)
 
+                //Visualizzo gli ingredienti. Se premo su un ingrediente lo rimuovo dalla lista
+                var span = document.getElementById('lista_ingredienti')
+                var button = document.createElement('button')
+                button.textContent = ingr
+                button.id = ingr
+                button.onclick = function () {
+
+                    for (j = 0; j < ingredienti.length; j++) {
+                        if (ingredienti[j] == ingr) {
+                            ingredienti.splice(j, 1)
+                            const ingr_list = document.getElementById('lista_ingredienti')
+                            const i = document.getElementById(ingr)
+                            ingr_list.removeChild(i)
+
+                            console.log(ingredienti)
+                        }
+                    }
+                }
+                span.appendChild(button)
+            }
+
+            //Richiesta ajax per ottenere le ricette
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost:3000/cercaRicette',
@@ -34,7 +62,8 @@
                 datatype: 'json',
                 success: function (data) {
 
-                    var div = document.getElementById("lista")
+                    //Visualizzo le ricette trovate
+                    var div = document.getElementById("lista_ricette")
                     div.innerHTML = ""
                     var ul = document.createElement('ul')
 
@@ -47,7 +76,6 @@
                         ul.appendChild(li)
                     }
                     div.appendChild(ul)
-
                 }
             });
         }
