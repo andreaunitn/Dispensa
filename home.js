@@ -35,7 +35,8 @@ app.get('/cercaRicette', async function(req, res){
   //console.log(id_ingredienti.titolo)
 
   //let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti[0]}});
-  let results = await Ricetta.find({ingredienti: { $in: ingr.ingredienti}});
+  //db.things.find({ words: { $all: ["text", "here"] }});
+  let results = await Ricetta.find({ingredienti: { $all: ingr.ingredienti}});
 
   if (results=='')
     console.log("mmm.... niente");
