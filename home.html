@@ -28,15 +28,14 @@
             $.ajax({
                 type: 'GET',
                 url: 'http://localhost:3000/cercaRicette',
-                data: 'ingredienti=' + JSON.stringify(ingredienti),
-                datatype: 'html',
+                data: 'ingredienti=' + JSON.stringify({ 'ricette': ingredienti }),
+                datatype: 'json',
                 success: function (data) {
-                    console.log(data)
+                    
                     var div = document.getElementById("lista")
                     div.innerHTML = ""
                     var ul = document.createElement('ul')
 
-                    //var dati = JSON.parse(data)
                     for (var i = 0; i < data.ricette.length; i++) {
                         const ricetta = data.ricette[i]
 

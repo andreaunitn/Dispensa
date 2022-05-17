@@ -23,7 +23,12 @@ app.get('/cercaRicette', function(req, res){
 
   mongoose.connect("mongodb+srv://db.jlapy.mongodb.net/db", options);
 
-  res.json({ricette: ['Pane', 'Acqua', 'Cipolle']});
+  const ingr = JSON.parse(req.query.ingredienti)
+  console.log(ingr)
+
+  //insert query here
+
+  res.json(ingr);
 });
 
 app.listen(port, function() {
