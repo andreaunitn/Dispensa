@@ -47,19 +47,24 @@
                   //div.innerHTML = ""
                   var ul = document.createElement('ul')
 
-                  for (var i = 0; i < result.length; i++) {
-                      const ricetta = result.ricette[i]
+                  if (result.length == 0 ) {
+                    document.getElementById('lista_ricette').innerHTML='Nessuna ricetta trovata...'
+                  } else {
+                    for (var i = 0; i < result.length; i++) {
+                        const ricetta = result.ricette[i]
 
-                      var li = document.createElement('li')
-                      li.innerHTML = ricetta
+                        var li = document.createElement('li')
+                        li.innerHTML = ricetta
 
-                      ul.appendChild(li)
+                        ul.appendChild(li)
+                    }
+                    var new_div = document.createElement('div')
+                    new_div.appendChild(ul)
+                    //se aggiungo piu ingredienti, stampo la lista di ricette attuali e sostituisco quella precedente.
+                    //fix: prima veniva appesa a quella precedente
+                    document.getElementById('lista_ricette').innerHTML=new_div.innerHTML
                   }
-                  var new_div = document.createElement('div')
-                  new_div.appendChild(ul)
-                  //se aggiungo piu ingredienti, stampo la lista di ricette attuali e sostituisco quella precedene.
-                  //fix: prima veniva appesa a quella precedente
-                  document.getElementById('lista_ricette').innerHTML=new_div.innerHTML
+
               }
           });
 
