@@ -16,7 +16,7 @@ router.get('', async function(req, res) {
 
     //Queste righe verranno cambiate
     var ingr = JSON.parse(param.ingredienti)
-    var ricette = await Ricetta.find({ingredienti: { $all: ingr.ingredienti }}).select('-__v')
+    var ricette = await Ricetta.find({ingredienti: {$not:{$elemMatch:{$nin:ingr.ingredienti}}}}).select('-__v')
 
   }
 
