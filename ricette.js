@@ -30,7 +30,13 @@ router.get('', async function(req, res) {
 // Handling GET requests -- ID TEST 62825e34dbe7884c20752951 --
 router.get('/:id', async function(req, res) {
 
-  let ricetta = await Ricetta.findById(req.params.id).select('-__v')
+  try {
+    var ricetta = await Ricetta.findById(req.params.id).select('-__v')
+  } catch (err) {
+    res.status(400).json({ error: 'Recipe does not exist' });
+    return;
+  }
+
   res.status(200).json(ricetta)
 })
 
