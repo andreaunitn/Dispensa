@@ -38,19 +38,23 @@ app.get('/cercaRicette', async function(req, res){
   //db.things.find({ words: { $all: ["text", "here"] }});
   let results = await Ricetta.find({ingredienti: { $all: ingr.ingredienti}});
 
-  if (results=='')
+  if (results=='') {
     console.log("mmm.... niente");
-  else {
+    temp='"Nessuna ricetta trovata"'
+  } else {
     console.log("RESULTS: " + results);
+
+    var temp='';
+
+    for (var i=0; i<results.length; i++) {
+      temp=temp+'"'+results[i].titolo+'",'
+    }
+
+    temp = temp.replace(/,\s*$/, "");
+
   }
 
-  var temp='';
 
-  for (var i=0; i<results.length; i++) {
-    temp=temp+'"'+results[i].titolo+'",'
-  }
-
-  temp = temp.replace(/,\s*$/, "");
 
   json_ricette = '{ "ricette": ['+temp+'], "length": '+results.length+' }'
 

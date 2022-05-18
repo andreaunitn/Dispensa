@@ -85,7 +85,11 @@
 
                         ul.appendChild(li)
                     }
-                    div.appendChild(ul)
+                    var new_div = document.createElement('div')
+                    new_div.appendChild(ul)
+                    //se aggiungo piu ingredienti, stampo la lista di ricette attuali e sostituisco quella precedene.
+                    //fix: prima veniva appesa a quella precedente
+                    document.getElementById('lista_ricette').innerHTML=new_div.innerHTML
                 }
             });
         }
