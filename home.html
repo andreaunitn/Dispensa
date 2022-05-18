@@ -24,8 +24,9 @@
         <br><br>
         <h4>
             Ricette consigliate:
-            <div id="lista_ricette"></div>
         </h4>
+        <div id="lista_ricette"></div>
+        <div id="ricetta_dettaglio"></div>
     </body>
     <script>
 
@@ -54,8 +55,16 @@
                         const ricetta = result.ricette[i]
 
                         var li = document.createElement('li')
-                        li.innerHTML = ricetta
+                        var button = document.createElement('button')
+                        button.onclick = function () {
 
+                            document.getElementById("ricetta_dettaglio").innerHTML='ciao'
+                            console.log('ciao')
+
+                        }
+                        button.innerHTML=ricetta
+                        
+                        li.appendChild(button)
                         ul.appendChild(li)
                     }
                     var new_div = document.createElement('div')
