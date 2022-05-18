@@ -14,13 +14,14 @@ router.get('', async function(req, res) {
 
   } else {
 
+    //Queste righe verranno cambiate
     var ingr = JSON.parse(param.ingredienti)
     var ricette = await Ricetta.find({ingredienti: { $all: ingr.ingredienti }}).select('-__v')
 
   }
 
   var results = {
-    "n_res" : ricette.length,
+    "length" : ricette.length,
     "ricette" : ricette
   }
 

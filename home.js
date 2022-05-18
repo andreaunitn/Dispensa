@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 //const {Ingrediente, Ricetta} = require('./schemas.js');
 const {Ricetta} = require('./schemas.js')
 
-
 const options =
   {
     user: "admin",
@@ -16,7 +15,7 @@ const options =
 var port = 3000;
 var app = express();
 const path = require('path')
-var count=0
+var count = 0
 
 // Handling GET requests
 app.get('/', function(req, res){
