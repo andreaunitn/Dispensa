@@ -75,47 +75,42 @@
 
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:3000/cercaRicette',
+              url: 'http://localhost:3000/api/v1/ricette',
               data: 'ingredienti=' + JSON.stringify({ 'ingredienti': ingredienti }),
               datatype: 'json',
               success: function (data) {
 
-                var result=JSON.parse(data)
+                var result = data
 
-                  //Visualizzo le ricette trovate
-                  var div = document.getElementById("lista_ricette")
-                  //div.innerHTML = ""
-                  var ul = document.createElement('ul')
+                //Visualizzo le ricette trovate
+                var div = document.getElementById("lista_ricette")
+                var ul = document.createElement('ul')
 
-                  if (result.length == 0 ) {
-                    document.getElementById('lista_ricette').innerHTML='Nessuna ricetta trovata...'
-                  } else {
-                    for (var i = 0; i < result.length; i++) {
-                        const ricetta = result.ricette[i]
+                if (result.length == 0 ) {
+                  document.getElementById('lista_ricette').innerHTML = 'Nessuna ricetta trovata...'
+                } else {
+                  for (var i = 0; i < result.length; i++) {
+                    const ricetta = result.ricette[i]
 
-                        var li = document.createElement('li')
-                        var button = document.createElement('button')
-                        button.onclick = function () {
 
-                            document.getElementById("ricetta_dettaglio").innerHTML='ciao'
-                            console.log('ciao')
+                    var li = document.createElement('li')
+                    var a = document.createElement('a')
+                    a.innerHTML = ricetta.titolo
+                    a.href = window.location + "api/v1/ricette/" + ricetta._id
 
-                        }
-                        button.innerHTML=ricetta
+                    li.appendChild(a)
+                    ul.appendChild(li)
 
-                        li.appendChild(button)
-                        ul.appendChild(li)
-                    }
-                    var new_div = document.createElement('div')
-                    new_div.appendChild(ul)
-                    //se aggiungo piu ingredienti, stampo la lista di ricette attuali e sostituisco quella precedente.
-                    //fix: prima veniva appesa a quella precedente
-                    document.getElementById('lista_ricette').innerHTML=new_div.innerHTML
                   }
 
+                  var new_div = document.createElement('div')
+                  new_div.appendChild(ul)
+                  //se aggiungo piu ingredienti, stampo la lista di ricette attuali e sostituisco quella precedente.
+                  //fix: prima veniva appesa a quella precedente
+                  document.getElementById('lista_ricette').innerHTML = new_div.innerHTML
+                }
               }
           });
-
         }
 
         //Prendo l'ingrediente inserito, lo aggiungo alla lista e faccio la richiesta ajax
@@ -145,8 +140,6 @@
                             console.log(ingredienti)
                         }
                     }
-
-                    cercaRicette()
 
                 }
                 span.appendChild(button)

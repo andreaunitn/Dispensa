@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 //const {Ingrediente, Ricetta} = require('./schemas.js');
 const {Ricetta} = require('./schemas.js')
 
-
 const options =
   {
     user: "admin",
@@ -16,13 +15,17 @@ const options =
 var port = 3000;
 var app = express();
 const path = require('path')
-var count=0
+var count = 0
 
 // Handling GET requests
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname + '/home.html'));
 })
 
+const ricette = require('./ricette.js')
+app.use('/api/v1/ricette', ricette)
+
+/*
 app.get('/cercaRicette', async function(req, res){
 
   mongoose.connect("mongodb+srv://db.jlapy.mongodb.net/db", options);
@@ -62,6 +65,7 @@ app.get('/cercaRicette', async function(req, res){
 
   res.json(json_ricette);
 });
+*/
 
 app.listen(port, function() {
   console.log('Server running on port:', port);
