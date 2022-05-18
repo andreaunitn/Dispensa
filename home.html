@@ -4,56 +4,51 @@
         <title>
             La Dispensa
         </title>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
         <style>
-            ul {
+            .barra_nav {
+                display: flex;
+                justify-content: center;
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                background-color: #333;
             }
- 
-            li {
-                float: left;
-            }
-            
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            
+
             /* Change the link color to #111 (black) on hover */
             li a:hover {
                 background-color: #111;
+                color: #63bb66;
             }
             .active {
-                background-color: #63bb66;
-            }
-            
-            li a {
                 color: #666;
+                background-color: #63bb66;
+                text-align: center;
+                text-decoration: underline;
+                padding: 14px 16px;
+                display: block;
             }
          </style>
     
     </head>
 
     <body class="container" style="background-color: #ccffeb">
-        <h1 style="color: #333;">
-            Dispensa
-        </h1>
         <br>
+        <h1 style="color: #333; margin-bottom: 0px;">
+            Dispensa</h1>
+       <!-- 
+           <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
+       -->  <br>
 
-        <ul style="float:center"> 
+        <ul class="barra_nav"> 
             <li><a class="active" href="home.js">RICETTE</a></li>
             <li><a class="active" href="">ACQUISTI</a></li>
             <li><a class="active" href="">DISPENSA</a></li>
         </ul>
+
         <br><br>
         <h4>
             Inserisci gli ingredienti
