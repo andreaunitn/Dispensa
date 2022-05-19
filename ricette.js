@@ -8,16 +8,19 @@ router.get('', async function(req, res) {
 
   let param = req.query
 
-  if(param.ingredienti == null) {
+  if(param.ingredienti == null && param.titolo == null) {
 
     var ricette = await Ricetta.find({}).select('-__v')
 
-  } else {
+  } else if(param.ingredienti != null) {
 
     //Queste righe verranno cambiate
     var ingr = JSON.parse(param.ingredienti)
     var ricette = await Ricetta.find({ingredienti: {$not:{$elemMatch:{$nin:ingr.ingredienti}}}}).select('-__v')
 
+  } else if(param.titolo != null) {
+
+      var ricette = await Ricetta.find({titolo: { $regex: param.titolo, $options: 'i' }}).select('-__v')
   }
 
   var results = {
@@ -40,6 +43,5 @@ router.get('/:id', async function(req, res) {
 
   res.status(200).json(ricetta)
 })
-
 
 module.exports = router;

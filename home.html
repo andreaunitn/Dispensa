@@ -38,11 +38,9 @@
     <body class="container" style="background-color: #ccffeb">
         <br>
         <h1 style="color: #333; margin-bottom: 0px;">
-            Dispensa</h1>
-       <!--
-           <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
-       -->  <br>
-
+            Dispensa
+        </h1>
+        <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
         <ul class="barra_nav">
             <li><a class="active" href="">RICETTE</a></li>
             <li><a class="active" href="">ACQUISTI</a></li>
@@ -55,6 +53,8 @@
         </h4>
         <input type="text", id="ingrediente">
         <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
+        <input type="text", id="titolo_ricetta">
+        <button onclick="search_recipe()", id="submit_recipe">Cerca ricetta</button>
         <br><br>
         <h4>
             Ingredienti:
@@ -140,13 +140,33 @@
                             console.log(ingredienti)
                         }
                     }
-
                 }
                 span.appendChild(button)
             }
 
             //Richiesta ajax per ottenere le ricette
             cercaRicette()
+        }
+
+        function cercaRicettePerTitolo(titolo) {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:3000/api/v1/ricette',
+                data: 'titolo=' + titolo,
+                datatype: 'json',
+                success: function (data) {
+                    console.log(data)
+                }
+            })
+        }
+
+        function search_recipe() {
+            const text_field = document.getElementById('titolo_ricetta')
+            const titolo = text_field.value
+            text_field.value = ""
+
+            //Richiesta ajax per ottenere le ricette in base al titolo
+            cercaRicettePerTitolo(titolo)
         }
 
     </script>
