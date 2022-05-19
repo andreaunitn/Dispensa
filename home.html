@@ -112,6 +112,7 @@
     <script>
 
         ingredienti = []
+        ricette_trovate = []
 
         function stampa_ricette_trovate() {
 
@@ -130,7 +131,7 @@
 
               var appendix=""
 
-              if (ricetta[1]) {
+              if (ricetta[2]) {
                 appendix="✅"
               }
               else {
@@ -237,6 +238,21 @@
                 datatype: 'json',
                 success: function (data) {
                     console.log(data)
+
+                    //Ripulisco l'array prima di utilizzarlo
+                    ricette_trovate = []
+
+                    const ricette = data.ricette
+
+                    //Scorro tra le ricette trovate e verifico se possono essere cucinate
+                    for(var i = 0; i < ricette.length; i++) {
+                        let r = ricette[i].ingredienti
+                        let t = ricette[i].titolo
+
+                        const result = r.every(val => ingredienti.includes(val));
+
+                        ricette_trovate.push([t, r, result])
+                    }
 
                     stampa_ricette_trovate()
 
