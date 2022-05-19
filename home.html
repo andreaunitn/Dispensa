@@ -69,7 +69,7 @@
                   Inserisci gli ingredienti
               </h4>
               <input type="text", id="ingrediente">
-              <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
+              <button onclick="add_ingredient()", id="submit_ingredienti">Inserisci ingrediente</button>
               <br><br>
               <h4>
                   Ingredienti:
@@ -91,7 +91,7 @@
                   Inserisci il nome della ricetta
               </h4>
               <input type="text", id="titolo_ricetta">
-              <button onclick="search_recipe()", id="submit">Cerca ricetta</button>
+              <button onclick="search_recipe()", id="submit_titolo">Cerca ricetta</button>
               <br><br>
               <h4>
                   Risultati:
@@ -116,13 +116,25 @@
         ricettePerTitolo = '' //json delle ricette ottenute per titolo
         rootUrl = window.location
 
+        $("#ingrediente").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#submit_ingredienti").click();
+            }
+        });
+
+        $("#titolo_ricetta").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#submit_titolo").click();
+            }
+        });
+
         function stampa_ricette_trovate() {
 
           //var result = JSON.parse(data)
           var div = document.getElementById("ricette_cercate")
           var ul = document.createElement('ul')
 
-          if (ricette_trovate.length == 0 ) {
+          if (ricette_trovate != '' && ricette_trovate.length == 0 ) {
             document.getElementById('ricette_cercate').innerHTML = 'Nessuna ricetta trovata...'
           } else {
             for (var i = 0; i < ricette_trovate.length; i++) {
