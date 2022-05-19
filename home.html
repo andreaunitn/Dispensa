@@ -7,15 +7,18 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="icon" href="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png">
 
         <style>
             .barra_nav {
+                background-color: #63bb66;
                 display: flex;
                 justify-content: center;
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
+                width:100%
             }
 
             /* Change the link color to #111 (black) on hover */
@@ -31,41 +34,80 @@
                 padding: 14px 16px;
                 display: block;
             }
+            .leftside, .rightside {
+              height:100vh;
+              width:100%
+            }
          </style>
 
     </head>
 
-    <body class="container" style="background-color: #ccffeb">
-        <br>
-        <h1 style="color: #333; margin-bottom: 0px;">
-            Dispensa
-        </h1>
-        <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
+    <body  style="background-color: #ccffeb">
+
+      <div>
         <ul class="barra_nav">
             <li><a class="active" href="">RICETTE</a></li>
             <li><a class="active" href="">ACQUISTI</a></li>
             <li><a class="active" href="">DISPENSA</a></li>
         </ul>
+      </div>
 
+      <div class="container">
+
+        <h1 style="color: #333; margin-bottom: 0px;">
+            Dispensa
+        </h1>
+        <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
+
+        <br>
+        <div class="row">
+
+          <div class="col">
+            <div class="leftside">
+
+              <h4>
+                  Inserisci gli ingredienti
+              </h4>
+              <input type="text", id="ingrediente">
+              <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
+              <br><br>
+              <h4>
+                  Ingredienti:
+              </h4>
+              <span id="lista_ingredienti"></span>
+              <br><br>
+              <h4>
+                  Ricette consigliate:
+              </h4>
+              <div id="lista_ricette"></div>
+              <div id="ricetta_dettaglio"></div>
+
+            </div>
+          </div>
+          <div class="col">
+            <div class="rightside">
+
+              <h4>
+                  Inserisci il nome della ricetta
+              </h4>
+              <input type="text", id="titolo_ricetta">
+              <button onclick="search_recipe()", id="submit">Cerca ricetta</button>
+              <br><br>
+              <h4>
+                  Risultati:
+              </h4>
+              <div id="ricette_cercate"></div>
+
+            </div>
+          </div>
+
+        </div>
         <br><br>
-        <h4>
-            Inserisci gli ingredienti
-        </h4>
-        <input type="text", id="ingrediente">
-        <button onclick="add_ingredient()", id="submit">Inserisci ingrediente</button>
-        <input type="text", id="titolo_ricetta">
-        <button onclick="search_recipe()", id="submit_recipe">Cerca ricetta</button>
-        <br><br>
-        <h4>
-            Ingredienti:
-        </h4>
-        <span id="lista_ingredienti"></span>
-        <br><br>
-        <h4>
-            Ricette consigliate:
-        </h4>
-        <div id="lista_ricette"></div>
-        <div id="ricetta_dettaglio"></div>
+
+        <hr>
+
+      </div>
+
     </body>
     <script>
 
@@ -156,6 +198,43 @@
                 datatype: 'json',
                 success: function (data) {
                     console.log(data)
+
+                    //{"titolo":"xxx","ingredienti":["1","2","3"],"fattibile":True}
+
+                    data = [
+                            ["pizza",true],
+                            ["peperonata",false],
+                            ["carbonara",true],
+                            ["pollo arrosto",false]
+                    ]
+
+                    //var result = JSON.parse(data)
+                    var div = document.getElementById("ricette_cercate")
+                    var ul = document.createElement('ul')
+
+                    if (data.length == 0 ) {
+                      document.getElementById('ricette_cercate').innerHTML = 'Nessuna ricetta trovata...'
+                    } else {
+                      for (var i = 0; i < data.length; i++) {
+                        const ricetta = data[i]
+
+
+                        var li = document.createElement('li')
+                        var a = document.createElement('a')
+                        a.innerHTML = ricetta[0]
+                        //a.href = window.location + "api/v1/ricette/" + ricetta._id
+
+                        li.appendChild(a)
+                        ul.appendChild(li)
+
+                      }
+
+                      var new_div = document.createElement('div')
+                      new_div.appendChild(ul)
+
+                      document.getElementById('ricette_cercate').innerHTML = new_div.innerHTML
+                    }
+
                 }
             })
         }
