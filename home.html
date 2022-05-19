@@ -113,6 +113,7 @@
 
         ingredienti = []
         ricette_trovate = []
+        rootUrl = window.location
 
         function stampa_ricette_trovate() {
 
@@ -139,7 +140,7 @@
               }
 
               a.innerHTML = ricetta[0]+" "+appendix
-              //a.href = window.location + "api/v1/ricette/" + ricetta._id
+              a.href = window.location + "api/v1/ricette/" + ricetta[3]
 
               li.appendChild(a)
               ul.appendChild(li)
@@ -158,7 +159,7 @@
 
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:3000/api/v1/ricette',
+              url: rootUrl + 'api/v1/ricette',
               data: 'ingredienti=' + JSON.stringify({ 'ingredienti': ingredienti }),
               datatype: 'json',
               success: function (data) {
@@ -178,7 +179,7 @@
                     var li = document.createElement('li')
                     var a = document.createElement('a')
                     a.innerHTML = ricetta.titolo
-                    a.href = window.location + "api/v1/ricette/" + ricetta._id
+                    a.href = rootUrl + "api/v1/ricette/" + ricetta._id
 
                     li.appendChild(a)
                     ul.appendChild(li)
@@ -228,38 +229,47 @@
 
             //Richiesta ajax per ottenere le ricette
             cercaRicette()
-
+            feasability()
+            stampa_ricette_trovate()
             localStorage.setItem('ingredienti',ingredienti);
         }
 
         function cercaRicettePerTitolo(titolo) {
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:3000/api/v1/ricette',
+                url: rootUrl + 'api/v1/ricette',
                 data: 'titolo=' + titolo,
                 datatype: 'json',
                 success: function (data) {
                     console.log(data)
 
-                    //Ripulisco l'array prima di utilizzarlo
-                    ricette_trovate = []
 
-                    const ricette = data.ricette
+                    ricettePerTitolo = data.ricette //sì, è una variabile globale
 
-                    //Scorro tra le ricette trovate e verifico se possono essere cucinate
-                    for(var i = 0; i < ricette.length; i++) {
-                        let r = ricette[i].ingredienti
-                        let t = ricette[i].titolo
-
-                        const result = r.every(val => ingredienti.includes(val));
-
-                        ricette_trovate.push([t, r, result])
-                    }
-
+                    feasability()
                     stampa_ricette_trovate()
 
                 }
             })
+        }
+
+        function feasability() {
+
+          //Ripulisco l'array prima di utilizzarlo
+          ricette_trovate = []
+
+          let ricette = ricettePerTitolo
+
+          //Scorro tra le ricette trovate e verifico se possono essere cucinate
+          for(var i = 0; i < ricette.length; i++) {
+              let r = ricette[i].ingredienti
+              let t = ricette[i].titolo
+              let id = ricette[i]._id
+
+              const result = r.every(val => ingredienti.includes(val));
+
+              ricette_trovate.push([t, r, result, id])
+          }
         }
 
         function search_recipe() {
