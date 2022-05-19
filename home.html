@@ -47,8 +47,8 @@
       <div>
         <ul class="barra_nav">
             <li><a class="active" href="">RICETTE</a></li>
-            <li><a class="active" href="">ACQUISTI</a></li>
-            <li><a class="active" href="">DISPENSA</a></li>
+            <li><a class="active" href="/acquisti">ACQUISTI</a></li>
+            <li><a class="active" href="/dispensa">DISPENSA</a></li>
         </ul>
       </div>
 
@@ -228,6 +228,8 @@
 
             //Richiesta ajax per ottenere le ricette
             cercaRicette()
+
+            localStorage.setItem('ingredienti',ingredienti);
         }
 
         function cercaRicettePerTitolo(titolo) {

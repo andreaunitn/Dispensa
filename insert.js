@@ -52,19 +52,19 @@ const pane = [
 const ingrediente = new Ingrediente({titolo: 'farina'})
 */
 
-const pizza = ["farina", "acqua", "lievito", "sale", "pomodoro","mozzarella","calore"]
+const ingredienti = ["patate", "farina", "uova", "latte", "semola","sale"]
 
 mongoose.connect('mongodb+srv://admin:admin@db.jlapy.mongodb.net/db')
 
 const r = new Ricetta({
-    titolo: 'pizza',
-    descrizione: 'sarà davvero la ricetta della... pizza ?',
-    ingredienti: pizza,
-    numero_persone: 2,
-    energia: 300
+    titolo: 'gnocchi di patate',
+    descrizione: 'nonna letizia ci dice come fare gli gnocchi.NOVITà! gnocchi di PATATE! POTATO! POMME DE TERRE!',
+    ingredienti: ingredienti,
+    numero_persone: 4,
+    energia: 450
  });
 
 r.save().then(() => {
-  console.log('query executed')
+  console.log('query executed: '+r.titolo)
   mongoose.connection.close()
 });
