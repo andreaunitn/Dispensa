@@ -113,6 +113,46 @@
 
         ingredienti = []
 
+        function stampa_ricette_trovate() {
+
+          //var result = JSON.parse(data)
+          var div = document.getElementById("ricette_cercate")
+          var ul = document.createElement('ul')
+
+          if (ricette_trovate.length == 0 ) {
+            document.getElementById('ricette_cercate').innerHTML = 'Nessuna ricetta trovata...'
+          } else {
+            for (var i = 0; i < ricette_trovate.length; i++) {
+              const ricetta = ricette_trovate[i]
+
+              var li = document.createElement('li')
+              var a = document.createElement('a')
+
+              var appendix=""
+
+              if (ricetta[1]) {
+                appendix="✅"
+              }
+              else {
+                appendix="❌"
+              }
+
+              a.innerHTML = ricetta[0]+" "+appendix
+              //a.href = window.location + "api/v1/ricette/" + ricetta._id
+
+              li.appendChild(a)
+              ul.appendChild(li)
+
+            }
+
+            var new_div = document.createElement('div')
+            new_div.appendChild(ul)
+
+            document.getElementById('ricette_cercate').innerHTML = new_div.innerHTML
+          }
+
+        }
+
         function cercaRicette() {
 
           $.ajax({
@@ -133,7 +173,6 @@
                 } else {
                   for (var i = 0; i < result.length; i++) {
                     const ricetta = result.ricette[i]
-
 
                     var li = document.createElement('li')
                     var a = document.createElement('a')
@@ -199,41 +238,7 @@
                 success: function (data) {
                     console.log(data)
 
-                    //{"titolo":"xxx","ingredienti":["1","2","3"],"fattibile":True}
-
-                    data = [
-                            ["pizza",true],
-                            ["peperonata",false],
-                            ["carbonara",true],
-                            ["pollo arrosto",false]
-                    ]
-
-                    //var result = JSON.parse(data)
-                    var div = document.getElementById("ricette_cercate")
-                    var ul = document.createElement('ul')
-
-                    if (data.length == 0 ) {
-                      document.getElementById('ricette_cercate').innerHTML = 'Nessuna ricetta trovata...'
-                    } else {
-                      for (var i = 0; i < data.length; i++) {
-                        const ricetta = data[i]
-
-
-                        var li = document.createElement('li')
-                        var a = document.createElement('a')
-                        a.innerHTML = ricetta[0]
-                        //a.href = window.location + "api/v1/ricette/" + ricetta._id
-
-                        li.appendChild(a)
-                        ul.appendChild(li)
-
-                      }
-
-                      var new_div = document.createElement('div')
-                      new_div.appendChild(ul)
-
-                      document.getElementById('ricette_cercate').innerHTML = new_div.innerHTML
-                    }
+                    stampa_ricette_trovate()
 
                 }
             })
