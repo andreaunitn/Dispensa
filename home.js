@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 //const {Ingrediente, Ricetta} = require('./schemas.js');
 const {Ricetta} = require('./schemas.js')
 
+
 const options =
   {
     user: "admin",
@@ -32,6 +33,24 @@ app.get('/dispensa', function(req, res){
 
 const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
+
+
+//API Documentation testing
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./*.js'], // files containing annotations as above
+};
+const swaggerDocument = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 /*
 app.get('/cercaRicette', async function(req, res){
