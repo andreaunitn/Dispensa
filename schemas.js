@@ -38,6 +38,5 @@ const RicettaSchema = new mongoose.Schema({
 
 const Ricetta = mongoose.model('Ricetta', RicettaSchema);
 
-
 //module.exports = {Ingrediente, Ricetta}
 module.exports = {Ricetta}

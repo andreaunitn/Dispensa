@@ -72,16 +72,15 @@
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script>
-      function start() {
-        alert("cicociaco ghe cascat el mago")
 
+      function start() {
         if ( localStorage.getItem('ingredienti') ) {
             document.getElementById("lista_ingredienti").innerHTML = localStorage.getItem('ingredienti');
         } else {
-          document.getElementById("lista_ingredienti").innerHTML = "Che vuoto..."
+          document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
         }
-
       }
+      
       </script>
     </body>
 </html>

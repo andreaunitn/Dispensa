@@ -14,7 +14,6 @@ router.get('', async function(req, res) {
 
   } else if(param.ingredienti != null) {
 
-    //Queste righe verranno cambiate
     var ingr = JSON.parse(param.ingredienti)
     var ricette = await Ricetta.find({ingredienti: {$not:{$elemMatch:{$nin:ingr.ingredienti}}}}).select('-__v')
 
