@@ -116,6 +116,7 @@
         ricettePerTitolo = '' //json delle ricette ottenute per titolo
         rootUrl = window.location
 
+        //Permette al pulsante di eseguire l'azione quando viene premuto il tasto invio
         $("#ingrediente").keyup(function(event) {
             if (event.keyCode === 13) {
                 $("#submit_ingredienti").click();
@@ -130,7 +131,6 @@
 
         function stampa_ricette_trovate() {
 
-          //var result = JSON.parse(data)
           var div = document.getElementById("ricette_cercate")
           var ul = document.createElement('ul')
 
@@ -143,16 +143,16 @@
               var li = document.createElement('li')
               var a = document.createElement('a')
 
-              var appendix=""
+              var appendix = ""
 
               if (ricetta[2]) {
-                appendix="✅"
+                appendix = "✅"
               }
               else {
-                appendix="❌"
+                appendix = "❌"
               }
 
-              a.innerHTML = ricetta[0]+" "+appendix
+              a.innerHTML = ricetta[0] + " " + appendix
               a.href = window.location + "api/v1/ricette/" + ricetta[3]
 
               li.appendChild(a)
@@ -165,7 +165,6 @@
 
             document.getElementById('ricette_cercate').innerHTML = new_div.innerHTML
           }
-
         }
 
         function cercaRicette() {
@@ -245,7 +244,9 @@
             //Richiesta ajax per ottenere le ricette
             cercaRicette()
             feasability()
-            localStorage.setItem('ingredienti',ingredienti);
+
+            //Rende permanente i dati
+            localStorage.setItem('ingredienti', ingredienti);
         }
 
         function cercaRicettePerTitolo(titolo) {
@@ -255,10 +256,8 @@
                 data: 'titolo=' + titolo,
                 datatype: 'json',
                 success: function (data) {
-                    console.log(data)
 
-
-                    ricettePerTitolo = data.ricette //sì, è una variabile globale
+                    ricettePerTitolo = data.ricette //variabile globale
 
                     feasability()
 
