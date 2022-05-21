@@ -65,8 +65,8 @@
                   Ecco i tuoi ingredienti disponibili:
               </h3>
 
-              <div id="lista_ingredienti">
-              </div>
+              <span id="lista_ingredienti">
+              </span>
 
       </div>
 
@@ -74,13 +74,32 @@
       <script>
 
       function start() {
+
+        var span = document.getElementById('lista_ingredienti')
+
         if ( localStorage.getItem('ingredienti') ) {
-            document.getElementById("lista_ingredienti").innerHTML = localStorage.getItem('ingredienti');
+
+          console.log(localStorage.getItem('ingredienti'))
+          result=localStorage.getItem('ingredienti').split(",")
+
+          for (var i = 0; i < result.length; i++) {
+            var button = document.createElement('button')
+
+            const ingr = result[i]
+
+            button.textContent = ingr
+            button.id = ingr
+            button.onclick = function () {
+              console.log('laters gators')
+
+            }
+            span.appendChild(button)
+          }
         } else {
           document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
         }
       }
-      
+
       </script>
     </body>
 </html>
