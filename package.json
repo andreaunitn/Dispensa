@@ -4,7 +4,9 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "mongodb": "^4.6.0",
-    "mongoose": "^6.3.3"
+    "mongoose": "^6.3.3",
+    "swagger-jsdoc": "^6.2.1",
+    "swagger-ui-express": "^4.4.0"
   },
   "name": "dispensa",
   "description": "La Dispensa - un’app che ogni giorno seleziona le ricette migliori per il tuo pranzo e per la tua cena",

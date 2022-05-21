@@ -61,6 +61,89 @@
               <h3>
                   Cosa hai comprato?
               </h3>
+              <input type="text", id="ingrediente">
+              <button onclick="add_ingredient()", id="submit_ingredienti">Inserisci ingrediente</button>
+              <br><br>
+              <h4>
+                  La tua spesa:
+              </h4>
+              <span id="lista_ingredienti"></span>
+              <br>
+
+
       </div>
     </body>
+    <script>
+
+        ingredienti = []
+
+        rootUrl = window.location
+
+        $("#ingrediente").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#submit_ingredienti").click();
+            }
+        });
+
+        $("#titolo_ricetta").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#submit_titolo").click();
+            }
+        });
+
+
+        //Prendo l'ingrediente inserito lo aggiungo alla lista
+        function add_ingredient() {
+          ingredienti=[]
+            const text_field = document.getElementById('ingrediente');
+            const ingr = text_field.value
+            text_field.value = ""
+
+            //Se un ingrediente è già presente nella lista non lo aggiungo
+            if(!ingredienti.includes(ingr) && ingr != '') {
+                ingredienti.push(ingr)
+
+                //Visualizzo gli ingredienti. Se premo su un ingrediente lo rimuovo dalla lista
+                var span = document.getElementById('lista_ingredienti')
+                var button = document.createElement('button')
+                button.textContent = ingr
+                button.id = ingr
+                button.onclick = function () {
+
+                    for (j = 0; j < ingredienti.length; j++) {
+                        if (ingredienti[j] == ingr) {
+                            ingredienti.splice(j, 1)
+                            const ingr_list = document.getElementById('lista_ingredienti')
+                            const i = document.getElementById(ingr)
+                            ingr_list.removeChild(i)
+
+                            console.log(ingredienti)
+                        }
+                    }
+                }
+                span.appendChild(button)
+            }
+
+            /////////////////////////////////////////////////////////
+
+            if (localStorage.getItem('ingredienti')) {
+
+              array=localStorage.getItem('ingredienti').split(",")
+
+              for (i=0; i<array.length; i++) {
+                ingredienti.push(array[i])
+              }
+
+              localStorage.setItem('ingredienti',ingredienti)
+
+            } else {
+              localStorage.setItem('ingredienti',ingredienti)
+              console.log("Non c'erano ingredienti, ma ora si:" + localStorage.getItem('ingredienti'))
+            }
+
+        }
+
+
+
+    </script>
 </html>

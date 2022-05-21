@@ -10,16 +10,16 @@
         <link rel="icon" href="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png">
 
         <style>
-            .barra_nav {
-                background-color: #63bb66;
-                display: flex;
-                justify-content: center;
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                width:100%
-            }
+        .barra_nav {
+            background-color: #63bb66;
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width:100%
+        }
 
             /* Change the link color to #111 (black) on hover */
             li a:hover {
@@ -66,15 +66,9 @@
             <div class="leftside">
 
               <h4>
-                  Inserisci gli ingredienti
+                  Fatti consigliare!
               </h4>
-              <input type="text", id="ingrediente">
-              <button onclick="add_ingredient()", id="submit_ingredienti">Inserisci ingrediente</button>
-              <br><br>
-              <h4>
-                  Ingredienti:
-              </h4>
-              <span id="lista_ingredienti"></span>
+              <button onclick="consiglia_ricette()", id="consiglia_ricette">Consigliami</button>
               <br><br>
               <h4>
                   Ricette consigliate:
@@ -208,40 +202,14 @@
           });
         }
 
-        //Prendo l'ingrediente inserito, lo aggiungo alla lista e faccio la richiesta ajax
-        function add_ingredient() {
-            const text_field = document.getElementById('ingrediente');
-            const ingr = text_field.value
-            text_field.value = ""
 
-            //Se un ingrediente è già presente nella lista non lo aggiungo
-            if(!ingredienti.includes(ingr) && ingr != '') {
-                ingredienti.push(ingr)
+        function consiglia_ricette() {
 
-                //Visualizzo gli ingredienti. Se premo su un ingrediente lo rimuovo dalla lista
-                var span = document.getElementById('lista_ingredienti')
-                var button = document.createElement('button')
-                button.textContent = ingr
-                button.id = ingr
-                button.onclick = function () {
+           //recupero da localStorage gli ingredienti e popolo l'array locale "ingredienti"
+           //acquisti.html -> home.html
+           temp = localStorage.getItem('ingredienti').split(",")
+           ingredienti=temp
 
-                    for (j = 0; j < ingredienti.length; j++) {
-                        if (ingredienti[j] == ingr) {
-                            ingredienti.splice(j, 1)
-                            const ingr_list = document.getElementById('lista_ingredienti')
-                            const i = document.getElementById(ingr)
-                            ingr_list.removeChild(i)
-
-                            cercaRicette()
-                            feasability()
-                            console.log(ingredienti)
-                        }
-                    }
-                }
-                span.appendChild(button)
-            }
-
-            //Richiesta ajax per ottenere le ricette
             cercaRicette()
             feasability()
 
@@ -269,6 +237,7 @@
 
           //Ripulisco l'array prima di utilizzarlo
           ricette_trovate = []
+          ingredienti=localStorage.getItem('ingredienti').split(",")
 
           let ricette = ricettePerTitolo
 
