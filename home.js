@@ -39,7 +39,7 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Hello World',
+      title: 'La Dispensa',
       version: '1.0.0',
     },
   },

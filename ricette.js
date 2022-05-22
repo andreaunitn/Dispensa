@@ -3,16 +3,38 @@ const {mongoose} = require('./db.js')
 const {Ricetta} = require('./schemas.js')
 const router = express.Router()
 
-
 /**
- * @openapi
- * /:
- *   get:!
- *     description: Welcome to swagger-jsdoc!
- *     responses:
- *       200:
- *         description: Returns a mysterious string.
- */
+* @openapi
+*   /api/v1/ricette:
+*   get:
+*     summary: titolo e ingredienti
+*     tags: 
+*       - Ricette
+*     parameters:
+*               - in: query
+*                 name: titolo
+*                 required: false
+*                 schema:
+*                   type: string
+*                 description: titolo della ricetta
+*               - in: query
+*                 name: ingredienti
+*                 required: false
+*                 schema:
+*                   type: JSON
+*                 description: JSON contenente un array di nome ingredienti con al suo interno stringhe
+*
+*     description: Utilizzato per ottenere le ricette cercando per nome OPPURE per ingredienti necessari. Entrambi i parametri non possono essere specificati assieme
+*     responses:
+*       200:
+*         description: |
+*                      Ritorna un JSON con le ricette in questo formato:
+* 
+*                          'length': number, 
+* 
+*                          'ricette': Ricetta
+*/
+
 router.get('', async function(req, res) {
 
   let param = req.query
@@ -41,7 +63,32 @@ router.get('', async function(req, res) {
   res.status(200).json(results)
 })
 
-// Handling GET requests -- ID TEST 62825e34dbe7884c20752951 --
+/**
+* @openapi
+*   /api/v1/ricette/{id}:
+*   get: 
+*     tags: 
+*       - Ricette
+*     parameters:
+*              - in: path
+*                name: id
+*                required: false
+*                schema: 
+*                  type: string
+*                description: id della ricetta
+*
+*     description: Utilizzato per interfacciarsi con le ricette del nostro database 
+*     responses:
+*       200:
+*         description: |
+*                      Ritorna un JSON con le ricette in questo formato:
+* 
+*                          'length': number, 
+* 
+*                          'ricette': Ricetta
+*/
+
+// Handling GET requests -- ID TEST 6283ddbaab0096198ef2c03f --
 router.get('/:id', async function(req, res) {
 
   try
