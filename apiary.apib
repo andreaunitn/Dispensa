@@ -1,77 +1,108 @@
-{
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Dispensa",
-    "version": "1.0.0",
-    "description": "API ufficiali di LaDispensa",
-    "license": {
-      "name": "Licensed Under MIT",
-      "url": "https://spdx.org/licenses/MIT.html"
-    },
-    "contact": {
-      "name": "placeholder",
-      "url": "placeholder"
-    }
-  },
-  "servers": [
-    {
-      "url": "http://localhost:3000",
-      "description": "Development server"
-    }
-  ],
-  "paths": {
-    "/api/v1/ricette": {
-      "get": {
-        "summary": "titolo e ingredienti",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "titolo",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "titolo della ricetta"
-          },
-          {
-            "in": "query",
-            "name": "ingredienti",
-            "required": false,
-            "schema": {
-              "type": "JSON"
-            },
-            "description": "JSON contenente un array di nome ingredienti con al suo interno stringhe"
-          }
-        ],
-        "description": "Utilizzato per ottenere le ricette cercando per nome OPPURE per ingredienti necessari. Entrambi i parametri non possono essere specificati assieme",
-        "responses": {
-          "200": {
-            "description": "Ritorna un JSON con le ricette in questo formato:\n\n    'length': number, \n\n    'ricette': Ricetta\n"
-          }
-        }
-      }
-    },
-    "/api/v1/ricette/{id}": {
-      "get": {
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "id della ricetta"
-          }
-        ],
-        "description": "Utilizzato per interfacciarsi con le ricette del nostro database",
-        "responses": {
-          "200": {
-            "description": "Ritorna un JSON con le ricette in questo formato:\n\n    'length': number, \n\n    'ricette': Ricetta\n"
-          }
-        }
-      }
-    }
-  },
-  "components": {},
-}
+openapi: 3.0.0
+info:
+  title: "Dispensa OpenAPI 3.0"
+  version: 1.0.0
+  description: API ufficiali di Dispensa
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+paths:
+  /ricette:
+    get:
+      summary: Titolo e ingredienti
+      parameters:
+        - in: query
+          name: titolo
+          required: false
+          schema:
+            type: string
+          description: Titolo della ricetta
+          
+        - in: query
+          name: ingredienti
+          required: false
+          schema:
+            type: object
+          description: >-
+            JSON contenente un array di nome ingredienti con al suo interno
+            stringhe
+            
+      description: >-
+        Utilizzato per ottenere le ricette cercando per nome OPPURE per
+        ingredienti necessari. Entrambi i parametri non possono essere
+        specificati assieme
+      responses:
+        '200':
+          description: 'Ritorna un JSON contenente le ricette trovate con i parametri indicati'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricette'
+        '400':
+          description: 'Richiesta malformata'
+                
+  /ricette/{id}:
+    get:
+      summary: Id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: id della ricetta
+      description: Utilizzato per interfacciarsi con le ricette del database
+      responses:
+        '200':
+          description: 'Ritorna un JSON con la ricetta'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricetta'
+        '404':
+          description: 'Ricetta non trovata'
+components:
+  schemas:
+    Ingredienti:
+      type: object
+      required:
+        - ingredienti
+      properties:
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti'
+          
+    Ricetta:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: 'Id della ricetta'
+        titolo:
+          type: string
+          description: 'Titolo della ricetta'
+        descrizione:
+          type: string
+          description: 'Istruzioni per eseguire la ricetta'
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti richiesti per preparare la ricetta'
+        numero_persone:
+          type: number
+          description: 'Numero di porzioni per cui è pensata la ricetta'
+        energia:
+          type: number
+          description: 'Chilocalorie per porzione'
+          
+    Ricette:
+      type: object
+      properties:
+        length:
+          type: number
+          description: 'Numero di oggetti di tipo Ricetta contenuti'
+        ricette:
+          type: array
+          items:
+              $ref: '#/components/schemas/Ricetta'
