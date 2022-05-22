@@ -33,6 +33,7 @@ const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
 
 //API Documentation testing
+/*
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
 const swaggerOptions = {
@@ -47,6 +48,7 @@ const swaggerOptions = {
 };
 const swaggerDocument = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+*/
 
 app.listen(port, function() {
   console.log('Server running on port:', port);

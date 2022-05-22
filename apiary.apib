@@ -1,80 +1,123 @@
-FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
-
-# Andrea
-
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+openapi: 3.0.0
+info:
+  title: "Dispensa OpenAPI 3.0"
+  version: 1.0.0
+  description: API ufficiali di Dispensa
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+paths:
+  /ricette:
+    get:
+      summary: Titolo e ingredienti
+      parameters:
+        - in: query
+          name: titolo
+          required: false
+          schema:
+            type: string
+          description: Titolo della ricetta
+          
+        - in: query
+          name: ingredienti
+          required: false
+          schema:
+            type: object
+          description: >-
+            JSON contenente un array di nome ingredienti con al suo interno
+            stringhe
+            
+      description: >-
+        Utilizzato per ottenere le ricette cercando per nome OPPURE per
+        ingredienti necessari. Entrambi i parametri non possono essere
+        specificati assieme
+      responses:
+        '200':
+          description: 'Ritorna un JSON contenente le ricette trovate con i parametri indicati'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricette'
+        '400':
+          description: 'Richiesta malformata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+                
+  /ricette/{id}:
+    get:
+      summary: Id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: id della ricetta
+      description: Utilizzato per interfacciarsi con le ricette del database
+      responses:
+        '200':
+          description: 'Ritorna un JSON con la ricetta'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricetta'
+        '404':
+          description: 'Ricetta non trovata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+components:
+  schemas:
+    Ingredienti:
+      type: object
+      required:
+        - ingredienti
+      properties:
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti'
+          
+    Ricetta:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: 'Id della ricetta'
+        titolo:
+          type: string
+          description: 'Titolo della ricetta'
+        descrizione:
+          type: string
+          description: 'Istruzioni per eseguire la ricetta'
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti richiesti per preparare la ricetta'
+        numero_persone:
+          type: number
+          description: 'Numero di porzioni per cui è pensata la ricetta'
+        energia:
+          type: number
+          description: 'Chilocalorie per porzione'
+          
+    Ricette:
+      type: object
+      properties:
+        length:
+          type: number
+          description: 'Numero di oggetti di tipo Ricetta contenuti'
+        ricette:
+          type: array
+          items:
+              $ref: '#/components/schemas/Ricetta'
+      
+    Errore:
+      type: object
+      properties:
+        error: 
+          type: string
+          description: 'Descrizione errore'
