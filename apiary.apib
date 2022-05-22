@@ -1,80 +1,77 @@
-FORMAT: 1A
-HOST: https://polls.apiblueprint.org/
-
-# Andrea
-
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Dispensa",
+    "version": "1.0.0",
+    "description": "API ufficiali di LaDispensa",
+    "license": {
+      "name": "Licensed Under MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    },
+    "contact": {
+      "name": "placeholder",
+      "url": "placeholder"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/api/v1/ricette": {
+      "get": {
+        "summary": "titolo e ingredienti",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "titolo",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "titolo della ricetta"
+          },
+          {
+            "in": "query",
+            "name": "ingredienti",
+            "required": false,
+            "schema": {
+              "type": "JSON"
+            },
+            "description": "JSON contenente un array di nome ingredienti con al suo interno stringhe"
+          }
+        ],
+        "description": "Utilizzato per ottenere le ricette cercando per nome OPPURE per ingredienti necessari. Entrambi i parametri non possono essere specificati assieme",
+        "responses": {
+          "200": {
+            "description": "Ritorna un JSON con le ricette in questo formato:\n\n    'length': number, \n\n    'ricette': Ricetta\n"
+          }
         }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+      }
+    },
+    "/api/v1/ricette/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "id della ricetta"
+          }
+        ],
+        "description": "Utilizzato per interfacciarsi con le ricette del nostro database",
+        "responses": {
+          "200": {
+            "description": "Ritorna un JSON con le ricette in questo formato:\n\n    'length': number, \n\n    'ricette': Ricetta\n"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+}
