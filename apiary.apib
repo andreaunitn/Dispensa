@@ -42,6 +42,10 @@ paths:
                   $ref: '#/components/schemas/Ricette'
         '400':
           description: 'Richiesta malformata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
                 
   /ricette/{id}:
     get:
@@ -63,6 +67,10 @@ paths:
                   $ref: '#/components/schemas/Ricetta'
         '404':
           description: 'Ricetta non trovata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
 components:
   schemas:
     Ingredienti:
@@ -106,3 +114,10 @@ components:
           type: array
           items:
               $ref: '#/components/schemas/Ricetta'
+      
+    Errore:
+      type: object
+      properties:
+        error: 
+          type: string
+          description: 'Descrizione errore'
