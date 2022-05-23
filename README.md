@@ -20,4 +20,4 @@ node backend/home.js
 
 ***
 
-Per maggiori informazionu sul progetto, si veda la [Wiki](https://github.com/andreaunitn/Dispensa/wiki)
+### Per maggiori informazion sul progetto, si veda la [Wiki](https://github.com/andreaunitn/Dispensa/wiki)
