@@ -17,3 +17,7 @@ npm install
 node backend/home.js
 ```
 * Il server verrà eseguito sulla porta 3000 (localhost:3000)
+
+***
+
+Per maggiori informazionu sul progetto, si veda la [Wiki](https://github.com/andreaunitn/Dispensa/wiki)
