@@ -18,15 +18,15 @@ const path = require('path')
 
 // Handling GET requests
 app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/home.html'));
+  res.sendFile(path.join(__dirname, '..', '/frontend/home.html'));
 })
 
 app.get('/acquisti', function(req, res){
-  res.sendFile(path.join(__dirname + '/acquisti.html'));
+  res.sendFile(path.join(__dirname, '..', '/frontend/acquisti.html'));
 })
 
 app.get('/dispensa', function(req, res){
-  res.sendFile(path.join(__dirname + '/dispensa.html'));
+  res.sendFile(path.join(__dirname, '..', '/frontend/dispensa.html'));
 })
 
 const ricette = require('./ricette.js')
