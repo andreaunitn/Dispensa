@@ -29,6 +29,10 @@ app.get('/dispensa', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/dispensa.html'));
 })
 
+app.get('/aggiungi_ricette', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/aggiungi_ricette.html'));
+})
+
 const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
 
