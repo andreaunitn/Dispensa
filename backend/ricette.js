@@ -15,7 +15,7 @@ router.get('', async function(req, res) {
   }
 
   if (param.ingredienti == null && param.titolo == null) {
-    
+
     var ricette = await Ricetta.find({}).select('-__v')
 
   } else if(param.ingredienti != null) {
@@ -51,6 +51,31 @@ router.get('/:id', async function(req, res) {
   }
 
   res.status(200).json(ricetta)
+})
+
+router.post('', async function(req, res) {
+
+  const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
+
+  const r = new Ricetta({
+      titolo: 'macha latte',
+      descrizione: 'Prepara uno sciroppo con acqua calda, macha e zucchero. Versa il latte freddo in un bicchiere con del ghiaccio. Aggiungi lo sciroppo.',
+      ingredienti: ingredienti,
+      numero_persone: 4,
+      energia: 120
+   });
+
+   r.save( async function (err, room) {
+     if(err) {
+       res.status(500).json({error: 'Errore salvataggio ricetta'})
+       return
+     } else {
+
+       console.log('saved ricetta id: ' + room.id);
+
+       res.location("/api/v1/ricette/" + room.id).status(201).send();
+     }
+   })
 })
 
 module.exports = router;
