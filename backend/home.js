@@ -1,9 +1,7 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var http = require('http');
 const mongoose = require('mongoose');
 const {Ricetta} = require('./schemas.js')
-
 
 const options =
   {
@@ -15,6 +13,9 @@ const options =
 var port = 3000;
 var app = express();
 const path = require('path')
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 // Handling GET requests
 app.get('/', function(req, res){

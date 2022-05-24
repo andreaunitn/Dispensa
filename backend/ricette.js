@@ -55,14 +55,17 @@ router.get('/:id', async function(req, res) {
 
 router.post('', async function(req, res) {
 
+  param = req.body
+  console.log(param.ingredienti)
+
   const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
 
   const r = new Ricetta({
-      titolo: 'macha latte',
-      descrizione: 'Prepara uno sciroppo con acqua calda, macha e zucchero. Versa il latte freddo in un bicchiere con del ghiaccio. Aggiungi lo sciroppo.',
-      ingredienti: ingredienti,
-      numero_persone: 4,
-      energia: 120
+      titolo: param.titolo,
+      descrizione: param.descrizione,
+      ingredienti: param.ingredienti,
+      numero_persone: param.num_per,
+      energia: param.energia
    });
 
    r.save( async function (err, room) {

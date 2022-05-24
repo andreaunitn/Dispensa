@@ -115,7 +115,7 @@
     </div>
 </body>
 <script>
-    
+
     ingredienti = []
     rootUrl = window.location
 
@@ -134,15 +134,16 @@
             console.log(descrizione.value)
             console.log(ingredienti)
 
-            $.ajax({
-                type: 'POST',
-                url: rootUrl + 'api/v1/ricette',
-                data: 'titolo=' + titolo + "&ingr=" + ingredienti + "&num_per=" + num_per + "&energia=" + energia + "&descrizione=" + descrizione,
-                datatype: 'html',
-                success: function (data) {
-                    console.log(data)
-                }
-            })
+            $.post('http://localhost:3000/api/v1/ricette', {
+                titolo: titolo.value,
+                ingredienti: ingredienti.value,
+                num_per: num_per.value,
+                energia: energia.value,
+                descrizione: descrizione.value
+              },
+              function(data){
+                  console.log(data);
+            });
 
         } else {
             window.alert("Alcuni campi della ricetta non sono stati specificati")
