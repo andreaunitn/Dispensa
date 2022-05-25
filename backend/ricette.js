@@ -15,7 +15,7 @@ router.get('', async function(req, res) {
   }
 
   if (param.ingredienti == null && param.titolo == null) {
-    
+
     var ricette = await Ricetta.find({}).select('-__v')
 
   } else if(param.ingredienti != null) {
@@ -51,6 +51,34 @@ router.get('/:id', async function(req, res) {
   }
 
   res.status(200).json(ricetta)
+})
+
+router.post('', async function(req, res) {
+
+  param = req.body
+
+  //const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
+
+  const r = new Ricetta({
+      titolo: param.titolo,
+      descrizione: param.descrizione,
+      ingredienti: param.ingredienti,
+      numero_persone: param.num_per,
+      energia: param.energia
+   });
+
+   r.save( async function (err, room) {
+     if(err) {
+
+       res.status(500).json({error: 'Errore salvataggio ricetta'})
+       return
+
+     } else {
+
+       console.log('saved ricetta id: ' + room.id);
+       res.location("/api/v1/ricette/" + room.id).status(201).send()
+     }
+   })
 })
 
 module.exports = router;

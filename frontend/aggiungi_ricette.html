@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        La Dispensa
+    </title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png">
+
+    <style>
+        .barra_nav {
+            background-color: #63bb66;
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: #111;
+            color: #63bb66;
+        }
+
+        .active {
+            color: #666;
+            background-color: #63bb66;
+            text-align: center;
+            text-decoration: underline;
+            padding: 14px 16px;
+            display: block;
+        }
+
+        .leftside,
+        .rightside {
+            height: 100vh;
+            width: 100%
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #9ca1a5">
+
+    <div>
+        <ul class="barra_nav">
+            <li><a class="active" href="/">RICETTE</a></li>
+            <li><a class="active" href="/acquisti">ACQUISTI</a></li>
+            <li><a class="active" href="/dispensa">DISPENSA</a></li>
+        </ul>
+    </div>
+    <div class="container">
+
+        <h1 style="color: #333; margin-bottom: 0px;">
+            Dispensa
+        </h1>
+        <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png"
+            style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
+        <br>
+        <h3>
+            Inserisci una nuova ricetta:
+        </h3>
+        <table>
+            <tr>
+                <th>
+                    <h5>Titolo: </h5>
+                </th>
+                <th>
+                    <input type="text" id="titolo">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <h5>Ingredienti: </h5>
+                </th>
+                <th>
+                    <input type="text" id="ingrediente">
+                    <button onclick="add_ingredient()">Inserisci ingrediente</button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <h5>Numero persone: </h5>
+                </th>
+                <th>
+                    <input type="text" id="num_per">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <h5>Energia: </h5>
+                </th>
+                <th>
+                    <input type="text" id="energia">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <h5>Descrizione: </h5>
+                </th>
+                <th>
+                    <textarea style="resize:none; width:300px; height:150px" id="descrizione"></textarea>
+                </th>
+            </tr>
+        </table>
+        <br><br>
+        <button onclick="inserisci_ricetta()">Inserisci ricetta</button>
+    </div>
+</body>
+<script>
+
+    ingredienti = []
+
+    //Invio la ricetta per essere inserita nel DB
+    function inserisci_ricetta() {
+        const titolo = document.getElementById("titolo")
+        const ingr = document.getElementById("ingrediente")
+        const num_per = document.getElementById("num_per")
+        const energia = document.getElementById("energia")
+        const descrizione = document.getElementById("descrizione")
+
+        if(titolo.value != "" && !isNaN(num_per.value)  && !isNaN(energia.value) && descrizione.value != "" && ingredienti.length != 0) {
+
+            console.log(titolo.value)
+            console.log(num_per.value)
+            console.log(energia.value)
+            console.log(descrizione.value)
+            console.log(ingredienti)
+
+            $.post('http://localhost:3000/api/v1/ricette', {
+                titolo: titolo.value,
+                ingredienti: ingredienti,
+                num_per: num_per.value,
+                energia: energia.value,
+                descrizione: descrizione.value
+              },
+              function(data, status, xhr){
+                  if(xhr.status == 201) {
+                    window.location.replace(xhr.getResponseHeader("location"));
+                  }
+              }).fail(
+                  function(jqXHR, textStatus, errorThrown) {
+                    window.alert(jqXHR.status + "\n" + errorThrown);
+                  }
+                );
+
+        } else {
+            window.alert("Alcuni campi della ricetta non sono stati specificati oppure hanno un formato sbagliato")
+        }
+
+        titolo.value = ""
+        ingrediente.value = ""
+        num_per.value = ""
+        energia.value = ""
+        descrizione.value = ""
+    }
+
+    //Prendo l'ingrediente inserito lo aggiungo alla lista
+    function add_ingredient() {
+        const text_field = document.getElementById("ingrediente")
+        const ingr = text_field.value
+        text_field.value = ""
+
+        //Se un ingrediente è già presente nella lista non lo aggiungo
+        if (!ingredienti.includes(ingr) && ingr != '') {
+            ingredienti.push(ingr)
+        }
+    }
+
+</script>
+</html>
