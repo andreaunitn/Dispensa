@@ -136,14 +136,20 @@
 
             $.post('http://localhost:3000/api/v1/ricette', {
                 titolo: titolo.value,
-                ingredienti: ingredienti.value,
+                ingredienti: ingredienti,
                 num_per: num_per.value,
                 energia: energia.value,
                 descrizione: descrizione.value
               },
-              function(data){
-                  console.log(data);
-            });
+              function(data, status, xhr){
+                  if(xhr.status == 201) {
+                    window.location.replace(xhr.getResponseHeader("location"));
+                  }
+              }).fail(
+                  function(jqXHR, textStatus, errorThrown) {
+                    window.alert(jqXHR.status + "\n" + errorThrown);
+                  }
+                );
 
         } else {
             window.alert("Alcuni campi della ricetta non sono stati specificati")
