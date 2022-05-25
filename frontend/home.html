@@ -150,6 +150,14 @@
               a.href = window.location + "api/v1/ricette/" + ricetta[3]
 
               li.appendChild(a)
+              var button = document.createElement("button")
+              button.setAttribute("onclick","missing_ingredients(this)");
+              button.id=i
+              button.innerHTML="Cosa manca?"
+              div=document.createElement("div")
+              div.id="dettaglio_"+i
+              li.appendChild(div)
+              li.append(button)
               ul.appendChild(li)
 
             }
@@ -230,6 +238,7 @@
                 success: function (data) {
 
                     ricettePerTitolo = data.ricette //variabile globale
+                    console.log(ricettePerTitolo)
 
                     feasability()
 
@@ -271,6 +280,26 @@
 
             //Richiesta ajax per ottenere le ricette in base al titolo
             cercaRicettePerTitolo(titolo)
+        }
+
+        //verifico quali ingredienti mi mancano: diff tra ricettePerTitolo.ingredienti e ingredienti
+        function missing_ingredients(elem) {
+
+          ingredienti_necessari=ricette_trovate[elem.id][1]
+
+          let difference = ingredienti_necessari.filter(x => !ingredienti.includes(x));
+
+          console.log("missing:")
+          console.log(difference)
+
+          if (difference=='') {
+            document.getElementById("dettaglio_"+elem.id).innerHTML="Niente! tutto pronto ;)"
+          } else {
+            document.getElementById("dettaglio_"+elem.id).innerHTML="Ti mancano: "+difference
+          }
+
+          document.getElementById(elem.id).style="visibility:hidden"
+
         }
 
     </script>
