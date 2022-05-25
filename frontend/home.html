@@ -10,6 +10,90 @@
         <link rel="icon" href="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png">
 
         <style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+
+        .open-button {
+          background-color: #555;
+          color: white;
+          padding: 16px 20px;
+          border: none;
+          cursor: pointer;
+          opacity: 0.8;
+          position: fixed;
+          bottom: 23px;
+          right: 28px;
+          width: 280px;
+        }
+
+
+        .form-popup {
+          display: none;
+          position: fixed;
+          bottom: 0;
+          right: 15px;
+          border: 3px solid #f1f1f1;
+          z-index: 9;
+        }
+
+
+        .form-container {
+          max-width: 300px;
+          padding: 10px;
+          background-color: white;
+        }
+
+
+        .form-container input[type=text], .form-container input[type=password] {
+          width: 100%;
+          padding: 15px;
+          margin: 5px 0 22px 0;
+          border: none;
+          background: #f1f1f1;
+        }
+
+
+        .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+
+
+
+        .form-container .btn {
+          background-color: #04AA6D;
+          color: white;
+          padding: 16px 20px;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          margin-bottom:10px;
+          opacity: 0.8;
+        }
+
+        .btn1 {
+          background-color: #c9d2d4;
+          color: black;
+          padding: 16px 20px;
+          border: none;
+          cursor: pointer;
+          width: 130px;
+          height: 20px;
+          opacity: 0.8;
+          box-sizing : content-box;
+        }
+
+        .form-container .cancel {
+          background-color: red;
+        }
+
+
+        .form-container .btn:hover, .open-button:hover {
+          opacity: 1;
+        }
+
+
         .barra_nav {
             background-color: #63bb66;
             display: flex;
@@ -20,6 +104,8 @@
             overflow: hidden;
             width:100%
         }
+
+
 
             /* Change the link color to #111 (black) on hover */
             li a:hover {
@@ -68,7 +154,7 @@
               <h3>
                   Fatti consigliare!
               </h3>
-              <button onclick="consiglia_ricette()", id="consiglia_ricette">Consigliami</button>
+              <button class="btn1" onclick="consiglia_ricette()", id="consiglia_ricette">Consigliami</button>
               <br><br>
               <h4>
                   Ricette consigliate:
@@ -85,7 +171,7 @@
                   Inserisci il nome della ricetta
               </h3>
               <input type="text", id="titolo_ricetta">
-              <button onclick="search_recipe()", id="submit_titolo">Cerca ricetta</button>
+              <button class="btn1" onclick="search_recipe()", id="submit_titolo">Cerca ricetta</button>
               <br><br>
               <h4>
                   Risultati:
@@ -94,7 +180,34 @@
 
               <hr>
 
-              <button onclick="window.location.href='/aggiungi_ricette'">Aggiungi ricetta</button>
+              <button class="btn1" onclick="openForm()">Aggiungi ricetta</button>
+
+              <!-- form invio ricette -->
+              <div class="form-popup" id="myForm">
+                <form class="form-container">
+                  <h1>Aggiungi Ricetta</h1>
+
+                  <label><b>Titolo</b></label>
+                  <input type="text" placeholder="Pizza..." id="titolo" required>
+
+                  <label><b>Ingredienti</b></label>
+                  <input type="text" placeholder="pomodoro..." id="ingrediente" required>
+                  <button class="btn" onclick="add_ingredient()">Inserisci ingrediente</button>
+
+                  <label><b>Numero persone</b></label>
+                  <input type="text" placeholder="3..." id="num_per" required>
+
+                  <label><b>Energia (kcal)</b></label>
+                  <input type="text" placeholder="400 kcal..." id="energia" required>
+
+                  <label><b>Descrizione</b></label>
+                  <input type="text" placeholder="La pizza buona..." id="descrizione" required>
+
+                  <button type="submit" class="btn" onclick="inserisci_ricetta()">Aggiungi</button>
+                  <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+              </div>
+
             </div>
           </div>
 
@@ -304,6 +417,70 @@
           document.getElementById(elem.id).style="visibility:hidden"
 
         }
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+          }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+          } name=""
+
+          //Invio la ricetta per essere inserita nel DB
+          function inserisci_ricetta() {
+              const titolo = document.getElementById("titolo")
+              const ingr = document.getElementById("ingrediente")
+              const num_per = document.getElementById("num_per")
+              const energia = document.getElementById("energia")
+              const descrizione = document.getElementById("descrizione")
+
+              if(titolo.value != "" && !isNaN(num_per.value)  && !isNaN(energia.value) && descrizione.value != "" && ingredienti.length != 0) {
+
+                  console.log(titolo.value)
+                  console.log(num_per.value)
+                  console.log(energia.value)
+                  console.log(descrizione.value)
+                  console.log(ingredienti)
+
+                  $.post('http://localhost:3000/api/v1/ricette', {
+                      titolo: titolo.value,
+                      ingredienti: ingredienti,
+                      num_per: num_per.value,
+                      energia: energia.value,
+                      descrizione: descrizione.value
+                    },
+                    function(data, status, xhr){
+                        if(xhr.status == 201) {
+                          window.location.replace(xhr.getResponseHeader("location"));
+                        }
+                    }).fail(
+                        function(jqXHR, textStatus, errorThrown) {
+                          window.alert(jqXHR.status + "\n" + errorThrown);
+                        }
+                      );
+
+              } else {
+                  window.alert("Alcuni campi della ricetta non sono stati specificati oppure hanno un formato sbagliato")
+              }
+
+              titolo.value = ""
+              ingrediente.value = ""
+              num_per.value = ""
+              energia.value = ""
+              descrizione.value = ""
+          }
+
+          //Prendo l'ingrediente inserito lo aggiungo alla lista
+          function add_ingredient() {
+              const text_field = document.getElementById("ingrediente")
+              const ingr = text_field.value
+              text_field.value = ""
+
+              //Se un ingrediente è già presente nella lista non lo aggiungo
+              if (!ingredienti.includes(ingr) && ingr != '') {
+                  ingredienti.push(ingr)
+              }
+          }
 
     </script>
 </html>
