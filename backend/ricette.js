@@ -56,9 +56,8 @@ router.get('/:id', async function(req, res) {
 router.post('', async function(req, res) {
 
   param = req.body
-  console.log(param.ingredienti)
 
-  const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
+  //const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
 
   const r = new Ricetta({
       titolo: param.titolo,
@@ -70,13 +69,14 @@ router.post('', async function(req, res) {
 
    r.save( async function (err, room) {
      if(err) {
+
        res.status(500).json({error: 'Errore salvataggio ricetta'})
        return
+
      } else {
 
        console.log('saved ricetta id: ' + room.id);
-
-       res.location("/api/v1/ricette/" + room.id).status(201).send();
+       res.location("/api/v1/ricette/" + room.id).status(201).send()
      }
    })
 })

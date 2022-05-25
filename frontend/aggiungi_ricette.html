@@ -117,8 +117,8 @@
 <script>
 
     ingredienti = []
-    rootUrl = window.location
 
+    //Invio la ricetta per essere inserita nel DB
     function inserisci_ricetta() {
         const titolo = document.getElementById("titolo")
         const ingr = document.getElementById("ingrediente")
@@ -126,7 +126,7 @@
         const energia = document.getElementById("energia")
         const descrizione = document.getElementById("descrizione")
 
-        if(titolo != "" && num_per != "" && energia != "" && descrizione != "" && ingredienti.length != 0) {
+        if(titolo.value != "" && !isNaN(num_per.value)  && !isNaN(energia.value) && descrizione.value != "" && ingredienti.length != 0) {
 
             console.log(titolo.value)
             console.log(num_per.value)
@@ -136,17 +136,19 @@
 
             $.post('http://localhost:3000/api/v1/ricette', {
                 titolo: titolo.value,
-                ingredienti: ingredienti.value,
+                ingredienti: ingredienti,
                 num_per: num_per.value,
                 energia: energia.value,
                 descrizione: descrizione.value
               },
               function(data){
-                  console.log(data);
-            });
+                  
+            }).fail(function (jqXHR, textStatus) {
+                    alert('Something went wrong: ' + textStatus);
+                });
 
         } else {
-            window.alert("Alcuni campi della ricetta non sono stati specificati")
+            window.alert("Alcuni campi della ricetta non sono stati specificati oppure hanno un formato sbagliato")
         }
 
         titolo.value = ""
@@ -157,16 +159,16 @@
     }
 
     //Prendo l'ingrediente inserito lo aggiungo alla lista
-        function add_ingredient() {
-            const text_field = document.getElementById("ingrediente")
-            const ingr = text_field.value
-            text_field.value = ""
+    function add_ingredient() {
+        const text_field = document.getElementById("ingrediente")
+        const ingr = text_field.value
+        text_field.value = ""
 
-            //Se un ingrediente è già presente nella lista non lo aggiungo
-            if (!ingredienti.includes(ingr) && ingr != '') {
-                ingredienti.push(ingr)
-            }
+        //Se un ingrediente è già presente nella lista non lo aggiungo
+        if (!ingredienti.includes(ingr) && ingr != '') {
+            ingredienti.push(ingr)
         }
+    }
 
 </script>
 </html>
