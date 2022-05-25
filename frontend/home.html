@@ -207,14 +207,18 @@
 
            //recupero da localStorage gli ingredienti e popolo l'array locale "ingredienti"
            //acquisti.html -> home.html
-           temp = localStorage.getItem('ingredienti').split(",")
-           ingredienti=temp
+           if (localStorage.getItem('ingredienti')) {
+             temp = localStorage.getItem('ingredienti').split(",")
+             ingredienti=temp
 
-            cercaRicette()
-            feasability()
+              cercaRicette()
+              feasability()
 
-            //Rende permanente i dati
-            localStorage.setItem('ingredienti', ingredienti);
+              //Rende permanente i dati
+              localStorage.setItem('ingredienti', ingredienti);
+           } else {
+             document.getElementById("lista_ricette").innerHTML = "Niente ingredienti? niente ricette.."
+           }
         }
 
         function cercaRicettePerTitolo(titolo) {
@@ -237,22 +241,27 @@
 
           //Ripulisco l'array prima di utilizzarlo
           ricette_trovate = []
-          ingredienti=localStorage.getItem('ingredienti').split(",")
+          if (localStorage.getItem('ingredienti')) {
+            ingredienti=localStorage.getItem('ingredienti').split(",")
 
-          let ricette = ricettePerTitolo
+            let ricette = ricettePerTitolo
 
-          //Scorro tra le ricette trovate e verifico se possono essere cucinate
-          for(var i = 0; i < ricette.length; i++) {
-              let r = ricette[i].ingredienti
-              let t = ricette[i].titolo
-              let id = ricette[i]._id
+            //Scorro tra le ricette trovate e verifico se possono essere cucinate
+            for(var i = 0; i < ricette.length; i++) {
+                let r = ricette[i].ingredienti
+                let t = ricette[i].titolo
+                let id = ricette[i]._id
 
-              const result = r.every(val => ingredienti.includes(val));
+                const result = r.every(val => ingredienti.includes(val));
 
-              ricette_trovate.push([t, r, result, id])
+                ricette_trovate.push([t, r, result, id])
+            }
+
+            stampa_ricette_trovate()
+          } else {
+            document.getElementById("ricette_cercate").innerHTML="Niente ingredienti? niente ricette..."
           }
 
-          stampa_ricette_trovate()
         }
 
         function search_recipe() {
