@@ -11,6 +11,8 @@ const options =
     pass: "admin"
   };
 
+//TO EXECUTE:
+// node -r dotenv/config backend/home.js
 
 var port = 3000;
 var app = express();
