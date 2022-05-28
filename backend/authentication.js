@@ -10,31 +10,64 @@ router.post('', async function(req, res) {
   let user = await User.findOne({ email: req.body.email }).exec()
 
   if (!user)
-    res.json({success:false,message:'User not found'})
+    res.json({success:false,message:'Utente non trovato'})
   if (user.password!=req.body.password)
-    res.json({success:false,message:'Wrong password'})
+    res.json({success:false,message:'Password errata'})
 
   // user authenticated -> create a token
   var payload = { email: user.email, id: user._id }
   var options = { expiresIn: 86400 } // expires in 24 hours
   var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
   res.json({ success: true, message: 'Enjoy your token!',
-       token: token, email: user.email, id: user._id, self: "api/v1/" + user._id
+       token: token, email: user.email, id: user._id, self: "/api/v1/users/" + user._id
   });
 });
 
-router.get('/newUser', async function(req, res) {
+router.post('/register', async function(req, res) {
+
+  let user = await User.findOne({ email: req.body.email }).exec()
+
+  if (user) {
+    res.json({success:false,message:'Email già utilizzata'})
+    return
+  }
+
+  if (!req.body.email || typeof req.body.email != 'string' || !checkIfEmailInString(req.body.email)) {
+        res.status(400).json({success:false, message:'Email non conforme'});
+        return;
+    }
+
   const u = new User({
-    nome: 'Marco',
-    email: 'marco.ronchetti@unitn.it',
-    password: 'webengine'
+    nome: req.body.nome,
+    email: req.body.email,
+    password: req.body.password
   })
 
-  u.save().then(() => {
-    console.log('user registered: ' + u.nome)
-    mongoose.connection.close()
-    res.json({ result: "success" })
-  });
+  u.save(async function (err, room) {
+    if(err) {
+
+      res.status(500).json({error: 'Errore resgistrazione utente'})
+      return
+
+    } else {
+
+      console.log('user registered: ' + room.nome + "with id " + room._id)
+
+      var payload = { email: room.email, id: room._id }
+      var options = { expiresIn: 86400 } // expires in 24 hours
+      var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+      res.json({ success: true, message: 'Enjoy your token!',
+           token: token, email: room.email, id: room._id, self: "/api/v1/users/" + room._id
+      });
+    }
+  })
+
 })
+
+function checkIfEmailInString(text) {
+    // eslint-disable-next-line
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(text);
+}
 
 module.exports = router;
