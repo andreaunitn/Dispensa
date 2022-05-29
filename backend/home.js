@@ -38,7 +38,7 @@ const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
 
 const ingredienti = require('./ingredienti.js')
-app.use('/api/v1/ingredienti', ingredienti)
+app.use('/api/v1/ingredients', ingredienti)
 
 //API Documentation testing
 /*
