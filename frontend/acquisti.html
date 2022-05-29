@@ -108,7 +108,7 @@
 
     </head>
 
-    <body  style="background-color: #cca1eb; font-family:Helvetica">
+    <body  style="background-color: #cca1eb; font-family:Helvetica" onload="ottieniIngredienti()">
 
       <div>
         <ul class="barra_nav">
@@ -214,6 +214,25 @@
 
         //autocomplete
 
+        function ottieniIngredienti() {
+            $.ajax({
+                type: 'GET',
+                url: rootUrl + 'api/v1/ingredients',
+                data: '',
+                datatype: 'json',
+                success: function (data) {
+
+                    var json = JSON.parse(data)
+
+                    ingredienti_lista = json.ingredienti //variabile globale
+                    console.log(ingredienti_lista)
+
+                    feasability()
+
+                }
+            })
+        }
+
         function autocomplete(inp, arr) {
                 /*the autocomplete function takes two arguments,
                 the text field element and an array of possible autocompleted values:*/
@@ -311,8 +330,7 @@
                 });
               }
 
-        ingredienti_lista=["farina","latte","uova","zucchero","sale","olio","lievito","pomodoro","mozzarella","acqua","panna","conservanti","limone","mele","pere","banane","fragole","prosciutto cotto","prosciutto crudo","bastoncini","piselli","ceci","tonno","pane"]
-
+        //ingredienti_lista=["farina","latte","uova","zucchero","sale","olio","lievito","pomodoro","mozzarella","acqua","panna","conservanti","limone","mele","pere","banane","fragole","prosciutto cotto","prosciutto crudo","bastoncini","piselli","ceci","tonno","pane","petto di pollo","pan grattato","olio per friggere","pasta per lasagne","ragu","besciamella","grana","burro"]
 
         autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
 
