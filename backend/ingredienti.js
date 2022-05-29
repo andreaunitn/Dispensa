@@ -10,7 +10,7 @@ router.get('', async function(req, res) {
     return;
   }
 
-  var ingredienti = await Ingredienti.find({}).select('-__v')
+  var ingredienti = await Ingredienti.findOne({}).select('-__v').select('-_id')
 
   var results =
   {
