@@ -36,7 +36,17 @@ const RicettaSchema = new mongoose.Schema({
     }
   });
 
+  const IngredientiSchema = new mongoose.Schema({
+      ingredienti: [{
+        type: String,
+        required: [true, 'ingredienti are required']
+      }]
+  })
+
+
 const Ricetta = mongoose.model('Ricetta', RicettaSchema);
+const Ingredienti = mongoose.model('Ingredienti', IngredientiSchema)
+
 
 //module.exports = {Ingrediente, Ricetta}
-module.exports = {Ricetta}
+module.exports = {Ricetta, Ingredienti}

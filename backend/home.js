@@ -37,6 +37,9 @@ app.get('/aggiungi_ricette', function(req, res){
 const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
 
+const ingredienti = require('./ingredienti.js')
+app.use('/api/v1/ingredienti', ingredienti)
+
 //API Documentation testing
 /*
 const swaggerJsDoc = require('swagger-jsdoc')
