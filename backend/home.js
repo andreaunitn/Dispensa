@@ -48,6 +48,11 @@ app.get('/aggiungi_ricette', function(req, res){
 })
 
 
+app.use('/api/v1/users', tokenChecker);
+
+const users = require('./users.js')
+app.use('/api/v1/users', users)
+
 const ricette = require('./ricette.js')
 app.use('/api/v1/ricette', ricette)
 

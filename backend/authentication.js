@@ -5,7 +5,7 @@ const router = express.Router()
 const jwt = require('jsonwebtoken')
 //require('dotenv').config()
 
-router.post('', async function(req, res) {
+router.post('/login', async function(req, res) {
 
   let user = await User.findOne({ email: req.body.email }).exec()
 
@@ -22,7 +22,6 @@ router.post('', async function(req, res) {
     var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
     res.json({ success: true, message: 'Loggatto correttamente',
         token: token, email: user.email, id: user._id, self: "/api/v1/users/" + user._id})
-
     return
   }
 });
@@ -61,12 +60,13 @@ router.post('/register', async function(req, res) {
       var options = { expiresIn: 86400 } // expires in 24 hours
       var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
       res.json({ success: true, message: 'Enjoy your token!',
-           token: token, email: room.email, id: room._id, self: "/api/v1/users/" + room._id
+           token: token, email: room.email, id: room._id, self: "/api/v1/users/me"
       });
     }
   })
 
 })
+
 
 function checkIfEmailInString(text) {
     // eslint-disable-next-line
