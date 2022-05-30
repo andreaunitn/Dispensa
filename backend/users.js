@@ -19,7 +19,7 @@ router.get('/me', async function(req, res) {
     return
   }
 
-  res.json(user)
+  res.status(200).json(user)
 
 })
 
@@ -37,7 +37,7 @@ router.get('/:id', async function(req, res) {
     return
   }
 
-  res.json(user)
+  res.status(200).json(user)
 
 })
 
