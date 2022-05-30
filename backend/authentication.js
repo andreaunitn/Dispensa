@@ -10,17 +10,17 @@ router.post('/login', async function(req, res) {
   let user = await User.findOne({ email: req.body.email }).exec()
 
   if(!user) {
-    res.json({success:false,message:'Utente non trovato'})
+    res.status(404).json({success:false,message:'Utente non trovato'})
     return
   } else if (user.password != req.body.password) {
-    res.json({success:false,message:'Password errata'})
+    res.status(403).json({success:false,message:'Password errata'})
     return
   } else {
     // user authenticated -> create a token
     var payload = { email: user.email, id: user._id }
     var options = { expiresIn: 86400 } // expires in 24 hours
     var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-    res.json({ success: true, message: 'Loggatto correttamente',
+    res.status(200).json({ success: true, message: 'Loggatto correttamente',
         token: token, email: user.email, id: user._id, self: "/api/v1/users/" + user._id})
     return
   }
@@ -31,7 +31,7 @@ router.post('/register', async function(req, res) {
   let user = await User.findOne({ email: req.body.email }).exec()
 
   if (user) {
-    res.json({success:false,message:'Email già utilizzata'})
+    res.status(403).json({success:false,message:'Email già utilizzata'})
     return
   }
 
@@ -59,7 +59,7 @@ router.post('/register', async function(req, res) {
       var payload = { email: room.email, id: room._id }
       var options = { expiresIn: 86400 } // expires in 24 hours
       var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-      res.json({ success: true, message: 'Enjoy your token!',
+      res.status(200).json({ success: true, message: 'Enjoy your token!',
            token: token, email: room.email, id: room._id, self: "/api/v1/users/me"
       });
     }
