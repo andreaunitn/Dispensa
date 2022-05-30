@@ -551,12 +551,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
                   datatype: 'json',
                   success: function (data) {
 
-                      var json = JSON.parse(data)
 
-                      ingredienti_lista = json.ingredienti //variabile globale
+
+                      ingredienti_lista = data.ingredienti.ingredienti //variabile globale
                       console.log(ingredienti_lista)
 
-                    
+                      autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
+
+
 
                   }
               })
@@ -662,8 +664,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
           //ingredienti_lista=["farina","latte","uova","zucchero","sale","olio","lievito","pomodoro","mozzarella","acqua","panna","conservanti","limone","mele","pere","banane","fragole","prosciutto cotto","prosciutto crudo","bastoncini","piselli","ceci","tonno","pane","petto di pollo","pan grattato","olio per friggere","pasta per lasagne","ragu","besciamella","grana","burro"]
 
           ricette_lista=["pane","pasta","focaccia","pizza","pane e tonno","pane e prosciutto","lasagne","gnocchi di pane","gnocchi di patate","macedonia","piselli al pomodoro","cotolette","salamine alla griglia"]
-
-          autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
 
           autocomplete(document.getElementById("titolo_ricetta"), ricette_lista);
 
