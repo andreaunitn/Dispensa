@@ -62,7 +62,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 
         .form-container .btn {
-          background-color: #04AA6D;
+          background-color: #63bb66;
           color: white;
           padding: 16px 20px;
           border: none;
@@ -73,9 +73,25 @@ body {font-family: Arial, Helvetica, sans-serif;}
         }
 
         .btn1 {
-          background-color: #c9d2d4;
+          background-color: #63bb66;
+          margin: 5px;
           color: black;
-          padding: 16px 20px;
+          padding: 16px 8px;
+          border-radius: 8px;
+          border: none;
+          cursor: pointer;
+          width: 130px;
+          height: 20px;
+          opacity: 0.8;
+          box-sizing : content-box;
+        }
+
+        .btn2 {
+          background-color: #c9d2d4;
+          margin: 5px;
+          color: black;
+          padding: 5px;
+          border-radius: 8px;
           border: none;
           cursor: pointer;
           width: 130px;
@@ -109,21 +125,45 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
             /* Change the link color to #111 (black) on hover */
             li a:hover {
+                font-family:Helvetica;
                 background-color: #111;
                 color: #63bb66;
+                text-decoration: none
             }
             .active {
-                color: #666;
+                font-family:Helvetica;
+                color: black;
                 background-color: #63bb66;
                 text-align: center;
                 text-decoration: underline;
                 padding: 14px 16px;
                 display: block;
+                text-decoration: none
             }
             .leftside, .rightside {
               height:100vh;
               width:100%
             }
+
+            .elem_stampati{
+              color: black;
+              text-decoration: none;
+              font-size: 20px;
+            }
+
+            /* .elem_stampati {
+              background-color: #63bb66;
+              margin: 5px;
+              color: black;
+              padding: 5px;
+              border-radius: 8px;
+              border: none;
+              cursor: pointer;
+              width: 130px;
+              height: 20px;
+              opacity: 0.8;
+              box-sizing : content-box;
+            } */
 
             .autocomplete {
               position: relative;
@@ -225,7 +265,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                   Inserisci il nome della ricetta
               </h3>
               <div class="autocomplete" style="width:300px;">
-              <input type="text" style="height:50px; width:300px" id="titolo_ricetta">
+              <input type="text" style="height:50px; width:300px" placeholder="gnocchi alla romana..." id="titolo_ricetta">
               </div>
               <button class="btn1" onclick="search_recipe()", id="submit_titolo">Cerca ricetta</button>
               <br><br>
@@ -321,6 +361,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 appendix = "❌"
               }
 
+              a.classList.add('elem_stampati')
               a.innerHTML = ricetta[0] + " " + appendix
               a.href = window.location + "api/v1/ricette/" + ricetta[3]
 
@@ -328,6 +369,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
               var button = document.createElement("button")
               button.setAttribute("onclick","missing_ingredients(this)");
               button.id=i
+              button.classList.add('btn2')
               button.innerHTML="Cosa manca?"
               div=document.createElement("div")
               div.id="dettaglio_"+i
@@ -367,9 +409,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
                     var li = document.createElement('li')
                     var a = document.createElement('a')
+                    //button.classList.add('elem_stampati')
+                    a.classList.add('elem_stampati')
                     a.innerHTML = ricetta.titolo
-                    a.href = rootUrl + "api/v1/ricette/" + ricetta._id
-
+                    //button.onclick = function() { window.location.replace(rootUrl + "api/v1/ricette/" + ricetta._id);};
+                    a.href= rootUrl + "api/v1/ricette/" + ricetta._id
                     li.appendChild(a)
                     ul.appendChild(li)
 
@@ -551,14 +595,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
                   datatype: 'json',
                   success: function (data) {
 
-
-
                       ingredienti_lista = data.ingredienti.ingredienti //variabile globale
                       console.log(ingredienti_lista)
 
                       autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
-
-
 
                   }
               })

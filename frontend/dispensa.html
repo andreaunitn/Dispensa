@@ -18,25 +18,43 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                width:100%
+                width:100%;
             }
 
             /* Change the link color to #111 (black) on hover */
             li a:hover {
+                font-family:Helvetica;
                 background-color: #111;
                 color: #63bb66;
+                text-decoration: none
             }
             .active {
-                color: #666;
+                font-family:Helvetica;
+                color: black;
                 background-color: #63bb66;
                 text-align: center;
                 text-decoration: underline;
                 padding: 14px 16px;
                 display: block;
+                text-decoration: none
             }
             .leftside, .rightside {
               height:100vh;
               width:100%
+            }
+
+            .btn2 {
+              background-color: #c9d2d4;
+              margin: 5px;
+              color: black;
+              padding: 5px;
+              border-radius: 8px;
+              border: none;
+              cursor: pointer;
+              width: 130px;
+              height: 20px;
+              opacity: 0.8;
+              box-sizing : content-box;
             }
 
             .autocomplete {
@@ -126,14 +144,37 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script>
 
+      ingredienti_da_stampare=[]
+      rootUrl = window.location
+
+      function loadIngredienti() {
+
+        $.ajax({
+            type: 'GET',
+            url: rootUrl + 'api/v1/users/me',
+            data: 'x-access-token =' + localStorage.getItem('??token??'),
+            datatype: 'json',
+            success: function (data) {
+
+              var ingredienti_da_stampare = data.ingredienti;
+              console.log(ingredienti_da_stampare);
+
+            }
+        });
+
+      }
+
       function start() {
 
-        var span = document.getElementById('lista_ingredienti')
+        loadIngredienti()
 
-        if ( localStorage.getItem('ingredienti') ) {
+        var span = document.getElementById('lista_ingredienti')
+        //ingredienti_da_stampare=localStorage.getItem('ingredienti')
+
+        if ( ingredienti_da_stampare !== []  ) {
 
           console.log(localStorage.getItem('ingredienti'))
-          result=localStorage.getItem('ingredienti').split(",")
+          result=ingredienti_da_stampare.split(",")//localStorage.getItem('ingredienti').split(",")
 
           for (var i = 0; i < result.length; i++) {
             var button = document.createElement('button')
@@ -141,6 +182,7 @@
             const ingr = result[i]
 
             button.textContent = ingr
+            button.classList.add('btn2')
             button.id = ingr
             button.onclick = function () {
               console.log('laters gators')

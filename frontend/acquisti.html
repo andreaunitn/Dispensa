@@ -23,16 +23,20 @@
 
             /* Change the link color to #111 (black) on hover */
             li a:hover {
+                font-family:Helvetica;
                 background-color: #111;
                 color: #63bb66;
+                text-decoration: none
             }
             .active {
-                color: #666;
+                font-family:Helvetica;
+                color: black;
                 background-color: #63bb66;
                 text-align: center;
                 text-decoration: underline;
                 padding: 14px 16px;
                 display: block;
+                text-decoration: none
             }
             .leftside, .rightside {
               height:100vh;
@@ -40,9 +44,25 @@
             }
 
             .btn1 {
-              background-color: #c9d2d4;
+              background-color: #63bb66;
+              margin: 5px;
               color: black;
-              padding: 16px 20px;
+              padding: 16px 8px;
+              border-radius: 8px;
+              border: none;
+              cursor: pointer;
+              width: 130px;
+              height: 20px;
+              opacity: 0.8;
+              box-sizing : content-box;
+            }
+
+            .btn2 {
+              background-color: #c9d2d4;
+              margin: 5px;
+              color: black;
+              padding: 5px;
+              border-radius: 8px;
               border: none;
               cursor: pointer;
               width: 130px;
@@ -128,10 +148,10 @@
                   Cosa hai comprato?
               </h3>
               <div class="autocomplete" style="width:300px;">
-                <input type="text" style="height:50px; width:300px" id="ingrediente">
+                <input type="text" placeholder="farina..." style="height:50px; width:300px" id="ingrediente">
 
               </div>
-              <button class="btn1" onclick="add_ingredient()" placeholder="farina..." id="submit_ingredienti">Aggiungi</button>
+              <button class="btn1" onclick="add_ingredient()" id="submit_ingredienti">Aggiungi</button>
               <br><br>
               <h4>
                   La tua spesa:
@@ -177,6 +197,7 @@
                 var span = document.getElementById('lista_ingredienti')
                 var button = document.createElement('button')
                 button.textContent = ingr
+                button.classList.add('btn2')
                 button.id = ingr
                 button.onclick = function () {
 
