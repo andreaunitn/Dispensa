@@ -23,7 +23,7 @@
 </head>
 <body class="container" style="background-image: url('https://thumbs.dreamstime.com/b/balanced-diet-food-background-balanced-diet-food-background-organic-food-healthy-nutrition-superfoods-meat-fish-legumes-nuts-121936796.jpg')">
 
-           <form action="api/v1/authentication" class="login" method="post" name="loginform" id="loginform">
+           <form action="/api/v1/authentication/login" class="login" method="post" name="loginform" id="loginform">
               <h1 style="text-align:center">La Dispensa</h1>
               <hr>
                <h5 style="text-align: center;">Accedi</h5>
@@ -48,7 +48,7 @@ function login()
     var password = document.getElementById("loginPassword").value;
     // console.log(email);
 
-    fetch('../api/v1/authentication', {
+    fetch('localhost:3000/api/v1/authentication/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( { email: email, password: password } ),
@@ -81,9 +81,6 @@ function login()
           document.location.replace("/login.html")
         //loadUsers();
         return;*/
-
-        localStorage.setItem("user", token)
-        localStorage.getItem("")
     })
     .catch( error => console.error(error) ); // If there is any error you will catch them here
 
