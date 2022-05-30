@@ -59,7 +59,8 @@ app.use('/api/v1/ricette', ricette)
 const authentication = require('./authentication.js')
 app.use('/api/v1/authentication', authentication)
 
-//app.use(tokenChecker)
+const ingredienti = require('./ingredienti.js')
+app.use('/api/v1/ingredients', ingredienti)
 
 /* Default 404 handler*/
 app.use((req, res) => {
