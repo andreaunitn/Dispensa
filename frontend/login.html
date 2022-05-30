@@ -9,21 +9,21 @@
     <style>
         .login {
             background-color: #63bb66;
-            border: 1px solid #DDD;
             overflow: hidden;
             padding: 8px;
-            width: 400px;
+            width: 40%;
             height: auto;
             position: absolute;
             top: 50%;
             left: 50%;
-            margin: -100px 0 0 -175px;
+            margin: -150px 0 0 -350px;
+            border-radius: 8px;
         }
     </style>
 </head>
-<body class="container" style="background-image: url('https://thumbs.dreamstime.com/b/balanced-diet-food-background-balanced-diet-food-background-organic-food-healthy-nutrition-superfoods-meat-fish-legumes-nuts-121936796.jpg')">
+<body class="container" style="background-size: cover; background-repeat: no-repeat;background-image: url('https://thumbs.dreamstime.com/b/balanced-diet-food-background-balanced-diet-food-background-organic-food-healthy-nutrition-superfoods-meat-fish-legumes-nuts-121936796.jpg')">
 
-           <form action="/api/v1/authentication/login" class="login" method="post" name="loginform" id="loginform">
+           <div class="login" name="loginform" id="loginform">
               <h1 style="text-align:center">La Dispensa</h1>
               <hr>
                <h5 style="text-align: center;">Accedi</h5>
@@ -35,95 +35,51 @@
                <b><label>Password:</label></b><input type="password" name="password" id="loginPassword" style="width: 250px" placeholder="webengine" required>
                </br></br>
                <button style="float: right" type="submit" onclick="login()">Login</button>
-            </form>
+            </div>
 </body>
 <script>
 
-var loggedUser = {};
+        var loggedUser = {};
+        rootUrl = window.location
 
-function login()
-{
-    //get the form object
-    var email = document.getElementById("loginEmail").value;
-    var password = document.getElementById("loginPassword").value;
-    // console.log(email);
+        function login() {
 
-    fetch('localhost:3000/api/v1/authentication/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { email: email, password: password } ),
-    })
-    //.then((resp) => resp.json()) // Transform the data into json
-    .then(function(data) { // Here you get the data to modify as you please
+          console.log('mail='+document.getElementById('loginEmail').value)
+          console.log('psw='+document.getElementById('loginPassword').value)
 
-        success = data.success
-        //message = data.message
-        token = data.token
-        email = data.mail
-        //id = data.id
-        //self = data.self
-
-        if(success) {
-
-        } else {
-        }
-
-        /*
-        loggedUser.token = data.token;
-        loggedUser.email = data.email;
-        loggedUser.id = data.id;
-        loggedUser.self = data.self;
-        // loggedUser.id = loggedUser.self.substring(loggedUser.self.lastIndexOf('/') + 1);
-        document.getElementById("loggedUser").textContent = loggedUser.email;
-        if (data.succes)
-          document.location.replace("/")
-        else
-          document.location.replace("/login.html")
-        //loadUsers();
-        return;*/
-    })
-    .catch( error => console.error(error) ); // If there is any error you will catch them here
-
-};
-
-function loadUsers() {
-
-
-    fetch('../api/v1/loadUsers?studentId=' + loggedUser.id + '&token=' + loggedUser.token)
-    .then((resp) => resp.json()) // Transform the data into json
-    .then(function(data) { // Here you get the data to modify as you please
-
-        //console.log(data);
-
-        return data.map( (entry) => { // Map through the results and for each run the code below
-
-            // let bookId = book.self.substring(book.self.lastIndexOf('/') + 1);
-
-            let li = document.createElement('li');
-            let span = document.createElement('span');
-            // span.innerHTML = `<a href="${entry.self}">${entry.book}</a>`;
-            let a = document.createElement('a');
-            a.href = entry.self
-            a.textContent = 'qualcosa' //entry.book;
-
-            // Append all our elements
-            span.appendChild(a);
-            li.appendChild(span);
-            ul.appendChild(li);
-        })
-    })
-    .catch( error => console.error(error) );// If there is any error you will catch them here
-
-}
-
-function loginSucceded(token) {
-    $.ajax({
+          $.ajax({
               type: 'POST',
-              url: 'localhost:3000/api/v1/users/me',
-              headers: { 'x-access-token': token },
-              datatype: 'html',
-    });
-}
+              url: 'http://localhost:3000/api/v1/authentication/login',
+              data: 'email='+document.getElementById('loginEmail').value+'&password='+document.getElementById('loginPassword').value,
+              datatype: 'json',
+              success: function (data) {
+                console.log(data)
+
+                if (data.success) {
+                  console.log(data.token)
+                  localStorage.setItem('token',data.token)
+                  window.location.replace('/')
+
+                } else {
+                  window.alert("PASSWORD ERRATA >:(")
+                  document.getElementById('loginPassword').innerHTML=''
+                }
+
+              }
+          });
+
+
+          };
+
+
+        function loginSucceded(token) {
+            $.ajax({
+                      type: 'POST',
+                      url: 'localhost:3000/api/v1/users/me',
+                      headers: { 'x-access-token': token },
+                      datatype: 'html',
+            });
+        }
 
 </script>
 </html>
