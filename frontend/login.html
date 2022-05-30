@@ -5,7 +5,7 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
           crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
         .login {
             background-color: #63bb66;
@@ -53,9 +53,22 @@ function login()
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( { email: email, password: password } ),
     })
-    .then((resp) => resp.json()) // Transform the data into json
+    //.then((resp) => resp.json()) // Transform the data into json
     .then(function(data) { // Here you get the data to modify as you please
-        //console.log(data);
+
+        success = data.success
+        //message = data.message
+        token = data.token
+        email = data.mail
+        //id = data.id
+        //self = data.self
+
+        if(success) {
+
+        } else {
+        }
+
+        /*
         loggedUser.token = data.token;
         loggedUser.email = data.email;
         loggedUser.id = data.id;
@@ -67,7 +80,10 @@ function login()
         else
           document.location.replace("/login.html")
         //loadUsers();
-        return;
+        return;*/
+
+        localStorage.setItem("user", token)
+        localStorage.getItem("")
     })
     .catch( error => console.error(error) ); // If there is any error you will catch them here
 
@@ -80,7 +96,7 @@ function loadUsers() {
     .then((resp) => resp.json()) // Transform the data into json
     .then(function(data) { // Here you get the data to modify as you please
 
-        console.log(data);
+        //console.log(data);
 
         return data.map( (entry) => { // Map through the results and for each run the code below
 
@@ -91,7 +107,7 @@ function loadUsers() {
             // span.innerHTML = `<a href="${entry.self}">${entry.book}</a>`;
             let a = document.createElement('a');
             a.href = entry.self
-            a.textContent = 'qualcpsa' //entry.book;
+            a.textContent = 'qualcosa' //entry.book;
 
             // Append all our elements
             span.appendChild(a);
@@ -101,6 +117,15 @@ function loadUsers() {
     })
     .catch( error => console.error(error) );// If there is any error you will catch them here
 
+}
+
+function loginSucceded(token) {
+    $.ajax({
+              type: 'POST',
+              url: 'localhost:3000/api/v1/users/me',
+              headers: { 'x-access-token': token },
+              datatype: 'html',
+    });
 }
 
 </script>
