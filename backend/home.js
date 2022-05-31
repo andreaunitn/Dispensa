@@ -71,7 +71,7 @@ app.use((req, res) => {
     res.json({ error: 'Not found' });
 });
 
-app.listen(proces.env.PORT || 5000, function() {
+app.listen(5000, function() {
   console.log('Server running on port:', port);
 })
 
