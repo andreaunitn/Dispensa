@@ -2,6 +2,7 @@
   "scripts": {
     "start": "node backend/home.js"
   },
+  
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
