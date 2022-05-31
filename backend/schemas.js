@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: [true, 'nome is required']
     },
+    cognome:{
+      type: String,
+      required: [true, 'cognome is required']
+    },
     email: {
       type: String,
       required: [true, 'email is required']
