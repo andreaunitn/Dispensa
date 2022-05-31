@@ -130,13 +130,8 @@
 
     <body  style="background-color: #cca1eb; font-family:Helvetica" onload="ottieniIngredienti()">
 
-      <div>
-        <ul class="barra_nav">
-            <li><a class="active" href="/">RICETTE</a></li>
-            <li><a class="active" href="/acquisti">ACQUISTI</a></li>
-            <li><a class="active" href="/dispensa">DISPENSA</a></li>
-        </ul>
-      </div>
+      <div w3-include-html="header.html"></div>
+
       <div class="container">
 
         <h1 style="color: #333; margin-bottom: 0px;">
@@ -168,6 +163,27 @@
         ingredienti_lista=[]
 
         rootUrl = window.location
+
+        $(document).ready(function(){
+          //const token = localStorage.getItem("user")
+          //Token di prova
+
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:3000/api/v1/users/me',
+              data: {token: localStorage.getItem('token')},
+              datatype: 'json',
+              success: function (data) {
+                console.log('ciao')
+
+                document.getElementById('login').innerHTML='Ciao, '+data.nome
+                document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
+              },
+              error: function (data) {
+                document.getElementById('login').innerHTML='Accedi'
+              }
+          });
+        });
 
         $("#ingrediente").keyup(function(event) {
             if (event.keyCode === 13) {
@@ -233,6 +249,38 @@
             }
 
         }
+
+
+      function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /* Loop through a collection of all HTML elements: */
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          /*search for elements with a certain atrribute:*/
+          file = elmnt.getAttribute("w3-include-html");
+          console.log(file)
+          if (file) {
+            /* Make an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4) {
+                if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                /* Remove the attribute, and call this function once more: */
+                elmnt.removeAttribute("w3-include-html");
+                includeHTML();
+              }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
+          }
+        }
+      }
+
+      includeHTML();
 
         //autocomplete
 
@@ -351,6 +399,7 @@
               }
 
         //ingredienti_lista=["farina","latte","uova","zucchero","sale","olio","lievito","pomodoro","mozzarella","acqua","panna","conservanti","limone","mele","pere","banane","fragole","prosciutto cotto","prosciutto crudo","bastoncini","piselli","ceci","tonno","pane","petto di pollo","pan grattato","olio per friggere","pasta per lasagne","ragu","besciamella","grana","burro"]
+
 
     </script>
 </html>
