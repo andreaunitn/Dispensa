@@ -1,5 +1,11 @@
 {
+  "scripts": {
+    "start": "node backend/home.js"
+  },
+
   "dependencies": {
-    "heroku": "^7.30.1"
+    "express": "^4.18.1",
+    "heroku": "^7.30.1",
+    "mongoose": "^6.3.5"
   }
 }

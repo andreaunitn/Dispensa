@@ -9,8 +9,12 @@ const options =
     pass: "admin"
   };
 
+//Set port for Heroku
+let port = process.env.port
+if(port == null || port == "") {
+  port = 3000
+}
 
-var port = 3000;
 var app = express();
 const path = require('path')
 
