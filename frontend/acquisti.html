@@ -144,6 +144,27 @@
 
         rootUrl = window.location
 
+        $(document).ready(function(){
+          //const token = localStorage.getItem("user")
+          //Token di prova
+
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:3000/api/v1/users/me',
+              data: {token: localStorage.getItem('token')},
+              datatype: 'json',
+              success: function (data) {
+                console.log('ciao')
+
+                document.getElementById('login').innerHTML='Ciao, '+data.nome
+                document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
+              },
+              error: function (data) {
+                document.getElementById('login').innerHTML='Accedi'
+              }
+          });
+        });
+
         $("#ingrediente").keyup(function(event) {
             if (event.keyCode === 13) {
                 $("#submit_ingredienti").click();
