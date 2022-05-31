@@ -12,7 +12,7 @@ const options =
   };
 
 //Set port for Heroku
-let port = process.env.PORT || 3000
+//let port = process.env.PORT || 3000
 
 var app = express();
 const router = express.Router()
@@ -71,7 +71,7 @@ app.use((req, res) => {
     res.json({ error: 'Not found' });
 });
 
-app.listen(port, function() {
+app.listen(proces.env.PORT || 5000, function() {
   console.log('Server running on port:', port);
 })
 
