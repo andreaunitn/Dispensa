@@ -4,7 +4,6 @@ const {User} = require('./schemas.js')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 
-
 router.get('/me', async function(req, res) {
 
   if(!req.loggedUser) {
@@ -25,8 +24,13 @@ router.get('/me', async function(req, res) {
 
 router.get('/:id', async function(req, res) {
 
-  if(!req.loggedUser || req.loggedUser.id != req.params.id) {
-    res.status(401).json({success:false,message:'No token provided.'})
+  if(!req.loggedUser) {
+    res.status(401).json({success:false,message:'No token provided'})
+    return;
+  }
+
+  if(req.loggedUser.id != req.params.id) {
+    res.status(401).json({success:false,message:'Token and id not corresponding'})
     return;
   }
 
