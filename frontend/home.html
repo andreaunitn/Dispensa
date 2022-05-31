@@ -286,13 +286,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
           $.ajax({
               type: 'GET',
-              url: 'http://localhost:3000/api/v1/users/me',
+              url: rootUrl + '/api/v1/users/me',
               data: {token: localStorage.getItem('token')},
               datatype: 'json',
               success: function (data) {
-                console.log('ciao')
+                //console.log('ciao')
 
-                document.getElementById('login').innerHTML='Ciao, '+data.nome
+                document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
                 document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
               },
               error: function (data) {
@@ -548,7 +548,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                   console.log(descrizione.value)
                   console.log(ingredienti)
 
-                  $.post('http://localhost:3000/api/v1/ricette', {
+                  $.post(rootUrl + '/api/v1/ricette', {
                       titolo: titolo.value,
                       ingredienti: ingredienti,
                       num_per: num_per.value,

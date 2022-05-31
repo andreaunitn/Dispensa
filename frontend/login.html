@@ -48,11 +48,11 @@
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:3000/api/v1/authentication/login',
+              url: rootUrl + '/api/v1/authentication/login',
               data: 'email='+document.getElementById('loginEmail').value+'&password='+document.getElementById('loginPassword').value,
               datatype: 'json',
               success: function (data) {
-                console.log(data)
+                //console.log(data)
 
                 if (data.success) {
                   console.log(data.token)
@@ -66,19 +66,6 @@
 
               }
           });
-
-
           };
-
-
-        function loginSucceded(token) {
-            $.ajax({
-                      type: 'POST',
-                      url: 'localhost:3000/api/v1/users/me',
-                      headers: { 'x-access-token': token },
-                      datatype: 'html',
-            });
-        }
-
 </script>
 </html>
