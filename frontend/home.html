@@ -184,13 +184,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
     <body  style="background-color: #ccffeb; font-family:Helvetica" onload="ottieniIngredienti()">
 
-      <div>
-        <ul class="barra_nav">
-            <li><a class="active" href="">RICETTE</a></li>
-            <li><a class="active" href="/acquisti">ACQUISTI</a></li>
-            <li><a class="active" href="/dispensa">DISPENSA</a></li>
-        </ul>
-      </div>
+      <div w3-include-html="header.html"></div>
 
       <div class="container">
 
@@ -284,6 +278,28 @@ body {font-family: Arial, Helvetica, sans-serif;}
         ricettePerTitolo = '' //json delle ricette ottenute per titolo
         rootUrl = window.location
         ingredienti_lista=[]
+
+        //Check if user is authenticated
+        $(document).ready(function(){
+          //const token = localStorage.getItem("user")
+          //Token di prova
+
+          $.ajax({
+              type: 'GET',
+              url: 'http://localhost:3000/api/v1/users/me',
+              data: {token: localStorage.getItem('token')},
+              datatype: 'json',
+              success: function (data) {
+                console.log('ciao')
+
+                document.getElementById('login').innerHTML='Ciao, '+data.nome
+                document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
+              },
+              error: function (data) {
+                document.getElementById('login').innerHTML='Accedi'
+              }
+          });
+        });
 
         //Permette al pulsante di eseguire l'azione quando viene premuto il tasto invio
         $("#ingrediente").keyup(function(event) {
@@ -413,7 +429,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                 success: function (data) {
 
                     ricettePerTitolo = data.ricette //variabile globale
-                    console.log(ricettePerTitolo)
+                    //console.log(ricettePerTitolo)
 
                     feasability()
 
@@ -464,8 +480,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
           let difference = ingredienti_necessari.filter(x => !ingredienti.includes(x));
 
-          console.log("missing:")
-          console.log(difference)
+          //console.log("missing:")
+          //console.log(difference)
 
           if (difference=='') {
             document.getElementById("dettaglio_"+elem.id).innerHTML="Niente! tutto pronto ;)"
@@ -477,13 +493,44 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
         }
 
+        function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            /* Loop through a collection of all HTML elements: */
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+              elmnt = z[i];
+              /*search for elements with a certain atrribute:*/
+              file = elmnt.getAttribute("w3-include-html");
+              //console.log(file)
+              if (file) {
+                /* Make an HTTP request using the attribute value as the file name: */
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4) {
+                    if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                    if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                    /* Remove the attribute, and call this function once more: */
+                    elmnt.removeAttribute("w3-include-html");
+                    includeHTML();
+                  }
+                }
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /* Exit the function: */
+                return;
+              }
+            }
+          }
+
+        includeHTML();
+
         function openForm() {
             document.getElementById("myForm").style.display = "block";
           }
 
         function closeForm() {
             document.getElementById("myForm").style.display = "none";
-          } name=""
+          } name = ""
 
           //Invio la ricetta per essere inserita nel DB
           function inserisci_ricetta() {
@@ -542,7 +589,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
           }
 
           //autocomplete
-
           function ottieniIngredienti() {
               $.ajax({
                   type: 'GET',
@@ -551,15 +597,10 @@ body {font-family: Arial, Helvetica, sans-serif;}
                   datatype: 'json',
                   success: function (data) {
 
-
-
                       ingredienti_lista = data.ingredienti.ingredienti //variabile globale
-                      console.log(ingredienti_lista)
+                      //console.log(ingredienti_lista)
 
-                      autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
-
-
-
+                      autocomplete(document.getElementById("ingrediente"), ingredienti_lista)
                   }
               })
           }
@@ -604,6 +645,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                         }
                       }
                   });
+
                   /*execute a function presses a key on the keyboard:*/
                   inp.addEventListener("keydown", function(e) {
                       var x = document.getElementById(this.id + "autocomplete-list");
