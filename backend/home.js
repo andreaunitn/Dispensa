@@ -31,8 +31,12 @@ app.get('/header.html', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/header.html'));
 })
 
-app.get('/login.html', function(req, res){
+app.get('/login', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/login.html'));
+})
+
+app.get('/register', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/register.html'));
 })
 
 app.get('/acquisti', function(req, res){

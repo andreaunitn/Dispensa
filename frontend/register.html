@@ -16,24 +16,27 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            margin: -150px 0 0 -350px;
+            margin: -250px 0 0 -350px;
             border-radius: 8px;
         }
     </style>
 </head>
 <body class="container" style="background-color:#63bb66"> <!-- style="background-size: cover; background-repeat: no-repeat;background-image: url('https://thumbs.dreamstime.com/b/balanced-diet-food-background-balanced-diet-food-background-organic-food-healthy-nutrition-superfoods-meat-fish-legumes-nuts-121936796.jpg')"> -->
 
-           <div class="login" name="loginform" id="loginform">
+           <div class="login" name="registerform" id="registerform">
               <h1 style="text-align:center">La Dispensa</h1>
               <hr>
-               <h5 style="text-align: center;">Accedi</h5>
+               <h5 style="text-align: center">Registrati</h5>
+               <br>
+               <b><label style="padding: 30px">Nome: </label></b><input type="text" name="nome" id="registerNome" style="width: 250px" placeholder="Marco" required >
+               <br>
+               <b><label style="padding: 15px">Cognome: </label></b><input type="text" name="cognome" id="registerCognome" style="width: 250px" placeholder="Ronchetti" required >
+               <br>
+               <b><label style="padding: 30px">Email: </label></b><input type="email" name="email" id="registerEmail" style="width: 250px" placeholder="marco.ronchetti@unitn.it" required >
                </br>
-               <b><label style="padding: 15px">Email: </label></b><input type="email" name="email" id="loginEmail" style="width: 250px" placeholder="marco.ronchetti@unitn.it" required >
-               </br>
-               <b><label>Password:</label></b><input type="password" name="password" id="loginPassword" style="width: 250px" required>
+               <b><label style="padding: 14px">Password:</label></b><input type="password" name="password" id="registerPassword" style="width: 250px" required>
                </br></br>
-               <a href="register">Non hai un account? Registrati</a>
-               <button style="float: right" type="submit" onclick="login()">Login</button>
+               <button style="float: right" type="submit" onclick="register()">Sign-in</button>
             </div>
 </body>
 <script>
@@ -41,15 +44,18 @@
         var loggedUser = {};
         rootUrl = window.location
 
-        function login() {
+        function register() {
 
-          console.log('mail='+document.getElementById('loginEmail').value)
-          console.log('psw='+document.getElementById('loginPassword').value)
+          nome=document.getElementById('registerNome').value
+          cognome=document.getElementById('registerCognome').value
+          email=document.getElementById('registerEmail').value
+          password=document.getElementById('registerPassword').value
+
 
           $.ajax({
               type: 'POST',
-              url: 'http://localhost:3000/api/v1/authentication/login',
-              data: 'email='+document.getElementById('loginEmail').value+'&password='+document.getElementById('loginPassword').value,
+              url: 'http://localhost:3000/api/v1/authentication/register',
+              data: 'nome='+nome+'&cognome='+cognome+'&email='+email+'&password='+password,
               datatype: 'json',
               success: function (data) {
                 console.log(data)
@@ -60,7 +66,7 @@
                   window.location.replace('/')
 
                 } else {
-                  window.alert("PASSWORD ERRATA >:(")
+                  window.alert(data.message)
                   document.getElementById('loginPassword').innerHTML=''
                 }
 
