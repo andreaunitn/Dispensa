@@ -384,7 +384,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
                     var li = document.createElement('li')
                     var a = document.createElement('a')
                     a.innerHTML = ricetta.titolo
-                    a.href = rootUrl + "api/v1/ricette/" + ricetta._id
+                    a.href = rootUrl + "/api/v1/ricette/" + ricetta._id
 
                     li.appendChild(a)
                     ul.appendChild(li)
@@ -423,7 +423,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
         function cercaRicettePerTitolo(titolo) {
             $.ajax({
                 type: 'GET',
-                url: rootUrl + 'api/v1/ricette',
+                url: rootUrl + '/api/v1/ricette',
                 data: 'titolo=' + titolo,
                 datatype: 'json',
                 success: function (data) {
@@ -592,7 +592,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
           function ottieniIngredienti() {
               $.ajax({
                   type: 'GET',
-                  url: rootUrl + 'api/v1/ingredients',
+                  url: rootUrl + '/api/v1/ingredients',
                   data: '',
                   datatype: 'json',
                   success: function (data) {
