@@ -12,7 +12,7 @@ const options =
   };
 
 //Set port for Heroku
-let port = process.env.port || 3000
+let port = process.env.PORT || 3000
 
 var app = express();
 const router = express.Router()
