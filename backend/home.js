@@ -72,7 +72,7 @@ app.use((req, res) => {
 });
 
 app.listen(5000, function() {
-  console.log('Server running on port:', port);
+  console.log('Server running on port:', 5000);
 })
 
 module.exports = router;
