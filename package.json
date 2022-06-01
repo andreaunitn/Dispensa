@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "start": "node backend/home.js"
+    "start": "node backend/home.js",
+    "test": "jest"
   },
   "dependencies": {
+    "app": "^0.1.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "heroku": "^7.30.1",
@@ -12,6 +14,7 @@
   },
   "devDependencies": {
     "jest": "^28.1.0",
-    "node-fetch": "^3.2.4"
+    "node-fetch": "^3.2.4",
+    "supertest": "^6.2.3"
   }
 }
