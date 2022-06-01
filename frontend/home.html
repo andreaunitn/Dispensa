@@ -10,8 +10,8 @@
         <link rel="icon" href="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png">
 
         <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+        body {font-family: Arial, Helvetica, sans-serif;}
+        * {box-sizing: border-box;}
 
 
         .open-button {
@@ -105,6 +105,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
             width:100%
         }
 
+        .alert {
+        padding: 20px;
+        background-color: #f44336;
+        opacity: 0.9;
+        color: white;
+      }
 
 
             /* Change the link color to #111 (black) on hover */
@@ -192,8 +198,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
             Dispensa
         </h1>
         <img src="https://raw.githubusercontent.com/andreaunitn/Dispensa/cercaRicette/Immagini/forchetta.png" style="width: 200px; height: 150px; margin-top: 0px; margin-left: 0px;">
-
-        <br>
+        <div id="alert" class="alert">
+          <strong>No Valid JWT Token Provided!</strong>
+        </div>
         <div class="row">
 
           <div class="col">
@@ -291,12 +298,17 @@ body {font-family: Arial, Helvetica, sans-serif;}
               datatype: 'json',
               success: function (data) {
                 //console.log('ciao')
-
+                document.getElementById('alert').style.visibility="hidden"
                 document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
-                document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
+                document.getElementById('login').setAttribute('onclick','window.location.href="/myProfile"')
               },
               error: function (data) {
                 document.getElementById('login').innerHTML='Accedi'
+
+                document.getElementById('alert').style.visibility="visible"
+
+                setTimeout(() => { document.getElementById('alert').style="visibility: hidden; opacity: 0; transition: visibility 0s 2s, opacity 2s linear;" }, 1000);
+
               }
           });
         });

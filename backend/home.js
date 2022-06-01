@@ -38,6 +38,10 @@ app.get('/register', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/register.html'));
 })
 
+app.get('/myProfile', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/myProfile.html'));
+})
+
 app.get('/acquisti', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/acquisti.html'));
 })
