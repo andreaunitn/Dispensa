@@ -1,7 +1,21 @@
 {
+  "name":"La Dispensa",
+  "description":"Progetto di Ingegneria del Software 2 - UniTn AA 2021/2022",
+  "main":"backend/home.js",
   "scripts": {
     "start": "node backend/home.js",
-    "test": "jest"
+    "dev": "node -r dotenv/config index.js",
+    "test": "jest --setupFiles dotenv/config"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreaunitn/Dispensa.git"
+  },
+  "author": "Aliprandi Paolo, Girardi Letizia, Lamon Michele, Tomasoni Andrea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreaunitn/Dispensa/issues"
   },
   "dependencies": {
     "app": "^0.1.0",

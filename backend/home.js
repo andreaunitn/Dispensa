@@ -1,6 +1,6 @@
 var express = require('express');
 var http = require('http');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const cors = require('cors')
 const {Ricetta} = require('./schemas.js')
 const {tokenChecker} = require('./tokenChecker.js')
@@ -97,8 +97,9 @@ app.use((req, res) => {
 
 });
 
-app.listen(port, function() {
-  console.log('Server running on port:', port);
-})
+// app.listen(port, function() {
+//   console.log('Server running on port:', port);
+// })
 
 module.exports = router;
+module.exports = app;
