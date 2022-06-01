@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 const mongoose = require('mongoose');
+const cors = require('cors')
 const {Ricetta} = require('./schemas.js')
 const {tokenChecker} = require('./tokenChecker.js')
 require('dotenv').config()
@@ -26,10 +27,6 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/home.html'));
 })
 
-app.get('/header.html', function(req, res){
-  res.sendFile(path.join(__dirname, '..', '/frontend/header.html'));
-})
-
 app.get('/login', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/login.html'));
 })
@@ -53,6 +50,29 @@ app.get('/dispensa', function(req, res){
 app.get('/aggiungi_ricette', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/aggiungi_ricette.html'));
 })
+
+//routing to useful resources
+
+app.get('/header.html', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/header.html'));
+})
+
+app.get('/script.js', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/script/script.js'));
+})
+
+app.get('/style.css', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/style/style.css'));
+})
+
+app.get('/auth_script.js', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/script/auth_script.js'));
+})
+
+app.get('/auth_style.css', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/frontend/style/auth_style.css'));
+})
+
 
 
 app.use('/api/v1/users', tokenChecker);

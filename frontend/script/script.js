@@ -438,8 +438,6 @@
           autocomplete(document.getElementById("titolo_ricetta"), ricette_lista);
 
       $(document).ready(function(){
-        //const token = localStorage.getItem("user")
-        //Token di prova
 
         $.ajax({
             type: 'GET',
