@@ -51,7 +51,7 @@ app.get('/aggiungi_ricette', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/aggiungi_ricette.html'));
 })
 
-//routing to useful resources
+//Routing to useful resources
 
 app.get('/header.html', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/header.html'));
@@ -73,7 +73,7 @@ app.get('/auth_style.css', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/style/auth_style.css'));
 })
 
-
+//RESTful API
 
 app.use('/api/v1/users', tokenChecker);
 
@@ -91,8 +91,10 @@ app.use('/api/v1/ingredients', ingredienti)
 
 /* Default 404 handler*/
 app.use((req, res) => {
+  console.log("Error 404")
     res.status(404);
     res.json({ error: 'Not found' });
+
 });
 
 app.listen(port, function() {
