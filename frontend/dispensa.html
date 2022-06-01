@@ -164,8 +164,40 @@
             datatype: 'json',
             success: function (data) {
 
-              var ingredienti_da_stampare = data.ingredienti;
-              console.log(ingredienti_da_stampare);
+              var res = data.ingredienti;
+
+              //array processing
+              res=res[0]+""
+
+              res = res.substring(1);
+
+              res=res.slice(0, -1);
+
+
+              var span = document.getElementById('lista_ingredienti')
+              //ingredienti_da_stampare=localStorage.getItem('ingredienti')
+
+              if ( res !== []  ) {
+
+                ingredienti_da_stampare=res.split(",")
+
+                for (var i = 0; i < ingredienti_da_stampare.length; i++) {
+                  var button = document.createElement('button')
+
+                  const ingr = ingredienti_da_stampare[i]
+
+                  button.textContent = ingr
+                  button.classList.add('btn2')
+                  button.id = ingr
+                  button.onclick = function () {
+                    console.log('laters gators')
+
+                  }
+                  span.appendChild(button)
+                }
+              } else {
+                document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
+              }
 
             }
         });
@@ -182,7 +214,6 @@
             data: {token: localStorage.getItem('token')},
             datatype: 'json',
             success: function (data) {
-              console.log('ciao')
 
               document.getElementById('login').innerHTML='Ciao, '+data.nome
               document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
@@ -198,31 +229,9 @@
 
         loadIngredienti()
 
-        var span = document.getElementById('lista_ingredienti')
-        //ingredienti_da_stampare=localStorage.getItem('ingredienti')
 
-        if ( ingredienti_da_stampare !== []  ) {
 
-          console.log(localStorage.getItem('ingredienti'))
-          result=ingredienti_da_stampare.split(",")//localStorage.getItem('ingredienti').split(",")
 
-          for (var i = 0; i < result.length; i++) {
-            var button = document.createElement('button')
-
-            const ingr = result[i]
-
-            button.textContent = ingr
-            button.classList.add('btn2')
-            button.id = ingr
-            button.onclick = function () {
-              console.log('laters gators')
-
-            }
-            span.appendChild(button)
-          }
-        } else {
-          document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
-        }
       }
 
       function includeHTML() {
