@@ -7,6 +7,21 @@
           crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style>
+
+          .btn3 {
+            background-color: #05CAFF;
+            margin: 5px;
+            color: black;
+            padding: 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            width: 80px;
+            height: 20px;
+            opacity: 0.8;
+            box-sizing : content-box;
+          }
+
         .login {
             background-color: white;
             overflow: hidden;
@@ -36,7 +51,9 @@
                </br>
                <b><label style="padding: 14px">Password:</label></b><input type="password" name="password" id="registerPassword" style="width: 250px" required>
                </br></br>
-               <button style="float: right" type="submit" onclick="register()">Sign-in</button>
+
+               <button class="btn3" style="float: right" type="submit" onclick="register()">Sign-in</button>
+               <a href="login">Hai già un account? Accedi</a>
             </div>
 </body>
 <script>
