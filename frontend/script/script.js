@@ -2,10 +2,16 @@
 
       rootUrl = document.location.origin
 
+      ingredienti = []
+      ingredienti_lista=[]
+      ricettePerTitolo=[]
+
       //Check if user is authenticated
         $(document).ready(function(){
           //const token = localStorage.getItem("user")
           //Token di prova
+
+          console.log("UAUAUAU")
 
           $.ajax({
               type: 'GET',
@@ -14,16 +20,11 @@
               datatype: 'json',
               success: function (data) {
                 //console.log('ciao')
-                document.getElementById('alert').style.visibility="hidden"
                 document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
                 document.getElementById('login').setAttribute('onclick','window.location.href="/myProfile"')
               },
               error: function (data) {
                 document.getElementById('login').innerHTML='Accedi'
-
-                document.getElementById('alert').style.visibility="visible"
-
-                setTimeout(() => { document.getElementById('alert').style="visibility: hidden; opacity: 0; transition: visibility 0s 2s, opacity 2s linear;" }, 1000);
 
               }
           });
@@ -260,25 +261,28 @@
             document.getElementById("myForm").style.display = "none";
           } name = ""
 
+          ingredienti_per_ricetta=[]
+
           //Invio la ricetta per essere inserita nel DB
           function inserisci_ricetta() {
+
               const titolo = document.getElementById("titolo")
               const ingr = document.getElementById("ingrediente")
               const num_per = document.getElementById("num_per")
               const energia = document.getElementById("energia")
               const descrizione = document.getElementById("descrizione")
 
-              if(titolo.value != "" && !isNaN(num_per.value)  && !isNaN(energia.value) && descrizione.value != "" && ingredienti.length != 0) {
+              if(titolo.value != "" && !isNaN(num_per.value)  && !isNaN(energia.value) && descrizione.value != "" && ingredienti_per_ricetta.length != 0) {
 
                   console.log(titolo.value)
                   console.log(num_per.value)
                   console.log(energia.value)
                   console.log(descrizione.value)
-                  console.log(ingredienti)
+                  console.log(ingredienti_per_ricetta)
 
                   $.post(rootUrl + '/api/v1/ricette', {
                       titolo: titolo.value,
-                      ingredienti: ingredienti,
+                      ingredienti: ingredienti_per_ricetta,
                       num_per: num_per.value,
                       energia: energia.value,
                       descrizione: descrizione.value
@@ -305,14 +309,14 @@
           }
 
           //Prendo l'ingrediente inserito lo aggiungo alla lista
-          function add_ingredient() {
+          function add_ingrediente() {
               const text_field = document.getElementById("ingrediente")
               const ingr = text_field.value
               text_field.value = ""
 
               //Se un ingrediente è già presente nella lista non lo aggiungo
               if (!ingredienti.includes(ingr) && ingr != '') {
-                  ingredienti.push(ingr)
+                  ingredienti_per_ricetta.push(ingr)
               }
           }
 
@@ -437,24 +441,6 @@
 
           autocomplete(document.getElementById("titolo_ricetta"), ricette_lista);
 
-      $(document).ready(function(){
-
-        $.ajax({
-            type: 'GET',
-            url: rootUrl + '/api/v1/users/me',
-            data: {token: localStorage.getItem('token')},
-            datatype: 'json',
-            success: function (data) {
-              //console.log('ciao')
-
-              document.getElementById('login').innerHTML='Ciao, '+data.nome
-              document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
-            },
-            error: function (data) {
-              document.getElementById('login').innerHTML='Accedi'
-            }
-        });
-      });
 
       function start() {
 
@@ -484,46 +470,7 @@
       }
 
 
-                ingredienti = []
-                ingredienti_lista=[]
 
-                rootUrl = document.location.origin
-
-                $(document).ready(function(){
-                  //const token = localStorage.getItem("user")
-                  //Token di prova
-
-                  $.ajax({
-                      type: 'GET',
-                      url: rootUrl + '/api/v1/users/me',
-                      data: {token: localStorage.getItem('token')},
-                      datatype: 'json',
-                      success: function (data) {
-                        //console.log('ciao')
-
-                        document.getElementById('login').innerHTML='Ciao, '+data.nome
-                        document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
-                        document.getElementById('alert').innerHTML=''
-                        document.getElementById('alert').classList.remove('alert')
-                      },
-                      error: function (data) {
-                        document.getElementById('login').innerHTML='Accedi'
-                        document.getElementById('alert').classList.add('alert')
-                      }
-                  });
-                });
-
-                $("#ingrediente").keyup(function(event) {
-                    if (event.keyCode === 13) {
-                        $("#submit_ingredienti").click();
-                    }
-                });
-
-                $("#titolo_ricetta").keyup(function(event) {
-                    if (event.keyCode === 13) {
-                        $("#submit_titolo").click();
-                    }
-                });
 
 
                 //Prendo l'ingrediente inserito lo aggiungo alla lista
@@ -608,119 +555,3 @@
               }
 
               includeHTML();
-
-                //autocomplete
-
-                function ottieniIngredienti() {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/api/v1/ingredients',
-                        data: '',
-                        datatype: 'json',
-                        success: function (data) {
-
-                            ingredienti_lista = data.ingredienti.ingredienti //variabile globale
-                            console.log(ingredienti_lista)
-
-                            autocomplete(document.getElementById("ingrediente"), ingredienti_lista);
-
-                        }
-                    })
-                }
-
-                function autocomplete(inp, arr) {
-                        /*the autocomplete function takes two arguments,
-                        the text field element and an array of possible autocompleted values:*/
-                        var currentFocus;
-                        /*execute a function when someone writes in the text field:*/
-                        inp.addEventListener("input", function(e) {
-                            var a, b, i, val = this.value;
-                            /*close any already open lists of autocompleted values*/
-                            closeAllLists();
-                            if (!val) { return false;}
-                            currentFocus = -1;
-                            /*create a DIV element that will contain the items (values):*/
-                            a = document.createElement("DIV");
-                            a.setAttribute("id", this.id + "autocomplete-list");
-                            a.setAttribute("class", "autocomplete-items");
-                            /*append the DIV element as a child of the autocomplete container:*/
-                            this.parentNode.appendChild(a);
-                            /*for each item in the array...*/
-                            for (i = 0; i < arr.length; i++) {
-                              /*check if the item starts with the same letters as the text field value:*/
-                              if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                                /*create a DIV element for each matching element:*/
-                                b = document.createElement("DIV");
-                                /*make the matching letters bold:*/
-                                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                                b.innerHTML += arr[i].substr(val.length);
-                                /*insert a input field that will hold the current array item's value:*/
-                                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                                /*execute a function when someone clicks on the item value (DIV element):*/
-                                b.addEventListener("click", function(e) {
-                                    /*insert the value for the autocomplete text field:*/
-                                    inp.value = this.getElementsByTagName("input")[0].value;
-                                    /*close the list of autocompleted values,
-                                    (or any other open lists of autocompleted values:*/
-                                    closeAllLists();
-                                });
-                                a.appendChild(b);
-                              }
-                            }
-                        });
-                        /*execute a function presses a key on the keyboard:*/
-                        inp.addEventListener("keydown", function(e) {
-                            var x = document.getElementById(this.id + "autocomplete-list");
-                            if (x) x = x.getElementsByTagName("div");
-                            if (e.keyCode == 40) {
-                              /*If the arrow DOWN key is pressed,
-                              increase the currentFocus variable:*/
-                              currentFocus++;
-                              /*and and make the current item more visible:*/
-                              addActive(x);
-                            } else if (e.keyCode == 38) { //up
-                              /*If the arrow UP key is pressed,
-                              decrease the currentFocus variable:*/
-                              currentFocus--;
-                              /*and and make the current item more visible:*/
-                              addActive(x);
-                            } else if (e.keyCode == 13) {
-                              /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                              e.preventDefault();
-                              if (currentFocus > -1) {
-                                /*and simulate a click on the "active" item:*/
-                                if (x) x[currentFocus].click();
-                              }
-                            }
-                        });
-                        function addActive(x) {
-                          /*a function to classify an item as "active":*/
-                          if (!x) return false;
-                          /*start by removing the "active" class on all items:*/
-                          removeActive(x);
-                          if (currentFocus >= x.length) currentFocus = 0;
-                          if (currentFocus < 0) currentFocus = (x.length - 1);
-                          /*add class "autocomplete-active":*/
-                          x[currentFocus].classList.add("autocomplete-active");
-                        }
-                        function removeActive(x) {
-                          /*a function to remove the "active" class from all autocomplete items:*/
-                          for (var i = 0; i < x.length; i++) {
-                            x[i].classList.remove("autocomplete-active");
-                          }
-                        }
-                        function closeAllLists(elmnt) {
-                          /*close all autocomplete lists in the document,
-                          except the one passed as an argument:*/
-                          var x = document.getElementsByClassName("autocomplete-items");
-                          for (var i = 0; i < x.length; i++) {
-                            if (elmnt != x[i] && elmnt != inp) {
-                              x[i].parentNode.removeChild(x[i]);
-                            }
-                          }
-                        }
-                        /*execute a function when someone clicks in the document:*/
-                        document.addEventListener("click", function (e) {
-                            closeAllLists(e.target);
-                        });
-                      }
