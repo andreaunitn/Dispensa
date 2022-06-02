@@ -13,6 +13,7 @@
     "yarn": "^1.22.18"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "jest": "^28.1.0",
     "node-fetch": "^3.2.4",
     "supertest": "^6.2.3"
