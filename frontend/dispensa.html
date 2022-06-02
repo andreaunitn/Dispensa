@@ -166,20 +166,12 @@
 
               var res = data.ingredienti;
 
-              //array processing
-              res=res[0]+""
-
-              res = res.substring(1);
-
-              res=res.slice(0, -1);
-
-
               var span = document.getElementById('lista_ingredienti')
               //ingredienti_da_stampare=localStorage.getItem('ingredienti')
 
               if ( res !== []  ) {
 
-                ingredienti_da_stampare=res.split(",")
+                ingredienti_da_stampare = res
 
                 for (var i = 0; i < ingredienti_da_stampare.length; i++) {
                   var button = document.createElement('button')
