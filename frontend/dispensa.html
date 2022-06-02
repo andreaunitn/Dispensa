@@ -169,7 +169,9 @@
               var span = document.getElementById('lista_ingredienti')
               //ingredienti_da_stampare=localStorage.getItem('ingredienti')
 
-              if ( res !== []  ) {
+              if ( res !== [] || res !== null || res[0] !== '' ) {
+
+                console.log(typeof(res))
 
                 ingredienti_da_stampare = res
 
@@ -178,20 +180,60 @@
 
                   const ingr = ingredienti_da_stampare[i]
 
-                  button.textContent = ingr
-                  button.classList.add('btn2')
-                  button.id = ingr
-                  button.onclick = function () {
-                    console.log('laters gators')
+                  if (ingr !== '') {
 
+                    button.textContent = ingr
+                    button.classList.add('btn2')
+                    button.id = ingr
+                    button.onclick = function () {
+
+                    for (j = 0; j < ingredienti_da_stampare.length; j++) {
+                      if (ingredienti_da_stampare[j] == ingr) {
+                        ingredienti_da_stampare.splice(j, 1)
+                        const ingr_list = document.getElementById('lista_ingredienti')
+                        const i = document.getElementById(ingr)
+                        ingr_list.removeChild(i)
+
+                        console.log(ingredienti_da_stampare)
+                        }
+                       }
+
+                        //preserve client-server coherence
+                        localStorage.setItem('ingredienti',ingredienti_da_stampare)
+                        resendUpdatedIngredients(ingredienti_da_stampare)
+
+                      }
+
+                    span.appendChild(button)
+
+                  } else {
+                    document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... conviene far le spese!"
                   }
-                  span.appendChild(button)
+
                 }
               } else {
+                console.log("XXXX")
                 document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
               }
 
             }
+        });
+
+      }
+
+      function resendUpdatedIngredients(arr) {
+
+        $.ajax({
+            type: 'PUT',
+            url: 'http://localhost:3000/api/v1/users/me',
+            headers: {
+              'x-access-token':localStorage.getItem('token')
+            },
+            data: 'ingredienti='+arr,
+            //datatype: 'json',
+            success: function (data) {
+              console.log(data)
+            },
         });
 
       }
@@ -220,9 +262,6 @@
       function start() {
 
         loadIngredienti()
-
-
-
 
       }
 
