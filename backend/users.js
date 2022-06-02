@@ -11,10 +11,11 @@ router.put('/me', async function(req, res) {
     return;
   }
 
-  var ingrString = req.query.ingredienti
-  ingrString = ingrString.replace(/\s/g, '')
-  ingrString = ingrString.substring(1);
-  ingrString = ingrString.slice(0, -1);
+  var ingrString = req.body.ingredienti
+  console.log(ingrString)
+  //ingrString = ingrString.replace(/\s/g, '')
+  //ingrString = ingrString.substring(1);
+  //ingrString = ingrString.slice(0, -1);
   var ingredienti = ingrString.split(',')
 
   User.findByIdAndUpdate(
@@ -47,9 +48,10 @@ router.put('/:id', async function(req, res) {
   }
 
   var ingrString = req.query.ingredienti
-  ingrString = ingrString.replace(/\s/g, '')
-  ingrString = ingrString.substring(1);
-  ingrString = ingrString.slice(0, -1);
+  console.log(ingrString)
+  //ingrString = ingrString.replace(/\s/g, '')
+  //ingrString = ingrString.substring(1);
+  //ingrString = ingrString.slice(0, -1);
   var ingredienti = ingrString.split(',')
 
   User.findByIdAndUpdate(

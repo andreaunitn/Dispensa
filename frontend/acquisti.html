@@ -192,6 +192,8 @@
 
                 document.getElementById('login').innerHTML='Ciao, '+data.nome
                 document.getElementById('login').setAttribute('onclick','window.location.replace("/myProfile")')
+                ingredienti = data.ingredienti
+                localStorage.setItem('ingredienti',ingredienti)
               },
               error: function (data) {
                 document.getElementById('login').innerHTML='Accedi'
@@ -261,6 +263,23 @@
               localStorage.setItem('ingredienti',ingredienti)
               console.log("Non c'erano ingredienti, ma ora si:" + localStorage.getItem('ingredienti'))
             }
+
+            /////////////////////////////////////////////////////////
+
+
+
+            $.ajax({
+                type: 'PUT',
+                url: 'http://localhost:3000/api/v1/users/me',
+                headers: {
+                  'x-access-token':localStorage.getItem('token')
+                },
+                data: 'ingredienti='+localStorage.getItem('ingredienti'),
+                //datatype: 'json',
+                success: function (data) {
+                  console.log(data)
+                },
+            });
 
         }
 
