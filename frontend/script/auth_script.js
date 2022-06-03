@@ -25,8 +25,9 @@
             },
            error: function (jqXHR, textStatus, errorThrown) {
 
+               var json_err = JSON.parse(jqXHR.responseText)
 
-               window.alert(jqXHR.status+" "+jqXHR.responseText+" "+errorThrown)
+               window.alert(json_err.message)
                document.getElementById('loginPassword').value=''
 
 
@@ -57,7 +58,9 @@
               error: function (jqXHR, textStatus, errorThrown) {
 
 
-                window.alert(jqXHR.status+" "+jqXHR.responseText+" "+errorThrown)
+                var json_err = JSON.parse(jqXHR.responseText)
+
+                window.alert(json_err.message)
 
                 document.getElementById('registerNome').value=''
                 document.getElementById('registerCognome').value=''

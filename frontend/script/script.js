@@ -19,13 +19,13 @@
               datatype: 'json',
               success: function (data) {
                 //console.log('ciao')
-                document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
+                document.getElementById('login').innerHTML = '<b style="font-size: 20px">Ciao, ' + data.nome +'</b>'
                 document.getElementById('login').setAttribute('onclick','window.location.href="/myProfile"')
                 ingredienti = data.ingredienti
                 localStorage.setItem('ingredienti',ingredienti)
               },
               error: function (data) {
-                document.getElementById('login').innerHTML='Accedi'
+                document.getElementById('login').innerHTML='<b style="font-size: 20px">Accedi</b>'
 
               }
           });
@@ -226,37 +226,6 @@
 
         }
 
-        function includeHTML() {
-            var z, i, elmnt, file, xhttp;
-            /* Loop through a collection of all HTML elements: */
-            z = document.getElementsByTagName("*");
-            for (i = 0; i < z.length; i++) {
-              elmnt = z[i];
-              /*search for elements with a certain atrribute:*/
-              file = elmnt.getAttribute("w3-include-html");
-              //console.log(file)
-              if (file) {
-                /* Make an HTTP request using the attribute value as the file name: */
-                xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                  if (this.readyState == 4) {
-                    if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                    if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-                    /* Remove the attribute, and call this function once more: */
-                    elmnt.removeAttribute("w3-include-html");
-                    includeHTML();
-                  }
-                }
-                xhttp.open("GET", file, true);
-                xhttp.send();
-                /* Exit the function: */
-                return;
-              }
-            }
-          }
-
-        includeHTML();
-
         function openForm() {
             document.getElementById("myForm").style.display = "block";
           }
@@ -297,7 +266,9 @@
                         }
                     }).fail(
                         function(jqXHR, textStatus, errorThrown) {
-                          window.alert(jqXHR.status + "\n" + errorThrown);
+                          var json_err = JSON.parse(jqXHR.responseText)
+
+                          window.alert(json_err.message)
                         }
                       );
 

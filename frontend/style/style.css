@@ -84,15 +84,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 
-.alert {
-padding: 20px;
-background-color: #f44336;
-color: white;
-visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
-}
-
 .btn2 {
   background-color: #63bb66;
   margin: 5px;
