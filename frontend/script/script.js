@@ -5,13 +5,12 @@
       ingredienti = []
       ingredienti_lista=[]
       ricettePerTitolo=[]
+      ingredienti_da_stampare=[]
 
       //Check if user is authenticated
         $(document).ready(function(){
           //const token = localStorage.getItem("user")
           //Token di prova
-
-          console.log("UAUAUAU")
 
           $.ajax({
               type: 'GET',
@@ -22,6 +21,8 @@
                 //console.log('ciao')
                 document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
                 document.getElementById('login').setAttribute('onclick','window.location.href="/myProfile"')
+                ingredienti = data.ingredienti
+                localStorage.setItem('ingredienti',ingredienti)
               },
               error: function (data) {
                 document.getElementById('login').innerHTML='Accedi'
@@ -442,87 +443,155 @@
           autocomplete(document.getElementById("titolo_ricetta"), ricette_lista);
 
 
-      function start() {
+      function resendUpdatedIngredients(arr) {
 
-        var span = document.getElementById('lista_ingredienti')
+        $.ajax({
+            type: 'PUT',
+            url: 'http://localhost:3000/api/v1/users/me',
+            headers: {
+              'x-access-token':localStorage.getItem('token')
+            },
+            data: 'ingredienti='+arr,
+            //datatype: 'json',
+            success: function (data) {
+              console.log(data)
+            },
+        });
 
-        if ( localStorage.getItem('ingredienti') ) {
+      }
 
-          console.log(localStorage.getItem('ingredienti'))
-          result=localStorage.getItem('ingredienti').split(",")
+      function loadIngredienti() {
 
-          for (var i = 0; i < result.length; i++) {
-            var button = document.createElement('button')
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/api/v1/users/me',
+            data: {token: localStorage.getItem('token')},
+            datatype: 'json',
+            success: function (data) {
 
-            const ingr = result[i]
+              var res = data.ingredienti;
 
-            button.textContent = ingr
-            button.id = ingr
-            button.onclick = function () {
-              console.log('laters gators')
+              var span = document.getElementById('lista_ingredienti')
+              //ingredienti_da_stampare=localStorage.getItem('ingredienti')
+
+              if ( res !== [] || res !== null || res[0] !== '' ) {
+
+                console.log(typeof(res))
+
+                ingredienti_da_stampare = res
+
+                for (var i = 0; i < ingredienti_da_stampare.length; i++) {
+                  var button = document.createElement('button')
+
+                  const ingr = ingredienti_da_stampare[i]
+
+                  if (ingr !== '') {
+
+                    button.textContent = ingr
+                    button.classList.add('btn2')
+                    button.id = ingr
+                    button.onclick = function () {
+
+                    for (j = 0; j < ingredienti_da_stampare.length; j++) {
+                      if (ingredienti_da_stampare[j] == ingr) {
+                        ingredienti_da_stampare.splice(j, 1)
+                        const ingr_list = document.getElementById('lista_ingredienti')
+                        const i = document.getElementById(ingr)
+                        ingr_list.removeChild(i)
+
+                        console.log(ingredienti_da_stampare)
+                        }
+                       }
+
+                        //preserve client-server coherence
+                        localStorage.setItem('ingredienti',ingredienti_da_stampare)
+                        resendUpdatedIngredients(ingredienti_da_stampare)
+
+                      }
+
+                    span.appendChild(button)
+
+                  } else {
+                    document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... conviene far le spese!"
+                  }
+
+                }
+              } else {
+                document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
+              }
 
             }
-            span.appendChild(button)
-          }
-        } else {
-          document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
-        }
+        });
+
       }
 
 
 
 
 
-                //Prendo l'ingrediente inserito lo aggiungo alla lista
-                function add_ingredient() {
-                    ingredienti = []
-                    const text_field = document.getElementById('ingrediente');
-                    const ingr = text_field.value
-                    text_field.value = ""
+          //Prendo l'ingrediente inserito lo aggiungo alla lista
+          function add_ingredient() {
+              ingredienti = []
+              const text_field = document.getElementById('ingrediente');
+              const ingr = text_field.value
+              text_field.value = ""
 
-                    //Se un ingrediente è già presente nella lista non lo aggiungo
-                    if(!ingredienti.includes(ingr) && ingr != '') {
-                        ingredienti.push(ingr)
+              //Se un ingrediente è già presente nella lista non lo aggiungo
+              if(!ingredienti.includes(ingr) && ingr != '') {
+                  ingredienti.push(ingr)
 
-                        //Visualizzo gli ingredienti. Se premo su un ingrediente lo rimuovo dalla lista
-                        var span = document.getElementById('lista_ingredienti')
-                        var button = document.createElement('button')
-                        button.textContent = ingr
-                        button.id = ingr
-                        button.onclick = function () {
+                  //Visualizzo gli ingredienti. Se premo su un ingrediente lo rimuovo dalla lista
+                  var span = document.getElementById('lista_ingredienti')
+                  var button = document.createElement('button')
+                  button.textContent = ingr
+                  button.id = ingr
+                  button.onclick = function () {
 
-                            for (j = 0; j < ingredienti.length; j++) {
-                                if (ingredienti[j] == ingr) {
-                                    ingredienti.splice(j, 1)
-                                    const ingr_list = document.getElementById('lista_ingredienti')
-                                    const i = document.getElementById(ingr)
-                                    ingr_list.removeChild(i)
+                      for (j = 0; j < ingredienti.length; j++) {
+                          if (ingredienti[j] == ingr) {
+                              ingredienti.splice(j, 1)
+                              const ingr_list = document.getElementById('lista_ingredienti')
+                              const i = document.getElementById(ingr)
+                              ingr_list.removeChild(i)
 
-                                    console.log(ingredienti)
-                                }
-                            }
-                        }
-                        span.appendChild(button)
-                    }
-
-                    /////////////////////////////////////////////////////////
-
-                    if (localStorage.getItem('ingredienti')) {
-
-                      array=localStorage.getItem('ingredienti').split(",")
-
-                      for (i=0; i<array.length; i++) {
-                        ingredienti.push(array[i])
+                              console.log(ingredienti)
+                          }
                       }
+                  }
+                  span.appendChild(button)
+              }
 
-                      localStorage.setItem('ingredienti',ingredienti)
+              /////////////////////////////////////////////////////////
 
-                    } else {
-                      localStorage.setItem('ingredienti',ingredienti)
-                      console.log("Non c'erano ingredienti, ma ora si:" + localStorage.getItem('ingredienti'))
-                    }
+              if (localStorage.getItem('ingredienti')) {
 
+                array=localStorage.getItem('ingredienti').split(",")
+
+                for (i=0; i<array.length; i++) {
+                  ingredienti.push(array[i])
                 }
+
+                localStorage.setItem('ingredienti',ingredienti)
+
+              } else {
+                localStorage.setItem('ingredienti',ingredienti)
+                console.log("Non c'erano ingredienti, ma ora si:" + localStorage.getItem('ingredienti'))
+              }
+
+              $.ajax({
+                  type: 'PUT',
+                  url: 'http://localhost:3000/api/v1/users/me',
+                  headers: {
+                    'x-access-token':localStorage.getItem('token')
+                  },
+                  data: 'ingredienti='+localStorage.getItem('ingredienti'),
+                  //datatype: 'json',
+                  success: function (data) {
+                    console.log(data)
+                  },
+              });
+
+          }
 
 
               function includeHTML() {
