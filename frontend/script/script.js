@@ -421,7 +421,7 @@
 
         $.ajax({
             type: 'PUT',
-            url: 'http://localhost:3000/api/v1/users/me',
+            url: rootUrl+'/api/v1/users/me',
             headers: {
               'x-access-token':localStorage.getItem('token')
             },
@@ -438,7 +438,7 @@
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/api/v1/users/me',
+            url: rootUrl+'/api/v1/users/me',
             data: {token: localStorage.getItem('token')},
             datatype: 'json',
             success: function (data) {
@@ -555,7 +555,7 @@
 
               $.ajax({
                   type: 'PUT',
-                  url: 'http://localhost:3000/api/v1/users/me',
+                  url: rootUrl+'/api/v1/users/me',
                   headers: {
                     'x-access-token':localStorage.getItem('token')
                   },
