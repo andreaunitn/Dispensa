@@ -67,6 +67,7 @@
                 appendix = "❌"
               }
 
+              a.classList.add('elem_stampati')
               a.innerHTML = ricetta[0] + " " + appendix
               a.href = rootUrl + "/api/v1/ricette/" + ricetta[3]
 
@@ -74,6 +75,7 @@
               var button = document.createElement("button")
               button.setAttribute("onclick","missing_ingredients(this)");
               button.id=i
+              button.classList.add('btn1')
               button.innerHTML="Cosa manca?"
               div=document.createElement("div")
               div.id="dettaglio_"+i
@@ -113,6 +115,7 @@
 
                     var li = document.createElement('li')
                     var a = document.createElement('a')
+                    a.classList.add('elem_stampati')
                     a.innerHTML = ricetta.titolo
                     a.href = rootUrl + "/api/v1/ricette/" + ricetta._id
 
@@ -216,7 +219,7 @@
           if (difference=='') {
             document.getElementById("dettaglio_"+elem.id).innerHTML="Niente! tutto pronto ;)"
           } else {
-            document.getElementById("dettaglio_"+elem.id).innerHTML="Ti mancano: "+difference
+            document.getElementById("dettaglio_"+elem.id).innerHTML="<b>Ti mancano: </b>"+difference
           }
 
           document.getElementById(elem.id).style="visibility:hidden"
@@ -488,7 +491,7 @@
                   if (ingr !== '') {
 
                     button.textContent = ingr
-                    button.classList.add('btn2')
+                    button.classList.add('btn1')
                     button.id = ingr
                     button.onclick = function () {
 
@@ -544,6 +547,7 @@
                   var span = document.getElementById('lista_ingredienti')
                   var button = document.createElement('button')
                   button.textContent = ingr
+                  button.classList.add('btn1')
                   button.id = ingr
                   button.onclick = function () {
 

@@ -12,11 +12,11 @@
 
     </head>
 
-    <body  style="background-color: #ccffeb; font-family:Helvetica">
+    <body  style="background-color: #ccffeb; font-family:Helvetica" onload="fillPersonalDataFields()">
 
 
       <button type="button" class="btn btn-primary" style="float: right; background-color: red; color:white" onclick="logout()">Logout</button>&nbsp;
-      <button type="button" class="btn btn-primary" style="float: right" onclick="window.location.replace('/')">Torna alla home</button>&nbsp;
+      <button type="button" class="btn btn-primary" style="float: right; background-color: #05CAFF" onclick="window.location.replace('/')">Torna alla home</button>&nbsp;
       <div class="container">
 
 
@@ -31,7 +31,7 @@
         <div class="col-md-3 pt-0">
           <div class="list-group list-group-flush account-settings-links">
             <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
-            <p class="list-group-item list-group-item-action" data-toggle="list" href="">Update information</p>
+            <p class="list-group-item list-group-item-action" data-toggle="list" href="">Your information</p>
           </div>
         </div>
         <div class="col-md-9">
@@ -42,7 +42,7 @@
                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80">
                 <div class="media-body ml-4">
 
-                  <button type="button" class="btn btn-default md-btn-flat" onlick="reset()">Reset</button>
+                  <!-- <button type="button" class="btn btn-default md-btn-flat" onlick="reset()">Reset</button> -->
 
                 </div>
               </div>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="text-right mt-3">
-      <button type="button" class="btn btn-primary" onclick="save()">Save changes</button>&nbsp;
+      <button type="button" class="btn btn-primary" style="background-color: #05CAFF" onclick="save()">Save changes</button>&nbsp;
     </div>
 
   </div>
