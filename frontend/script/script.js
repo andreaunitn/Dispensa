@@ -12,6 +12,8 @@
           //const token = localStorage.getItem("user")
           //Token di prova
 
+          includeHTML();
+
           $.ajax({
               type: 'GET',
               url: rootUrl + '/api/v1/users/me',
@@ -29,6 +31,8 @@
 
               }
           });
+
+
         });
 
         //Permette al pulsante di eseguire l'azione quando viene premuto il tasto invio
@@ -43,6 +47,8 @@
                 $("#submit_titolo").click();
             }
         });
+
+
 
         function stampa_ricette_trovate() {
 
@@ -597,5 +603,3 @@
                   }
                 }
               }
-
-              includeHTML();
