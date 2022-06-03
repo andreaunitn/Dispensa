@@ -500,6 +500,62 @@
                 document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
               }
 
+            },
+            error: function() {
+
+              
+              var res = localStorage.getItem('ingredienti').split(",")
+
+              var span = document.getElementById('lista_ingredienti')
+              //ingredienti_da_stampare=localStorage.getItem('ingredienti')
+
+              if ( res !== [] || res !== null || res[0] !== '' ) {
+
+                console.log(typeof(res))
+
+                ingredienti_da_stampare = res
+
+                for (var i = 0; i < ingredienti_da_stampare.length; i++) {
+                  var button = document.createElement('button')
+
+                  const ingr = ingredienti_da_stampare[i]
+
+                  if (ingr !== '') {
+
+                    button.textContent = ingr
+                    button.classList.add('btn1')
+                    button.id = ingr
+                    button.onclick = function () {
+
+                    for (j = 0; j < ingredienti_da_stampare.length; j++) {
+                      if (ingredienti_da_stampare[j] == ingr) {
+                        ingredienti_da_stampare.splice(j, 1)
+                        const ingr_list = document.getElementById('lista_ingredienti')
+                        const i = document.getElementById(ingr)
+                        ingr_list.removeChild(i)
+
+                        console.log(ingredienti_da_stampare)
+                        }
+                       }
+
+                        //preserve client-server coherence
+                        localStorage.setItem('ingredienti',ingredienti_da_stampare)
+                        resendUpdatedIngredients(ingredienti_da_stampare)
+
+                      }
+
+                    span.appendChild(button)
+
+                  } else {
+                    document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... conviene far le spese!"
+                  }
+
+                }
+              } else {
+                document.getElementById("lista_ingredienti").innerHTML = "Lista vuota... "
+              }
+
+
             }
         });
 
