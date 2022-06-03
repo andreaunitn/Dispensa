@@ -21,13 +21,13 @@
               datatype: 'json',
               success: function (data) {
                 //console.log('ciao')
-                document.getElementById('login').innerHTML = '<b style="font-size: 20px">Ciao, ' + data.nome +'</b>'
+                document.getElementById('login').innerHTML = 'Ciao, ' + data.nome
                 document.getElementById('login').setAttribute('onclick','window.location.href="/myProfile"')
                 ingredienti = data.ingredienti
                 localStorage.setItem('ingredienti',ingredienti)
               },
               error: function (data) {
-                document.getElementById('login').innerHTML='<b style="font-size: 20px">Accedi</b>'
+                document.getElementById('login').innerHTML='Accedi'
 
               }
           });
