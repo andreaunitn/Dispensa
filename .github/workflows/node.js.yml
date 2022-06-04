@@ -46,7 +46,3 @@ jobs:
         heroku_email: "andrea.tomasoni-1@studenti.unitn.it"
         
     environment: production
-    
-    env:
-      SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
-      DB_URL: ${{ secrets.DB_URL }}
