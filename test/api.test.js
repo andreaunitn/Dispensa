@@ -1,6 +1,8 @@
 const request = require('supertest');
 const app = require("../backend/home.js");
 
+describe('Basic API tests', () => {
+
 test('app module should be defined', () => {
   expect(app).toBeDefined();
 });
@@ -20,4 +22,6 @@ test('GET / should return 403', () => {
 test('GET / should return 400', () => {
   jest.setTimeout(8000);
   return request(app).get('/api/v1/ricette').expect();
+});
+
 });
