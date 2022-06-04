@@ -4,9 +4,7 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 const db_url = process.env.DB_URL //process.env.DB_URL;
 
-console.log(db_url)
-
-mongoose.connect(db_url, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(`${process.env.DB_URL}`, {useNewUrlParser: true, useUnifiedTopology: true})
 .then (() => {
 
     console.log("Database connection successful");
