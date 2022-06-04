@@ -2,7 +2,7 @@ const app = require("./backend/home.js");
 const mongoose = require("mongoose");
 
 const port = process.env.PORT || 3000;
-const db_url = process.secrets.DB_URL //process.env.DB_URL;
+const db_url = process.env.DB_URL //process.env.DB_URL;
 
 mongoose.connect(db_url, {useNewUrlParser: true, useUnifiedTopology: true})
 .then (() => {
