@@ -6,7 +6,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: https://ladispensa.herokuapp.com/api/v1
     description: Development server
 paths:
   /ricette:
@@ -117,6 +117,35 @@ paths:
             application/json:
               schema:
                   $ref: '#/components/schemas/Error'
+    put:
+      summary: Modifica dispensa personale
+      security:
+      - token: []
+      description: Utilizzato per modificare la lista di ingredienti presenti in casa
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredienti'
+      responses:
+        '201':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Ricetta non trovata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore del server
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
 
   /users/{id}:
     get:
@@ -144,6 +173,105 @@ paths:
             application/json:
               schema:
                   $ref: '#/components/schemas/Error'
+    put:
+      summary: Modifica dispensa personale
+      security:
+      - token: []
+      description: Utilizzato per modificare la lista di ingredienti presenti in casa
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredienti'
+      responses:
+        '201':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Ricetta non trovata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore del server
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+
+  /ingredients:
+    get:
+      summary: Tutti gli ingredienti
+      description: Utilizzato per ottenere una lista di ingredienti da fornire al sistema di suggerimento
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/TuttiIngredienti'
+
+  /authentication/login:
+    post:
+      summary: Login
+      description: Utilizzato per effettuare ottenere il token di accesso
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/LoginSuccessful'
+        '401':
+          description: Utente non autorizzato
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+
+  /authentication/register:
+    post:
+      summary: Registration
+      description: Utilizzato per registrarsi al sistema e ottenere il token di accesso
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/LoginSuccessful'
+        '401':
+          description: Utente non autorizzato
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '400':
+          description: Campi inseriti non conformi
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore di salvataggio
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
 
 components:
 
@@ -155,12 +283,81 @@ components:
 
 
   securitySchemes:
+
     token:
       type: apiKey
       in: header
       name: x-access-token
 
   schemas:
+
+    Register:
+      type: object
+      required:
+        - email
+        - password
+        - nome
+        - cognome
+      properties:
+        email:
+          type: string
+          description: Email dell'utente
+        password:
+          type: string
+          description: Password associata all'account
+        nome:
+          type: string
+          description: Nome dell'utente
+        cognome:
+          type: string
+          description: Cognome dell'utente
+
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Email dell'utente
+        password:
+          type: string
+          description: Password associata all'account
+
+    LoginSuccessful:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Esito positivo dell'operazione
+        message:
+          type: string
+          description: Stringa di benvenuto
+        token:
+          type: string
+          description: JWT da utilizzare per accedere alle API che richiedono accesso
+        email:
+          type: string
+          description: Email associata all'account
+        id:
+          type: string
+          description: Identificatore dell'utente
+        self:
+          type: string
+          description: Indirizzo da cui ottenere le informazioni dell'utente
+
+    TuttiIngredienti:
+      type: object
+      required:
+        - ingredienti
+      properties:
+        ingredienti:
+          type: object
+          description: Lista di nomi di ingredienti
+          items:
+            $ref: '#/components/schemas/Ingredienti'
+
     Ingredienti:
       type: object
       required:
