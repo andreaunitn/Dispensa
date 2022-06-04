@@ -503,7 +503,7 @@
             },
             error: function() {
 
-              
+
               var res = localStorage.getItem('ingredienti').split(",")
 
               var span = document.getElementById('lista_ingredienti')

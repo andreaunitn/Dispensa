@@ -54,6 +54,7 @@ const ingrediente = new Ingrediente({titolo: 'farina'})
 
 const ingredienti = ["patate", "farina", "uova", "latte", "semola","sale"]
 
+//da cambiare con variabili d'ambiente
 mongoose.connect('mongodb+srv://admin:admin@db.jlapy.mongodb.net/db')
 
 const r = new Ricetta({

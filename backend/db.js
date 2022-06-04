@@ -6,6 +6,7 @@ const options =
     pass: "admin"
   };
 
-mongoose.connect("mongodb+srv://db.jlapy.mongodb.net/db", options);
+//da cambiare con variabili d'ambiente
+//mongoose.connect("mongodb+srv://db.jlapy.mongodb.net/db", options);
 
 module.exports = {mongoose}
