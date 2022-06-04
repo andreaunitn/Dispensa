@@ -10,6 +10,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    
+    environment: production
+    
+    env:
+      SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
+      DB_URL: ${{ secrets.DB_URL }}
+    
     strategy:
       matrix:
         node-version: [16.x]
@@ -37,9 +44,3 @@ jobs:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
         heroku_app_name: "ladispensa"
         heroku_email: "andrea.tomasoni-1@studenti.unitn.it"
-    
-    environment: production
-    
-    env:
-      SUPER_SECRET: ${{ secrets.SUPER_SECRET }}
-      DB_URL: ${{ secrets.DB_URL }}
