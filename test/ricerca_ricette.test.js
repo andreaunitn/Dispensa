@@ -1,0 +1,116 @@
+const request  = require('supertest');
+const app      = require('../backend/home.js');
+const jwt      = require('jsonwebtoken');
+const mongoose = require('mongoose');
+require('dotenv').config({ path: '../.env' });
+
+//init test suite
+describe('GET /api/v1/ricette', () => {
+
+  let connection;
+
+  beforeAll( async () => {
+    jest.setTimeout(8000);
+    jest.unmock('mongoose');
+    connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+    console.log('Database connected!');
+    //return connection; // Need to return the Promise db connection?
+  });
+
+  afterAll( () => {
+    mongoose.connection.close(true);
+    console.log("Database connection closed");
+  });
+
+  test('GET /api/v1/ricette senza parametri', () => {
+    return request(app)
+      .get('/api/v1/ricette')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .then((response) => {
+         //ther first element of the response, "length", and should also be greater than zero
+         expect(response.text.length).toBeGreaterThan(0)
+      });
+  });
+
+  test('GET /api/v1/ricette con parametri non previsti', async () => {
+    return request(app)
+      .get('/api/v1/ricette?qualcosa=caso')
+      .set('Accept', 'application/json')
+      .expect(400)
+      .then((response) => {
+
+        var json = JSON.parse(response.text)
+
+        expect(json.error).toBe("Richiesta malformata")
+      });
+  });
+
+  // test('GET /api/v1/ricette con parametri nel formato sbagliato', () => {
+  //   return request(app)
+  //     .get('/api/v1/ricette?ingredienti=bad_format')
+  //     .set('Accept', 'application/json')
+  //     .expect(400)
+  //     .then((response) => {
+  //
+  //       var json = JSON.parse(response.text)
+  //
+  //       expect(json.error).toBe("Richiesta malformata")
+  //     });
+  // });
+
+  // test('GET /api/v1/ricette con più di un parametro: e.g. titolo e ingredienti', async () => {
+  //   return request(app)
+  //     .get('/api/v1/ricette')
+  //     .set('Accept', 'application/json')
+  //     .send('titolo',pane)
+  //     .send('ingredienti',{ ingredienti: ["farina","acqua","sale","lievito","pomodoro","calore","mozzarella"] })
+  //     .expect(400)
+  //     .then((response) => {
+  //       var json = JSON.parse(response.text)
+  //
+  //       expect(json.error).toBe("Richiesta malformata")
+  //     })
+  // });
+
+  test('GET /api/v1/ricette/id con id sbagliato', async () => {
+    return request(app)
+      .get('/api/v1/ricette/'+'fake_id')
+      .set('Accept', 'application/json')
+      .expect(404)
+      .then((response) => {
+        var json = JSON.parse(response.text)
+
+        expect(json.error).toBe("Ricetta non esiste")
+      })
+  });
+
+  test('GET /api/v1/ricette/id con id corretto ma con altri parametri', async () => {
+    return request(app)
+      .get('/api/v1/ricette/628417a48422dcf8395be4ef')
+      .set('Accept', 'application/json')
+      .expect(400)
+      .then((response) => {
+        var json = JSON.parse(response.text)
+
+        expect(json.error).toBe("Richiesta malformata")
+      })
+  });
+
+  //
+  // test('POST /api/v1/user inesistente', () => {
+  //   return request(app)
+  //     .get('/api/v1/authentication/login')
+  //     .expect('Content-Type', /json/)
+  //     .expect(200)
+  //     .then( (res) => {
+  //       return request(app)
+  //         .post('/api/v1/authentication/login')
+  //         .set('x-access-token', token)
+  //         .set('Accept', 'application/json')
+  //         .send({ user: res.body[0].self}) // sends a JSON post body
+  //         .expect(400, { error: 'user does not exist' });
+  //     });
+  // });
+
+});
