@@ -23,6 +23,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
+app.get('/bobo', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/.env'));
+})
+
 // Handling GET requests
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/home.html'));
