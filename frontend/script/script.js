@@ -13,6 +13,7 @@
           //Token di prova
 
           includeHTML();
+          console.log(Chuaua)
 
           $.ajax({
               type: 'GET',
