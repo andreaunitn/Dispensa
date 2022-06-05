@@ -1,15 +1,15 @@
 {
-  "name":"La Dispensa",
-  "description":"Progetto di Ingegneria del Software 2 - UniTn AA 2021/2022",
-  "main":"index.js",
+  "name": "La Dispensa",
+  "description": "Progetto di Ingegneria del Software 2 - UniTn AA 2021/2022",
+  "main": "index.js",
   "scripts": {
     "start_local": "node backend/home.js",
     "dev": "node -r dotenv/config index.js",
     "test": "jest --setupFiles dotenv/config"
   },
   "jest": {
-    "verbose":true,
-    "collectCoverage":true
+    "verbose": true,
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "app": "^0.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "heroku": "^7.30.1",
