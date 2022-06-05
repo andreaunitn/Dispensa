@@ -23,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
+
 // Handling GET requests
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, '..', '/frontend/home.html'));

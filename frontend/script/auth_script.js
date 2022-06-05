@@ -23,9 +23,11 @@
                 window.location.href='/'
 
             },
-           error: function (data) {
+           error: function (jqXHR, textStatus, errorThrown) {
 
-               window.alert(data.message)
+               var json_err = JSON.parse(jqXHR.responseText)
+
+               window.alert(json_err.message)
                document.getElementById('loginPassword').value=''
 
 
@@ -53,10 +55,13 @@
                   window.location.href='/'
 
               },
-            error: function (data) {
-                 //to handle msg error
+              error: function (jqXHR, textStatus, errorThrown) {
 
-                window.alert(data.message)
+
+                var json_err = JSON.parse(jqXHR.responseText)
+
+                window.alert(json_err.message)
+
                 document.getElementById('registerNome').value=''
                 document.getElementById('registerCognome').value=''
                 document.getElementById('registerEmail').value=''
@@ -67,6 +72,7 @@
           });
           };
 
+
           //pulisce i campi del form
           function reset() {
 
@@ -75,12 +81,36 @@
             document.getElementById('nome').value=""
             document.getElementById('cognome').value=""
             document.getElementById('email').value=""
-            document.getElementById('password').value=""
+            //document.getElementById('password').value=""
 
           }
 
           //commit changes to the DB
-          function save() {
+          function fillPersonalDataFields() {
+
+            $.ajax({
+                type: 'GET',
+                url:  rootUrl + '/api/v1/users/me',
+                headers: {'x-access-token':localStorage.getItem('token')},
+                datatype: 'json',
+                success: function (data) {
+
+                    document.getElementById('nome').value=data.nome
+                    document.getElementById('cognome').value=data.cognome
+                    document.getElementById('email').value=data.email
+
+                },
+              error: function (jqXHR, textStatus, errorThrown) {
+                   //to handle error msgs
+
+                  window.alert(jqXHR.code+" "+jqXHR.responseText+" "+errorThrown)
+                  document.getElementById('nome').value=''
+                  document.getElementById('cognome').value=''
+                  document.getElementById('email').value=''
+
+              }
+
+            });
 
           }
 

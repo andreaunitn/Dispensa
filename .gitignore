@@ -1,6 +1,12 @@
 
 # Created by https://www.gitignore.io/api/node,windows,linux,visualstudiocode
 
+### To run locally ###
+.env
+
+### MacOS SysFile ###
+.DS_Store
+
 ### Linux ###
 *~
 
@@ -52,7 +58,6 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
 jspm_packages/
 
 # TypeScript v1 declaration files

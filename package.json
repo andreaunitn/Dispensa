@@ -22,6 +22,7 @@
     "url": "https://github.com/andreaunitn/Dispensa/issues"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "app": "^0.1.0",
     "cors": "^2.8.5",
     "coverage": "^0.4.1",

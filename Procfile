@@ -1,2 +1,2 @@
-web: node backend/home.js
+web: node -r dotenv/config index.js
 test: jest
