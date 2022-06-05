@@ -20,7 +20,7 @@ router.post('/login', async function(req, res) {
     var payload = { email: user.email, id: user._id }
     var options = { expiresIn: 86400 } // expires in 24 hours
     var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-    res.status(200).json({ success: true, message: 'Loggatto correttamente',
+    res.status(200).json({ success: true, message: 'Loggato correttamente',
         token: token, email: user.email, id: user._id, self: "/api/v1/users/" + user._id})
     return
   }
