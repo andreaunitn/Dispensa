@@ -28,7 +28,7 @@ router.put('/me', async function(req, res) {
       }
       else {
         let user = await User.findById(req.loggedUser.id).select('-__v').select('-password').exec()
-        res.status(201).json(user)
+        res.status(200).json(user)
         console.log(docs)
         return
       }
@@ -47,7 +47,7 @@ router.put('/:id', async function(req, res) {
     return;
   }
 
-  var ingrString = req.query.ingredienti
+  var ingrString = req.body.ingredienti
   console.log(ingrString)
   //ingrString = ingrString.replace(/\s/g, '')
   //ingrString = ingrString.substring(1);
@@ -64,7 +64,7 @@ router.put('/:id', async function(req, res) {
       }
       else {
         let user = await User.findById(req.loggedUser.id).select('-__v').select('-password').exec()
-        res.status(201).json(user)
+        res.status(200).json(user)
         console.log(docs)
         return
       }

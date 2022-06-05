@@ -11,6 +11,10 @@ id = '628fb7b5dd8da401129b2f80'
 id_mal_formato = 'id mal formato'
 id_sbagliato = '629644541ecca6a12aa89395'
 
+ingredienti = "farina,latte,banana,mela,Sebastiani"
+ingredienti_mal_formato = ["farina","latte","banana","mela","Sebastiani"]
+ingredienti_vuoto = ""
+
 describe('test di /api/v1/users', () => {
 
     beforeAll( async () => {
@@ -188,4 +192,107 @@ describe('test di /api/v1/users', () => {
                 console.log(response.text)
              });
     })
+
+    ///////////////////////
+
+    test('PUT /api/v1/users/me con ingredienti nel formato giusto e token giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/me')
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti})
+            .expect(200)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+//ERRORE DA FIXARE
+/*
+    test('PUT /api/v1/users/me con ingredienti nel formato sbagliato e token giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/me')
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti_mal_formato})
+            .expect(400)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+*/
+    test('PUT /api/v1/users/me con ingredienti vuoti e token giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/me')
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti_vuoto})
+            .expect(200)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+
+    ///////////////////////
+
+    test('PUT /api/v1/users/ con id giusto, token giusto e ingredienti nel formato giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/' + id)
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti})
+            .expect(200)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+
+    test('PUT /api/v1/users/ id giusto, token mal formato e ingredienti nel formato giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/' + id)
+            .set('Accept', 'application/json')
+            .set('x-access-token', token_mal_formato)
+            .send({ingredienti: ingredienti})
+            .expect(403)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+//ERRORE DA FIXARE
+/*
+    test('PUT /api/v1/users/ id giusto, token giusto e ingredienti nel formato sbagliato', async () => {
+        return request(app)
+            .put('/api/v1/users/' + id)
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti_mal_formato})
+            .expect(403)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+*/
+    test('PUT /api/v1/users/ senza id, token giusto e ingredienti nel formato giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/')
+            .set('Accept', 'application/json')
+            .set('x-access-token', token)
+            .send({ingredienti: ingredienti})
+            .expect(404)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+
+    test('PUT /api/v1/users/ id giusto, token sbagliato e ingredienti nel formato giusto', async () => {
+        return request(app)
+            .put('/api/v1/users/' + id)
+            .set('Accept', 'application/json')
+            .set('x-access-token', token_sbagliato)
+            .send({ingredienti: ingredienti})
+            .expect(401)
+            .then((response) => {
+                console.log(response.text)
+             });
+    })
+    
 })

@@ -96,6 +96,4 @@ describe('GET /api/v1/ricette', () => {
       })
   });
 
-
-
 });
