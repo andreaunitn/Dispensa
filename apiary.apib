@@ -1,0 +1,456 @@
+openapi: 3.0.0
+info:
+  title: "Dispensa OpenAPI 3.0"
+  version: 1.0.0
+  description: API ufficiali di Dispensa
+  license:
+    name: MIT
+servers:
+  - url: https://ladispensa.herokuapp.com/api/v1
+    description: Development server
+paths:
+  /ricette:
+    get:
+      summary: Titolo e ingredienti
+      parameters:
+        - in: query
+          name: titolo
+          required: false
+          schema:
+            type: string
+          description: Titolo della ricetta
+
+        - in: query
+          name: ingredienti
+          required: false
+          schema:
+            type: object
+          description: >-
+            JSON contenente un array di nome ingredienti con al suo interno
+            stringhe
+
+      description: >-
+        Utilizzato per ottenere le ricette cercando per nome OPPURE per
+        ingredienti necessari. Entrambi i parametri non possono essere
+        specificati assieme
+      responses:
+        '200':
+          description: 'Ritorna un JSON contenente le ricette trovate con i parametri indicati'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricette'
+        '400':
+          description: 'Richiesta malformata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+    post:
+      summary: Ricetta nuova
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RicettaDaInserire'
+      description: Ricetta da inserire
+      responses:
+        '200':
+          description: Ritorna nell'header lo URI della nuova risorsa
+          headers:
+            location:
+              $ref: '#/components/headers/location'
+        '400':
+          description: Richiesta malformata. DA IMPLEMENTARE
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+        '500':
+          description: Errore del server
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+
+  /ricette/{id}:
+    get:
+      summary: Id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: id della ricetta
+      description: Utilizzato per interfacciarsi con le ricette del database
+      responses:
+        '200':
+          description: 'Ritorna un JSON con la ricetta'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Ricetta'
+        '404':
+          description: 'Ricetta non trovata'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+
+  /users/me:
+    get:
+      summary: Token
+      security:
+      - token: []
+      description: Utilizzato per ottenere informazioni sull'utente
+      responses:
+        '200':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Non autenticato'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+    put:
+      summary: Modifica dispensa personale
+      security:
+      - token: []
+      description: Utilizzato per modificare la lista di ingredienti presenti in casa
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredienti'
+      responses:
+        '200':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Non autenticato'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore del server
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+
+  /users/{id}:
+    get:
+      summary: Token e id
+      security:
+      - token: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: id dell'utente
+      description: Utilizzato per ottenere informazioni sull'utente (l'id deve corrispondere a quello nel token))
+      responses:
+        '200':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Non autenticato'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+    put:
+      summary: Modifica dispensa personale
+      security:
+      - token: []
+      description: Utilizzato per modificare la lista di ingredienti presenti in casa
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredienti'
+      responses:
+        '200':
+          description: Ritorna un JSON con le informazioni sull'utente
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 'Non autenticato'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore del server
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Errore'
+
+  /ingredients:
+    get:
+      summary: Tutti gli ingredienti
+      description: Utilizzato per ottenere una lista di ingredienti da fornire al sistema di suggerimento
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/TuttiIngredienti'
+
+  /authentication/login:
+    post:
+      summary: Login
+      description: Utilizzato per effettuare ottenere il token di accesso
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/LoginSuccessful'
+        '401':
+          description: Utente non autorizzato
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+
+  /authentication/register:
+    post:
+      summary: Registration
+      description: Utilizzato per registrarsi al sistema e ottenere il token di accesso
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: Ritorna un JSON contenente un array con nomi di ingredienti
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/LoginSuccessful'
+        '401':
+          description: Utente non autorizzato
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '400':
+          description: Campi inseriti non conformi
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+        '500':
+          description: Errore di salvataggio
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+
+components:
+
+  headers:
+    location:
+      description: URI risorsa
+      schema:
+        type: string
+
+
+  securitySchemes:
+
+    token:
+      type: apiKey
+      in: header
+      name: x-access-token
+
+  schemas:
+
+    Register:
+      type: object
+      required:
+        - email
+        - password
+        - nome
+        - cognome
+      properties:
+        email:
+          type: string
+          description: Email dell'utente
+        password:
+          type: string
+          description: Password associata all'account
+        nome:
+          type: string
+          description: Nome dell'utente
+        cognome:
+          type: string
+          description: Cognome dell'utente
+
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Email dell'utente
+        password:
+          type: string
+          description: Password associata all'account
+
+    LoginSuccessful:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Esito positivo dell'operazione
+        message:
+          type: string
+          description: Stringa di benvenuto
+        token:
+          type: string
+          description: JWT da utilizzare per accedere alle API che richiedono accesso
+        email:
+          type: string
+          description: Email associata all'account
+        id:
+          type: string
+          description: Identificatore dell'utente
+        self:
+          type: string
+          description: Indirizzo da cui ottenere le informazioni dell'utente
+
+    TuttiIngredienti:
+      type: object
+      required:
+        - ingredienti
+      properties:
+        ingredienti:
+          type: object
+          description: Lista di nomi di ingredienti
+          items:
+            $ref: '#/components/schemas/Ingredienti'
+
+    Ingredienti:
+      type: object
+      required:
+        - ingredienti
+      properties:
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti'
+
+    Ricetta:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: 'Id della ricetta'
+        titolo:
+          type: string
+          description: 'Titolo della ricetta'
+        descrizione:
+          type: string
+          description: 'Istruzioni per eseguire la ricetta'
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti richiesti per preparare la ricetta'
+        numero_persone:
+          type: number
+          description: 'Numero di porzioni per cui è pensata la ricetta'
+        energia:
+          type: number
+          description: 'Chilocalorie per porzione'
+
+    RicettaDaInserire:
+      type: object
+      properties:
+        titolo:
+          type: string
+          description: 'Titolo della ricetta'
+        descrizione:
+          type: string
+          description: 'Istruzioni per eseguire la ricetta'
+        ingredienti:
+          type: array
+          description: 'Lista di nomi di ingredienti richiesti per preparare la ricetta'
+        num_per:
+          type: number
+          description: 'Numero di porzioni per cui è pensata la ricetta'
+        energia:
+          type: number
+          description: 'Chilocalorie per porzione'
+
+    Ricette:
+      type: object
+      properties:
+        length:
+          type: number
+          description: 'Numero di oggetti di tipo Ricetta contenuti'
+        ricette:
+          type: array
+          items:
+              $ref: '#/components/schemas/Ricetta'
+
+    Errore:
+      type: object
+      properties:
+        error:
+          type: string
+          description: 'Descrizione errore'
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificatore dell'utente
+        nome:
+          type: string
+          description: Nome dell'utente
+        cognome:
+          type: string
+          description: Cognome dell'utente
+        email:
+          type: string
+          description: Email dell'utente
+        ingredienti:
+          type: array
+          description: Lista di nomi di ingredienti nella dispensa dell'utente
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Stato di successo della richiesta
+        message:
+          type: string
+          description: Descrizione errore
