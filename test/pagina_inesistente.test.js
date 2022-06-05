@@ -4,7 +4,6 @@ const jwt      = require('jsonwebtoken');
 const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 
-//init test suite
 describe('GET /api/v1/notfound', () => {
 
   let connection;
@@ -14,7 +13,7 @@ describe('GET /api/v1/notfound', () => {
     jest.unmock('mongoose');
     connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
     console.log('Database connected!');
-    //return connection; // Need to return the Promise db connection?
+
   });
 
   afterAll( () => {
@@ -33,7 +32,5 @@ describe('GET /api/v1/notfound', () => {
          expect(json.error).toBe("Not found")
       });
   });
-
-
 
 });
