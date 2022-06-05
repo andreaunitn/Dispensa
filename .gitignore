@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/node,windows,linux,visualstudiocode
 
+### To run locally ###
+.env
+
 ### MacOS SysFile ###
 .DS_Store
 
