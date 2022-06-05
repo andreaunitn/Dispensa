@@ -12,7 +12,7 @@ npm install
 
 ### Eseguire il progetto
 
-* Per compilare e far partire il server nodejs in modalità dev con un unico comando:
+* Per compilare, testare e far partire il server nodejs in modalità dev con un unico comando:
 ```
 npm run dev
 ```
