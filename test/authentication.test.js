@@ -11,6 +11,13 @@ describe('/api/v1/authentication', () => {
     password: "webengine"
   }
 
+  registration = {
+    nome: "test",
+    cognome: "test",
+    email: "",
+    password: "test"
+  }
+
   user = {
     email: "marco.ronchetti@unitn.it",
     id: "628fb7b5dd8da401129b2f80",
@@ -25,6 +32,8 @@ describe('/api/v1/authentication', () => {
     let payload = { email: login.email, id: user.id }
     let options = { expiresIn: 86400 } // expires in 24 hours
     token = jwt.sign(payload, process.env.SUPER_SECRET, options);
+    registration.email = "test" + Math.floor(Math.random() * 1000000000) + "@test.ts";
+    console.log(registration.email)
   })
 
   afterAll( () => {
@@ -41,7 +50,7 @@ describe('/api/v1/authentication', () => {
     return request(app)
       .post('/api/v1/authentication/login')
       .set('Accept', 'application/json')
-      .send({email: login.email, password: 'webengine'})
+      .send({email: login.email, password: login.password})
       .expect(200)
       .then((response) => {
         var json = JSON.parse(response.text)
@@ -93,6 +102,85 @@ describe('/api/v1/authentication', () => {
       .expect(401);
   })
 
+  test('POST /api/v1/authentication/login utente con parametri extra', () => {
+    return request(app)
+      .post('/api/v1/authentication/login')
+      .set('Accept', 'application/json')
+      .send({email: login.email, password: login.password, extra: "boh"})
+      .expect(400);
+  })
 
+  test('POST /api/v1/authentication/registration corretta', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: registration.email, password: registration.password,
+              nome: registration.nome, cognome: registration.cognome})
+      .expect(201)
+      .then((response) => {
+        console.log(response.text)
+        var json = JSON.parse(response.text)
+        expect(json.success).toBe(true)
+        expect(json.message).toBe("Registrato correttamente")
+        expect(json.email).toBe(registration.email)
+      });
+  })
+
+  test('POST /api/v1/authentication/registration con email mancante', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: "", password: registration.password,
+              nome: registration.nome, cognome: registration.cognome})
+      .expect(400)
+  })
+
+  test('POST /api/v1/authentication/registration con password mancante', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: registration.email, password: "",
+              nome: registration.nome, cognome: registration.cognome})
+      .expect(400)
+      .then((response) => {
+        console.log(response.text)
+      })
+  })
+
+  test('POST /api/v1/authentication/registration con nome mancante', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: registration.email, password: registration.password,
+              nome: "", cognome: registration.cognome})
+      .expect(400)
+  })
+
+  test('POST /api/v1/authentication/registration con cognome mancante', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: registration.email, password: registration.password,
+              nome: registration.nome, cognome: ""})
+      .expect(400)
+  })
+
+  test('POST /api/v1/authentication/registration con email già utilizzata', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: login.email, password: registration.password,
+              nome: registration.nome, cognome: registration.cognome})
+      .expect(401)
+  })
+
+  test('POST /api/v1/authentication/registration con email non conforme', () => {
+    return request(app)
+      .post('/api/v1/authentication/register')
+      .set('Accept', 'application/json')
+      .send({email: "ciao", password: registration.password,
+              nome: registration.nome, cognome: registration.cognome})
+      .expect(400)
+  })
 
 })

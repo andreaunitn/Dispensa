@@ -28,19 +28,18 @@ router.post('/login', async function(req, res) {
 
 router.post('/register', async function(req, res) {
 
-  let user = await User.findOne({ email: req.body.email }).exec()
-
-  if (user) {
-    res.status(401).json({success:false,message:'Email già utilizzata'})
-    return
-  }
-
   if(req.body.nome == null || req.body.nome == "" || req.body.cognome == null || req.body.cognome == "" ||
       req.body.email == null || req.body.email == "" || req.body.password == null || req.body.password == "" ) {
         res.status(400).json({success:false, message:'Campi mancanti'});
         return;
       }
 
+  let user = await User.findOne({ email: req.body.email }).exec()
+
+  if (user) {
+    res.status(401).json({success:false,message:'Email già utilizzata'})
+    return
+  }
 
   if (typeof req.body.email != 'string' || !checkIfEmailInString(req.body.email)) {
         res.status(400).json({success:false, message:'Email non conforme'});
@@ -68,7 +67,7 @@ router.post('/register', async function(req, res) {
       var payload = { email: room.email, id: room._id }
       var options = { expiresIn: 86400 } // expires in 24 hours
       var token = jwt.sign(payload, process.env.SUPER_SECRET, options);
-      res.status(200).json({ success: true, message: 'Enjoy your token!',
+      res.status(201).json({ success: true, message: 'Registrato correttamente',
            token: token, email: room.email, id: room._id, self: "/api/v1/users/me"
       });
     }
