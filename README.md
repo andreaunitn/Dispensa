@@ -9,6 +9,22 @@ La Dispensa - un’app che ogni giorno seleziona le ricette migliori per il tuo 
 ```
 npm install
 ```
+* Prima di eseguire, nella root del progetto creare un file .env come segue:
+```
+# .env.example
+
+# This is an example file for running the app locally.
+
+# Passphrase used to generate jwt token 
+SUPER_SECRET='your-secret-key'
+
+# Url to the MongoDb database
+DB_URL='your-db-url-with-user-and-password'
+
+# Server port
+PORT='server-port'
+
+```
 
 ### Eseguire il progetto
 
