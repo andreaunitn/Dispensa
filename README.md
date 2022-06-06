@@ -5,18 +5,18 @@ La Dispensa - un’app che ogni giorno seleziona le ricette migliori per il tuo 
 
 ### Installare le dipendenze
 
-* Nella root del progetto fare:
+* Per installare le dipendenze, nella root del progetto eseguire:
 ```
 npm install
 ```
 
 ### Eseguire il progetto
 
-* Per far partire il server, eseguire:
+* Per compilare, testare e far partire il server nodejs in modalità dev con un unico comando:
 ```
-node backend/home.js
+npm run dev
 ```
-* Il server verrà eseguito sulla porta 3000 (localhost:3000)
+* Il server verrà eseguito in locale sulla porta 3000 (localhost:3000)
 
 ***
 
