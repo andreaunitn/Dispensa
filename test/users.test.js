@@ -255,7 +255,7 @@ describe('test di /api/v1/users', () => {
             .set('Accept', 'application/json')
             .set('x-access-token', token)
             .send({ingredienti: ingredienti_mal_formato})
-            .expect(403)
+            .expect(400)
             .then((response) => {
                 console.log(response.text)
              });

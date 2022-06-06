@@ -12,10 +12,11 @@ router.put('/me', async function(req, res) {
   }
 
   var ingrString = req.body.ingredienti
-  console.log(ingrString)
-  //ingrString = ingrString.replace(/\s/g, '')
-  //ingrString = ingrString.substring(1);
-  //ingrString = ingrString.slice(0, -1);
+  if(typeof(ingrString) != typeof("")) {
+    res.status(400).json({success:false, message:'erorr: bad request'})
+    return
+  }
+
   var ingredienti = ingrString.split(',')
 
   User.findByIdAndUpdate(
@@ -39,19 +40,20 @@ router.put('/:id', async function(req, res) {
 
   if(!req.loggedUser) {
     res.status(401).json({success:false,message:'Nessun token fornito'})
-    return;
+    return
   }
 
   if(req.loggedUser.id != req.params.id) {
     res.status(401).json({success:false,message:'Token e id non corrispondono'})
-    return;
+    return
   }
 
   var ingrString = req.body.ingredienti
-  console.log(ingrString)
-  //ingrString = ingrString.replace(/\s/g, '')
-  //ingrString = ingrString.substring(1);
-  //ingrString = ingrString.slice(0, -1);
+  if(typeof(ingrString) != typeof("")) {
+    res.status(400).json({success:false, message:'bad request'})
+    return
+  }
+
   var ingredienti = ingrString.split(',')
 
   User.findByIdAndUpdate(
