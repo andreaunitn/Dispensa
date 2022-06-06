@@ -7,8 +7,8 @@ require('dotenv').config({ path: '../.env' });
 describe('/api/v1/authentication', () => {
 
   login = {
-    email: "marco.ronchetti@unitn.it",
-    password: "webengine"
+    email: "mario.rossi@unitn.it",
+    password: "admin"
   }
 
   registration = {
@@ -19,9 +19,9 @@ describe('/api/v1/authentication', () => {
   }
 
   user = {
-    email: "marco.ronchetti@unitn.it",
-    id: "628fb7b5dd8da401129b2f80",
-    self: "/api/v1/users/628fb7b5dd8da401129b2f80"
+    email: "mario.rossi@unitn.it",
+    id: "629e2de52b2ee81adfe55ef9",
+    self: "/api/v1/users/629e2de52b2ee81adfe55ef9"
   }
 
   beforeAll( async () => {
