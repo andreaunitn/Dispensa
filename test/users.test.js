@@ -11,8 +11,8 @@ token_sbagliato = ''
 id = '6292487a3e1677457fa6956d'
 id_sbagliato = '629644541ecca6a12aa89395'
 
-ingredienti = "farina,latte,banana,mela,Sebastiani"
-ingredienti_mal_formato = ["farina","latte","banana","mela","Sebastiani"]
+ingredienti = "farina,latte,banana,mela"
+ingredienti_mal_formato = ["farina","latte","banana","mela"]
 ingredienti_vuoto = ""
 
 describe('test di /api/v1/users', () => {
