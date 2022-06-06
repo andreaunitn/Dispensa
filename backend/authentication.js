@@ -14,11 +14,6 @@ router.post('/login', async function(req, res) {
     }
   }
 
-  if(req.query != null) {
-    res.status(400).json({success:false,message:'Richiesta malformata'})
-    return
-  }
-
   let user = await User.findOne({ email: req.body.email }).exec()
 
   if(!user) {

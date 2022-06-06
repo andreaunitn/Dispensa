@@ -60,10 +60,8 @@ describe('GET /api/v1/ricette', () => {
 
   test('GET /api/v1/ricette con più di un parametro: e.g. titolo e ingredienti', async () => {
     return request(app)
-      .get('/api/v1/ricette')
+      .get('/api/v1/ricette?titolo=pane&ingredienti={"ingredienti":["farina","acqua","sale","lievito","pomodoro","calore","mozzarella"]}')
       .set('Accept', 'application/json')
-      .send('titolo',pane)
-      .send('ingredienti',{ ingredienti: ["farina","acqua","sale","lievito","pomodoro","calore","mozzarella"] })
       .expect(400)
       .then((response) => {
         var json = JSON.parse(response.text)
@@ -74,7 +72,7 @@ describe('GET /api/v1/ricette', () => {
 
   test('GET /api/v1/ricette/id con id sbagliato', async () => {
     return request(app)
-      .get('/api/v1/ricette/'+'fake_id')
+      .get('/api/v1/ricette/fake_id')
       .set('Accept', 'application/json')
       .expect(404)
       .then((response) => {

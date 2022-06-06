@@ -13,7 +13,7 @@ router.put('/me', async function(req, res) {
 
   var ingrString = req.body.ingredienti
   if(typeof(ingrString) != typeof("")) {
-    res.status(400).json({success:false, message:'erorr: bad request'})
+    res.status(400).json({success:false, message:'Richiesta malformata'})
     return
   }
 
@@ -50,7 +50,7 @@ router.put('/:id', async function(req, res) {
 
   var ingrString = req.body.ingredienti
   if(typeof(ingrString) != typeof("")) {
-    res.status(400).json({success:false, message:'bad request'})
+    res.status(400).json({success:false, message:'Richiesta malformata'})
     return
   }
 

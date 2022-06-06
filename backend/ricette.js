@@ -20,7 +20,14 @@ router.get('', async function(req, res) {
 
   } else if(param.ingredienti != null && param.titolo == null) {
 
-    var ingr = JSON.parse(param.ingredienti)
+    var ingr
+
+    try {ingr = JSON.parse(param.ingredienti)}
+    catch (e) {
+      res.status(400).json({ error: 'Richiesta malformata' })
+      return;
+    }
+
     var ricette = await Ricetta.find({ingredienti: {$not:{$elemMatch:{$nin:ingr.ingredienti}}}}).select('-__v')
 
   } else if(param.titolo != null && param.ingredienti == null) {
@@ -28,7 +35,7 @@ router.get('', async function(req, res) {
       var ricette = await Ricetta.find({titolo: { $regex: param.titolo, $options: 'i' }}).select('-__v')
 
   } else {
-    res.status(400).json({ error: 'Entrambi parametri non supportati' })
+    res.status(400).json({ error: 'Richiesta malformata' })
     return;
   }
 
@@ -43,6 +50,14 @@ router.get('', async function(req, res) {
 
 // Handling GET requests -- ID TEST 6283ddbaab0096198ef2c03f --
 router.get('/:id', async function(req, res) {
+
+  for(p in req.query) {
+    if(p != "") {
+      res.status(400).json({ error: 'Richiesta malformata' });
+      return;
+    }
+  }
+
 
   try
   {
@@ -61,7 +76,7 @@ router.post('', async function(req, res) {
   param = req.body
 
   for(p in param) {
-    if(p!="titolo" && p!="descrizione" && p!="ingredienti" && p!="numero_persone" && p!="energia") {
+    if(p!="titolo" && p!="descrizione" && p!="ingredienti" && p!="num_per" && p!="energia") {
       res.status(400).json({ error: 'Richiesta malformata' })
       return;
     }
@@ -70,12 +85,17 @@ router.post('', async function(req, res) {
   if(param.titolo == null || param.titolo == "" ||
       param.descrizione == null || param.descrizione == "" ||
       param.ingredienti == null || param.ingredienti == "" ||
-      param.numero_persone == null || param.numero_persone == "" ||
+      param.num_per == null || param.num_per == "" ||
       param.energia == null || param.energia == "" ) {
         res.status(400).json({ error: 'Richiesta malformata' })
         return;
     }
   //const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
+
+  if(!Array.isArray(param.ingredienti)) {
+    res.status(400).json({ error: 'Richiesta malformata' })
+    return;
+  }
 
   const r = new Ricetta({
       titolo: param.titolo,
