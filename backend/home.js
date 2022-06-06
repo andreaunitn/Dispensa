@@ -95,8 +95,7 @@ app.use('/api/v1/ingredients', ingredienti)
 app.use((req, res) => {
   console.log("Error 404")
     res.status(404);
-    res.json({ error: 'Not found' });
-
+    res.sendFile(path.join(__dirname, '..', '/frontend/error.html'));
 });
 
 // app.listen(port, function() {
