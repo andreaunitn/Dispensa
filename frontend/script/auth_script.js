@@ -118,8 +118,12 @@
 
             localStorage.clear();
 
-            window.location.replace('/')
+            window.location.href='/'
 
             console.log('Bye bye')
 
+          }
+
+          function home() {
+            window.location.href='/'
           }
