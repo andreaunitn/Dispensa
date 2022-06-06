@@ -183,4 +183,46 @@ describe('/api/v1/authentication', () => {
       .expect(400)
   })
 
+  test('POST /api/v1/authentication/login corretto con token in header', () => {
+    return request(app)
+      .post('/api/v1/authentication/login')
+      .set('Accept', 'application/json')
+      .set('x-access-token', token)
+      .send({email: login.email, password: login.password})
+      .expect(200)
+      .then((response) => {
+        var json = JSON.parse(response.text)
+        expect(json.success).toBe(true)
+        expect(json.message).toBe("Loggato correttamente")
+        expect(json.email).toBe(user.email)
+        expect(json.id).toBe(user.id)
+        expect(json.self).toBe(user.self)
+      });
+  })
+
+  test('POST /api/v1/authentication/login utente non esistente con token in header', () => {
+    return request(app)
+      .post('/api/v1/authentication/login')
+      .set('Accept', 'application/json')
+      .set('x-access-token', token)
+      .send({email: 'chvjgjvhkjg', password: login.password})
+      .expect(401);
+  })
+
+  test('GET /api/v1/authentication/login', () => {
+    return request(app)
+      .get('/api/v1/authentication/login')
+      .set('Accept', 'application/json')
+      .send({email: login.email, password: login.password})
+      .expect(404);
+  })
+
+  test('POST /api/v1/authentication/', () => {
+    return request(app)
+      .get('/api/v1/authentication/login')
+      .set('Accept', 'application/json')
+      .send({email: login.email, password: login.password})
+      .expect(404);
+  })
+
 })
