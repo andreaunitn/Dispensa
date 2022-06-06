@@ -7,8 +7,8 @@ require('dotenv').config({ path: '../.env' })
 token = ''
 token_mal_formato = 'token mal formato'
 token_sbagliato = ''
-id = '628fb7b5dd8da401129b2f80'
-id_mal_formato = 'id mal formato'
+
+id = '6292487a3e1677457fa6956d'
 id_sbagliato = '629644541ecca6a12aa89395'
 
 ingredienti = "farina,latte,banana,mela,Sebastiani"
@@ -20,13 +20,13 @@ describe('test di /api/v1/users', () => {
     beforeAll( async () => {
         jest.setTimeout(8000);
         jest.unmock('mongoose');
-        connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+        connection = await mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
-        var payload_giusto = { email: "marco.ronchetti@unitn.it", id: "628fb7b5dd8da401129b2f80" }
+        var payload_giusto = { email: "test@test.it", id: id }
         var options = { expiresIn: 86400 }
         token = jwt.sign(payload_giusto, process.env.SUPER_SECRET, options);
 
-        var payload_sbagliato = { email: "treno@veloce.it", id: "629644541ecca6a12aa89395" }
+        var payload_sbagliato = { email: "treno@veloce.it", id: id_sbagliato }
         token_sbagliato = jwt.sign(payload_sbagliato, process.env.SUPER_SECRET, options)
 
       });
@@ -36,6 +36,7 @@ describe('test di /api/v1/users', () => {
       });
     
     ///////////////////////
+    
     test('GET /api/v1/users/me con token in header', async () => {
         return request(app)
             .get('/api/v1/users/me')
@@ -137,17 +138,6 @@ describe('test di /api/v1/users', () => {
              });
     })
 
-    test('GET /api/v1/users/con id mal formato e token giusto', async () => {
-        return request(app)
-            .get('/api/v1/users/' + id_mal_formato)
-            .set('x-access-token', token)
-            .set('Accept', 'application/json')
-            .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
-    })
-
     test('GET /api/v1/users/con id sbagliato e token giusto', async () => {
         return request(app)
             .get('/api/v1/users/' + id_sbagliato)
@@ -206,8 +196,8 @@ describe('test di /api/v1/users', () => {
                 console.log(response.text)
              });
     })
+
 //ERRORE DA FIXARE
-/*
     test('PUT /api/v1/users/me con ingredienti nel formato sbagliato e token giusto', async () => {
         return request(app)
             .put('/api/v1/users/me')
@@ -219,7 +209,7 @@ describe('test di /api/v1/users', () => {
                 console.log(response.text)
              });
     })
-*/
+
     test('PUT /api/v1/users/me con ingredienti vuoti e token giusto', async () => {
         return request(app)
             .put('/api/v1/users/me')
@@ -257,8 +247,8 @@ describe('test di /api/v1/users', () => {
                 console.log(response.text)
              });
     })
+
 //ERRORE DA FIXARE
-/*
     test('PUT /api/v1/users/ id giusto, token giusto e ingredienti nel formato sbagliato', async () => {
         return request(app)
             .put('/api/v1/users/' + id)
@@ -270,7 +260,7 @@ describe('test di /api/v1/users', () => {
                 console.log(response.text)
              });
     })
-*/
+
     test('PUT /api/v1/users/ senza id, token giusto e ingredienti nel formato giusto', async () => {
         return request(app)
             .put('/api/v1/users/')
