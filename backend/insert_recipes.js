@@ -53,9 +53,7 @@ const ingrediente = new Ingrediente({titolo: 'farina'})
 */
 
 const ingredienti = ["patate", "farina", "uova", "latte", "semola","sale"]
-
-//da cambiare con variabili d'ambiente
-mongoose.connect('mongodb+srv://admin:admin@db.jlapy.mongodb.net/db')
+mongoose.connect(process.env.DB_URL)
 
 const r = new Ricetta({
     titolo: 'gnocchi di patate',
@@ -66,6 +64,5 @@ const r = new Ricetta({
  });
 
 r.save().then(() => {
-  console.log('query executed: '+r.titolo)
   mongoose.connection.close()
 });

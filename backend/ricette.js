@@ -74,8 +74,6 @@ router.post('', async function(req, res) {
        return
 
      } else {
-
-       console.log('saved ricetta id: ' + room.id);
        res.location("/api/v1/ricette/" + room.id).status(201).send()
      }
    })
