@@ -26,11 +26,6 @@ describe('GET /api/v1/notfound', () => {
       .get('/api/v1/notfound')
       .set('Accept', 'application/json')
       .expect(404)
-      .then((response) => {
-         var json = JSON.parse(response.text)
-
-         expect(json.error).toBe("Not found")
-      });
   });
 
 });

@@ -13,7 +13,7 @@
           //Token di prova
 
           includeHTML();
-          
+
 
           $.ajax({
               type: 'GET',
@@ -659,4 +659,8 @@
                     return;
                   }
                 }
+              }
+
+              function home() {
+                window.location.href='/'
               }

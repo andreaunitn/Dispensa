@@ -3,7 +3,7 @@
   "description": "Progetto di Ingegneria del Software 2 - UniTn AA 2021/2022",
   "main": "index.js",
   "scripts": {
-    "start_local": "node backend/home.js",
+    "start_local": "node index.js",
     "dev": "node -r dotenv/config index.js",
     "test": "jest --setupFiles dotenv/config"
   },
