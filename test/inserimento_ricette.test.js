@@ -49,11 +49,11 @@ describe('POST /api/v1/ricette', () => {
             ingredienti: '',
             num_per:4,
             energia:400})
-      .expect(500)
+      .expect(400)
       .then((response) => {
          var json = JSON.parse(response.text)
 
-         expect(json.error).toBe("Errore salvataggio ricetta")
+         expect(json.error).toBe("Richiesta malformata")
       });
   });
 
@@ -70,7 +70,7 @@ describe('POST /api/v1/ricette', () => {
       .then((response) => {
          var json = JSON.parse(response.text)
 
-         expect(json.error).toBe("Errore salvataggio ricetta")
+         expect(json.error).toBe("Richiesta malformata")
       });
   });
 
@@ -84,11 +84,11 @@ describe('POST /api/v1/ricette', () => {
             num_per:4,
             energia:400,
             ulteriore: 'parametro'})
-      .expect(500)
+      .expect(400)
       .then((response) => {
          var json = JSON.parse(response.text)
 
-         expect(json.error).toBe("Errore salvataggio ricetta")
+         expect(json.error).toBe("Richiesta malformata")
       });
   });
 
