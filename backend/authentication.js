@@ -7,6 +7,18 @@ const jwt = require('jsonwebtoken')
 
 router.post('/login', async function(req, res) {
 
+  for(p in req.body) {
+    if(p != "email" && p!= "password") {
+      res.status(400).json({success:false,message:'Richiesta malformata'})
+      return
+    }
+  }
+
+  if(req.query != null) {
+    res.status(400).json({success:false,message:'Richiesta malformata'})
+    return
+  }
+
   let user = await User.findOne({ email: req.body.email }).exec()
 
   if(!user) {

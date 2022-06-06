@@ -18,15 +18,18 @@ router.get('', async function(req, res) {
 
     var ricette = await Ricetta.find({}).select('-__v')
 
-  } else if(param.ingredienti != null) {
+  } else if(param.ingredienti != null && param.titolo == null) {
 
     var ingr = JSON.parse(param.ingredienti)
     var ricette = await Ricetta.find({ingredienti: {$not:{$elemMatch:{$nin:ingr.ingredienti}}}}).select('-__v')
 
-  } else if(param.titolo != null) {
+  } else if(param.titolo != null && param.ingredienti == null) {
 
       var ricette = await Ricetta.find({titolo: { $regex: param.titolo, $options: 'i' }}).select('-__v')
 
+  } else {
+    res.status(400).json({ error: 'Entrambi parametri non supportati' })
+    return;
   }
 
   var results =
@@ -57,6 +60,21 @@ router.post('', async function(req, res) {
 
   param = req.body
 
+  for(p in param) {
+    if(p!="titolo" && p!="descrizione" && p!="ingredienti" && p!="numero_persone" && p!="energia") {
+      res.status(400).json({ error: 'Richiesta malformata' })
+      return;
+    }
+  }
+
+  if(param.titolo == null || param.titolo == "" ||
+      param.descrizione == null || param.descrizione == "" ||
+      param.ingredienti == null || param.ingredienti == "" ||
+      param.numero_persone == null || param.numero_persone == "" ||
+      param.energia == null || param.energia == "" ) {
+        res.status(400).json({ error: 'Richiesta malformata' })
+        return;
+    }
   //const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
 
   const r = new Ricetta({
