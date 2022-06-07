@@ -1,6 +1,5 @@
-const request  = require('supertest');
-const app      = require('../backend/home.js');
-const jwt      = require('jsonwebtoken');
+const request = require('supertest');
+const app = require('../backend/home.js');
 const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 
@@ -12,12 +11,10 @@ describe('POST /api/v1/ricette', () => {
     jest.setTimeout(8000);
     jest.unmock('mongoose');
     connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-    console.log('Database connected!');
   });
 
   afterAll( () => {
     mongoose.connection.close(true);
-    console.log("Database connection closed");
   });
 
   test('POST /api/v1/ricette con parametri corretti', () => {
@@ -30,14 +27,6 @@ describe('POST /api/v1/ricette', () => {
             num_per:4,
             energia:400})
       .expect(201)
-      // .then((response) => {
-      //    //console.log(response.text)
-      //    let str = response.text
-      //    let id = str.substring(17, str.length);
-      //    console.log(response)
-      //
-      //    expect(response.header.location).toBe('/api/v1/ricette/'+'629ccd29e3e8332118e8b422')
-      // });
   });
 
   test('POST /api/v1/ricette con parametri mancanti', () => {
@@ -52,7 +41,6 @@ describe('POST /api/v1/ricette', () => {
       .expect(400)
       .then((response) => {
          var json = JSON.parse(response.text)
-
          expect(json.error).toBe("Richiesta malformata")
       });
   });
@@ -69,7 +57,6 @@ describe('POST /api/v1/ricette', () => {
       .expect(400)
       .then((response) => {
          var json = JSON.parse(response.text)
-
          expect(json.error).toBe("Richiesta malformata")
       });
   });
@@ -87,9 +74,7 @@ describe('POST /api/v1/ricette', () => {
       .expect(400)
       .then((response) => {
          var json = JSON.parse(response.text)
-
          expect(json.error).toBe("Richiesta malformata")
       });
   });
-
 });

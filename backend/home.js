@@ -1,19 +1,7 @@
-var express = require('express');
-var http = require('http');
-//const mongoose = require('mongoose');
+var express = require('express')
 const cors = require('cors')
-const {Ricetta} = require('./schemas.js')
 const {tokenChecker} = require('./tokenChecker.js')
 require('dotenv').config()
-
-const options =
-  {
-    user: "admin",
-    pass: "admin"
-  };
-
-//Set port for Heroku
-let port = process.env.PORT || 3000
 
 var app = express();
 const router = express.Router()
@@ -22,7 +10,6 @@ const path = require('path')
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-
 
 // Handling GET requests
 app.get('/', function(req, res){
@@ -93,14 +80,9 @@ app.use('/api/v1/ingredients', ingredienti)
 
 /* Default 404 handler*/
 app.use((req, res) => {
-  console.log("Error 404")
     res.status(404);
     res.sendFile(path.join(__dirname, '..', '/frontend/error.html'));
 });
-
-// app.listen(port, function() {
-//   console.log('Server running on port:', port);
-// })
 
 module.exports = router;
 module.exports = app;

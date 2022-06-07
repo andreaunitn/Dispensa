@@ -1,8 +1,6 @@
-const express = require('express');
-const {mongoose} = require('./db.js')
+const express = require('express')
 const {User} = require('./schemas.js')
 const router = express.Router()
-const jwt = require('jsonwebtoken')
 
 router.put('/me', async function(req, res) {
 
@@ -30,7 +28,6 @@ router.put('/me', async function(req, res) {
       else {
         let user = await User.findById(req.loggedUser.id).select('-__v').select('-password').exec()
         res.status(200).json(user)
-        console.log(docs)
         return
       }
     });
@@ -67,7 +64,6 @@ router.put('/:id', async function(req, res) {
       else {
         let user = await User.findById(req.loggedUser.id).select('-__v').select('-password').exec()
         res.status(200).json(user)
-        console.log(docs)
         return
       }
     });

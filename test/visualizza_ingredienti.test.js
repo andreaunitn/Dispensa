@@ -1,6 +1,5 @@
-const request  = require('supertest');
-const app      = require('../backend/home.js');
-const jwt      = require('jsonwebtoken');
+const request = require('supertest');
+const app = require('../backend/home.js');
 const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 
@@ -12,13 +11,10 @@ describe('GET /api/v1/ingredients', () => {
     jest.setTimeout(8000);
     jest.unmock('mongoose');
     connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-    console.log('Database connected!');
-
   });
 
   afterAll( () => {
     mongoose.connection.close(true);
-    console.log("Database connection closed");
   });
 
   test('GET /api/v1/ingredients richiesta corretta', () => {
@@ -34,5 +30,4 @@ describe('GET /api/v1/ingredients', () => {
       .set('Accept', 'application/json')
       .expect(400, {error:"Richiesta malformata"});
   });
-
 });

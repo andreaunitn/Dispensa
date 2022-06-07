@@ -1,5 +1,4 @@
-const express = require('express');
-const {mongoose} = require('./db.js')
+const express = require('express')
 const {Ingredienti} = require('./schemas.js')
 const router = express.Router()
 
@@ -11,7 +10,6 @@ router.get('', async function(req, res) {
   }
 
   var ingredienti = await Ingredienti.findOne({}).select('-__v').select('-_id')
-
   var results =
   {
     "ingredienti" : ingredienti

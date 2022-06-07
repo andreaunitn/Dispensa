@@ -1,19 +1,4 @@
 const mongoose = require('mongoose')
-
-//const Ricetta = require('/Users/paoloaliprandi/Desktop/University of Trento/Terzo Anno/secondo semestre/Ingegneria del Software 2/repository/Dispensa/ricetta.js')
-//const Ingrediente = require('/Users/paoloaliprandi/Desktop/University of Trento/Terzo Anno/secondo semestre/Ingegneria del Software 2/repository/Dispensa/ingrediente.js')
-
-/*
-const IngredienteSchema = new mongoose.Schema({
-    titolo: {
-      type: String,
-      required: [true, 'Titolo di ingrediente is required']
-    }
-  });
-
-const Ingrediente = mongoose.model('Ingrediente', IngredienteSchema);
-*/
-
 const RicettaSchema = new mongoose.Schema({
     titolo: {
       type: String,
@@ -39,18 +24,6 @@ const RicettaSchema = new mongoose.Schema({
   });
 
 const Ricetta = mongoose.model('Ricetta', RicettaSchema);
-
-/*
-const pane = [
-  new Ingrediente({titolo: 'farina'}),
-  new Ingrediente({titolo: 'acqua'}),
-  new Ingrediente({ titolo: 'lievito' }),
-  new Ingrediente({ titolo: 'sale' })
-]
-
-
-const ingrediente = new Ingrediente({titolo: 'farina'})
-*/
 
 const ingredienti = ["patate", "farina", "uova", "latte", "semola","sale"]
 mongoose.connect(process.env.DB_URL)

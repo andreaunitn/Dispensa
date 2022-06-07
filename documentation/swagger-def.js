@@ -16,10 +16,8 @@ module.exports = {
   },
   servers: [
     {
-      url: 'http://localhost:3000',
+      url: 'https://ladispensa.herokuapp.com',
       description: 'Development server',
     },
   ],
 };
-
-//swagger-jsdoc -d swagger-def.js *.js

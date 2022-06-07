@@ -43,9 +43,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .set('Accept', 'application/json')
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/me con token come parametro url', async () => {
@@ -53,9 +50,6 @@ describe('test di /api/v1/users', () => {
             .get('/api/v1/users/me?token=' + token)
             .set('Accept', 'application/json')
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/me con token nel body della request', async () => {
@@ -64,9 +58,6 @@ describe('test di /api/v1/users', () => {
             .send({token: token})
             .set('Accept', 'application/json')
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     ///////////////////////
@@ -77,9 +68,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token_mal_formato)
             .set('Accept', 'application/json')
             .expect(403)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/me con token mal formato come parametro url', async () => {
@@ -87,9 +75,6 @@ describe('test di /api/v1/users', () => {
             .get('/api/v1/users/me?token=' + token_mal_formato)
             .set('Accept', 'application/json')
             .expect(403)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/me con token mal formato nel body della request', async () => {
@@ -98,9 +83,6 @@ describe('test di /api/v1/users', () => {
             .send({token: token_mal_formato})
             .set('Accept', 'application/json')
             .expect(403)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     ///////////////////////
@@ -111,9 +93,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .set('Accept', 'application/json')
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
     
     test('GET /api/v1/users/con id giusto ma senza token', async () => {
@@ -122,9 +101,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', '')
             .set('Accept', 'application/json')
             .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/senza id con token giusto', async () => {
@@ -133,9 +109,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .set('Accept', 'application/json')
             .expect(404)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/con id sbagliato e token giusto', async () => {
@@ -144,9 +117,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .set('Accept', 'application/json')
             .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/con id giusto e token mal formato', async () => {
@@ -155,9 +125,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token_mal_formato)
             .set('Accept', 'application/json')
             .expect(403)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('GET /api/v1/users/con id giusto e token sbagliato', async () => {
@@ -166,9 +133,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token_sbagliato)
             .set('Accept', 'application/json')
             .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     ///////////////////////
@@ -178,9 +142,6 @@ describe('test di /api/v1/users', () => {
             .get('/api/v1/users')
             .set('Accept', 'application/json')
             .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     ///////////////////////
@@ -192,12 +153,8 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti})
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
-//ERRORE DA FIXARE
     test('PUT /api/v1/users/me con ingredienti nel formato sbagliato e token giusto', async () => {
         return request(app)
             .put('/api/v1/users/me')
@@ -205,9 +162,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti_mal_formato})
             .expect(400)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('PUT /api/v1/users/me con ingredienti vuoti e token giusto', async () => {
@@ -217,9 +171,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti_vuoto})
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     ///////////////////////
@@ -231,9 +182,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti})
             .expect(200)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('PUT /api/v1/users/ id giusto, token mal formato e ingredienti nel formato giusto', async () => {
@@ -243,12 +191,8 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token_mal_formato)
             .send({ingredienti: ingredienti})
             .expect(403)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
-//ERRORE DA FIXARE
     test('PUT /api/v1/users/ id giusto, token giusto e ingredienti nel formato sbagliato', async () => {
         return request(app)
             .put('/api/v1/users/' + id)
@@ -256,9 +200,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti_mal_formato})
             .expect(400)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('PUT /api/v1/users/ senza id, token giusto e ingredienti nel formato giusto', async () => {
@@ -268,9 +209,6 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token)
             .send({ingredienti: ingredienti})
             .expect(404)
-            .then((response) => {
-                console.log(response.text)
-             });
     })
 
     test('PUT /api/v1/users/ id giusto, token sbagliato e ingredienti nel formato giusto', async () => {
@@ -280,9 +218,5 @@ describe('test di /api/v1/users', () => {
             .set('x-access-token', token_sbagliato)
             .send({ingredienti: ingredienti})
             .expect(401)
-            .then((response) => {
-                console.log(response.text)
-             });
-    })
-    
+    }) 
 })

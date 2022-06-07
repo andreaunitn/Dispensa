@@ -1,17 +1,4 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-
-/*
-const IngredienteSchema = new Schema({
-  titolo: {
-    type: String,
-    required: [true, 'Titolo di ingrediente is required']
-  }
-});
-*/
-
-//const Ingrediente = mongoose.model('Ingrediente', IngredienteSchema);
-
 const RicettaSchema = new mongoose.Schema({
     titolo: {
       type: String,
@@ -23,9 +10,8 @@ const RicettaSchema = new mongoose.Schema({
     },
     ingredienti: [{
       type: String,
-      required: [true, 'ingredienti are required'],
-      //ref: 'Ingrediente'
-    }] ,
+      required: [true, 'ingredienti are required']
+    }],
     numero_persone: {
       type: Number,
       required: [true, 'numero di persone is required']
@@ -70,5 +56,4 @@ const Ricetta = mongoose.model('Ricetta', RicettaSchema);
 const User = mongoose.model('User', UserSchema);
 const Ingredienti = mongoose.model('Ingredienti', IngredientiSchema)
 
-//module.exports = {Ingrediente, Ricetta}
 module.exports = {Ricetta, User, Ingredienti}

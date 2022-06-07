@@ -1,5 +1,4 @@
-const express = require('express');
-const {mongoose} = require('./db.js')
+const express = require('express')
 const {Ricetta} = require('./schemas.js')
 const router = express.Router()
 
@@ -90,7 +89,6 @@ router.post('', async function(req, res) {
         res.status(400).json({ error: 'Richiesta malformata' })
         return;
     }
-  //const ingredienti = ["latte", "macha", "zucchero", "acqua", "ghiaccio"]
 
   if(!Array.isArray(param.ingredienti)) {
     res.status(400).json({ error: 'Richiesta malformata' })

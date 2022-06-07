@@ -1,6 +1,5 @@
-const request  = require('supertest');
-const app      = require('../backend/home.js');
-const jwt      = require('jsonwebtoken');
+const request = require('supertest');
+const app = require('../backend/home.js');
 const mongoose = require('mongoose');
 require('dotenv').config({ path: '../.env' });
 
@@ -12,13 +11,10 @@ describe('GET /api/v1/ricette', () => {
     jest.setTimeout(8000);
     jest.unmock('mongoose');
     connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-    console.log('Database connected!');
-
   });
 
   afterAll( () => {
     mongoose.connection.close(true);
-    console.log("Database connection closed");
   });
 
   test('GET /api/v1/ricette senza parametri', () => {
@@ -27,7 +23,6 @@ describe('GET /api/v1/ricette', () => {
       .set('Accept', 'application/json')
       .expect(200)
       .then((response) => {
-
          expect(response.text.length).toBeGreaterThan(0)
       });
   });
@@ -38,9 +33,7 @@ describe('GET /api/v1/ricette', () => {
       .set('Accept', 'application/json')
       .expect(400)
       .then((response) => {
-
         var json = JSON.parse(response.text)
-
         expect(json.error).toBe("Richiesta malformata")
       });
   });
@@ -51,9 +44,7 @@ describe('GET /api/v1/ricette', () => {
       .set('Accept', 'application/json')
       .expect(400)
       .then((response) => {
-
         var json = JSON.parse(response.text)
-
         expect(json.error).toBe("Richiesta malformata")
       });
   });
@@ -65,7 +56,6 @@ describe('GET /api/v1/ricette', () => {
       .expect(400)
       .then((response) => {
         var json = JSON.parse(response.text)
-
         expect(json.error).toBe("Richiesta malformata")
       })
   });
@@ -77,7 +67,6 @@ describe('GET /api/v1/ricette', () => {
       .expect(404)
       .then((response) => {
         var json = JSON.parse(response.text)
-
         expect(json.error).toBe("Ricetta non esiste")
       })
   });
@@ -89,9 +78,7 @@ describe('GET /api/v1/ricette', () => {
       .expect(400)
       .then((response) => {
         var json = JSON.parse(response.text)
-
         expect(json.error).toBe("Richiesta malformata")
       })
   });
-
 });

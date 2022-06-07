@@ -1,9 +1,7 @@
-const express = require('express');
-const {mongoose} = require('./db.js')
+const express = require('express')
 const {User} = require('./schemas.js')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
-//require('dotenv').config()
 
 router.post('/login', async function(req, res) {
 
@@ -53,7 +51,6 @@ router.post('/register', async function(req, res) {
         return;
   }
 
-
   const u = new User({
     nome: req.body.nome,
     cognome: req.body.cognome,
@@ -68,9 +65,6 @@ router.post('/register', async function(req, res) {
       return
 
     } else {
-
-      console.log('user registered: ' + room.nome + "with id " + room._id)
-
       var payload = { email: room.email, id: room._id }
       var options = { expiresIn: 86400 } // expires in 24 hours
       var token = jwt.sign(payload, process.env.SUPER_SECRET, options);

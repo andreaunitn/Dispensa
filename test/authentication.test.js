@@ -1,7 +1,7 @@
-const request  = require('supertest');
-const app      = require('../backend/home.js');
+const request = require('supertest');
+const app = require('../backend/home.js');
 const mongoose = require('mongoose');
-const jwt      = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: '../.env' });
 
 describe('/api/v1/authentication', () => {
@@ -28,19 +28,15 @@ describe('/api/v1/authentication', () => {
     jest.setTimeout(8000);
     jest.unmock('mongoose');
     connection = await  mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-    console.log('Database connected!');
     let payload = { email: login.email, id: user.id }
     let options = { expiresIn: 86400 } // expires in 24 hours
     token = jwt.sign(payload, process.env.SUPER_SECRET, options);
     registration.email = "test" + Math.floor(Math.random() * 1000000000) + "@test.ts";
-    console.log(registration.email)
   })
 
   afterAll( () => {
     mongoose.connection.close(true);
-    console.log("Database connection closed");
   })
-
 
   test('app module should be defined', () => {
     expect(app).toBeDefined();
@@ -118,7 +114,6 @@ describe('/api/v1/authentication', () => {
               nome: registration.nome, cognome: registration.cognome})
       .expect(201)
       .then((response) => {
-        console.log(response.text)
         var json = JSON.parse(response.text)
         expect(json.success).toBe(true)
         expect(json.message).toBe("Registrato correttamente")
@@ -142,9 +137,6 @@ describe('/api/v1/authentication', () => {
       .send({email: registration.email, password: "",
               nome: registration.nome, cognome: registration.cognome})
       .expect(400)
-      .then((response) => {
-        console.log(response.text)
-      })
   })
 
   test('POST /api/v1/authentication/registration con nome mancante', () => {
